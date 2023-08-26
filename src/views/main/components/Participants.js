@@ -11,7 +11,6 @@ import {
   Tr,
   useColorModeValue
 } from '@chakra-ui/react'
-import { useMemo } from 'react'
 import {
   useGlobalFilter,
   usePagination,
@@ -19,19 +18,47 @@ import {
   useTable
 } from 'react-table'
 
-// Custom components
-import Card from '../../../../components/card/Card'
-import Menu from '../../../../components/menu/MainMenu'
+import Card from '../../../components/card/Card'
+import Menu from '../../../components/menu/MainMenu'
+
+import { MdCheckCircle, MdCancel } from 'react-icons/md'
 
 
-// Assets
-import { MdCheckCircle, MdCancel, MdOutlineError } from 'react-icons/md'
-export default function ColumnsTable(props) {
-  const { columnsData, tableData } = props
+// TODO: agregar columna de participacion
+// TODO: convertir prode en una multi-progressbar con tooltips en hover
+// TODO: sacar columna de si pago/no pago?
+const columns = [
+  {
+    Header: "NOMBRE",
+    accessor: "name",
+  },
+  {
+    Header: "PAGO",
+    accessor: "pago",
+  },
+  {
+    Header: "PRODE",
+    accessor: "prode",
+  }
+];
 
-  const columns = useMemo(() => columnsData, [columnsData])
-  const data = useMemo(() => tableData, [tableData])
 
+const data = [
+  {
+    "name": "Fede",
+    "prode": 15.5,
+    "pago": true,
+  },
+  {
+    "name": "Fede2",
+    "prode": 80.5,
+    "pago": false,
+  },
+]
+
+
+// TODO: convertir en lista de participantes
+export default function Participants(props) {
   const tableInstance = useTable(
     {
       columns,
@@ -68,7 +95,7 @@ export default function ColumnsTable(props) {
           fontWeight='700'
           lineHeight='100%'
         >
-          Complex Table
+          Participantes
         </Text>
         <Menu />
       </Flex>
@@ -103,13 +130,13 @@ export default function ColumnsTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data
-                  if (cell.column.Header === 'NAME') {
+                  if (cell.column.Header === 'NOMBRE') {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     )
-                  } else if (cell.column.Header === 'STATUS') {
+                  } else if (cell.column.Header === 'PAGO') {
                     data = (
                       <Flex align='center'>
                         <Icon
@@ -117,36 +144,18 @@ export default function ColumnsTable(props) {
                           h='24px'
                           me='5px'
                           color={
-                            cell.value === 'Approved'
-                              ? 'green.500'
-                              : cell.value === 'Disable'
-                                ? 'red.500'
-                                : cell.value === 'Error'
-                                  ? 'orange.500'
-                                  : null
+                            cell.value ? 'green.500' : 'red.500'
                           }
                           as={
-                            cell.value === 'Approved'
-                              ? MdCheckCircle
-                              : cell.value === 'Disable'
-                                ? MdCancel
-                                : cell.value === 'Error'
-                                  ? MdOutlineError
-                                  : null
+                            cell.value ? MdCheckCircle : MdCancel
                           }
                         />
                         <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value}
+                          {cell.value ? "Ya pagó" : "Todavía no pagó"}
                         </Text>
                       </Flex>
                     )
-                  } else if (cell.column.Header === 'DATE') {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    )
-                  } else if (cell.column.Header === 'PROGRESS') {
+                  } else if (cell.column.Header === 'PRODE') {
                     data = (
                       <Flex align='center'>
                         <Progress

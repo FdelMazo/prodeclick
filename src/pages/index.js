@@ -1,6 +1,5 @@
-import Router from 'next/router'
-import React, { useEffect } from 'react'
-import MainDashboard from './admin/default'
+import React from 'react'
+import MainDashboard from './main'
 
 export default function Home() {
   return <MainDashboard />

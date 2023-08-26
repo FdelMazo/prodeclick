@@ -1,8 +1,6 @@
 import { Box } from '@chakra-ui/react'
 
-
-// Custom Chakra theme
-export default function AdminLayout(props) {
+export default function Layout(props) {
   const { children, ...rest } = props
   return (
     <Box>

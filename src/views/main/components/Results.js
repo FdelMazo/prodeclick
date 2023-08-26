@@ -1,10 +1,51 @@
-// Chakra imports
 import { Box, Flex, Text, Select, useColorModeValue } from '@chakra-ui/react';
-// Custom components
-import Card from '../../../../components/card/Card'
-import PieChart from '../../../../components/charts/PieChart'
-import { pieChartData, pieChartOptions } from '../../../../variables/charts';
-export default function Conversion(props) {
+import Card from '../../../components/card/Card'
+import PieChart from '../../../components/charts/PieChart'
+
+const pieChartOptions = {
+	labels: ["Your files", "System", "Empty"],
+	colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+	chart: {
+		width: "50px",
+	},
+	states: {
+		hover: {
+			filter: {
+				type: "none",
+			},
+		},
+	},
+	legend: {
+		show: false,
+	},
+	dataLabels: {
+		enabled: false,
+	},
+	hover: { mode: null },
+	plotOptions: {
+		donut: {
+			expandOnClick: false,
+			donut: {
+				labels: {
+					show: false,
+				},
+			},
+		},
+	},
+	fill: {
+		colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+	},
+	tooltip: {
+		enabled: true,
+		theme: "dark",
+	},
+};
+
+const pieChartData = [63, 25, 12];
+
+// TODO: dividr en dos tabs: "resultados | mis predicciones"
+// TODO: overridear en hover de cada participante
+export default function Results(props) {
 	const { ...rest } = props;
 
 	// Chakra Color Mode
@@ -20,7 +61,7 @@ export default function Conversion(props) {
 				w='100%'
 				mb='8px'>
 				<Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
-					Your Pie Chart
+					Mís Predicciones
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='monthly' width='unset' fontWeight='700'>
 					<option value='daily'>Daily</option>

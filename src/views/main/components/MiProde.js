@@ -10,26 +10,49 @@ import {
   Tr,
   useColorModeValue
 } from '@chakra-ui/react'
-import { useMemo } from 'react'
 import {
-  Row,
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
 } from 'react-table'
 
-// Custom components
+import Card from '../../../components/card/Card'
+import Menu from '../../../components/menu/MainMenu'
 
-import Card from '../../../../components/card/Card'
-import Menu from '../../../../components/menu/MainMenu'
+// TODO: dividir entre partido y candidato, y poner colores
+// TODO: agregar columna de resultados reales y diff el dia de las elecciones
+// TODO: agregar slider de participacion, submitbutton, editbutton
+const data = [{
+  "partido": "Massa",
+  "percentage": 33,
+},
+{
+  "partido": "Milei",
+  "percentage": 33,
+},
+{
+  "partido": "Bullrich",
+  "percentage": 33,
+},
+{
+  "partido": "Otros",
+  "percentage": 1,
+}]
 
-export default function CheckTable(props) {
-  const { columnsData, tableData } = props
+const columns = [
+  {
+    Header: "PARTIDO",
+    accessor: "partido",
+  },
+  {
+    Header: "PORCENTAJE",
+    accessor: "percentage",
+  },
+];
 
-  const columns = useMemo(() => columnsData, [columnsData])
-  const data = useMemo(() => tableData, [tableData])
 
+export default function MiProde(props) {
   const tableInstance = useTable(
     {
       columns,
@@ -66,7 +89,7 @@ export default function CheckTable(props) {
           fontWeight='700'
           lineHeight='100%'
         >
-          Check Table
+          Mís Predicciones
         </Text>
         <Menu />
       </Flex>
@@ -106,20 +129,15 @@ export default function CheckTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data
-                  if (cell.column.Header === 'NAME') {
+                  if (cell.column.Header === 'PARTIDO') {
                     data = (
                       <Flex align='center'>
-                        <Checkbox
-                          defaultChecked={cell.value[1]}
-                          colorScheme='brandScheme'
-                          me='10px'
-                        />
                         <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value[0]}
+                          {cell.value}
                         </Text>
                       </Flex>
                     )
-                  } else if (cell.column.Header === 'PROGRESS') {
+                  } else if (cell.column.Header === 'PORCENTAJE') {
                     data = (
                       <Flex align='center'>
                         <Text
@@ -131,18 +149,6 @@ export default function CheckTable(props) {
                           {cell.value}%
                         </Text>
                       </Flex>
-                    )
-                  } else if (cell.column.Header === 'QUANTITY') {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    )
-                  } else if (cell.column.Header === 'DATE') {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
                     )
                   }
                   return (
