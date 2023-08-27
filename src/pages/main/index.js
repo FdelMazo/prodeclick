@@ -16,22 +16,22 @@ import MainLayout from '../../layouts/main'
 export default function UserReports() {
   return (
     <MainLayout>
-      <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <Box pt={{ base: '130px', md: '80px' }}>
         {/* TODO: Agregar titulo */}
         {/* TODO: modificar cantidad de columnas en base a cuantas stats terminan siendo */}
         <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3, '2xl': 6 }}
+          columns={{ base: 1, md: 2, '2xl': 6 }}
           gap='20px'
           mb='20px'
         >
           <Statistics />
         </SimpleGrid>
 
-        <SimpleGrid columns={{ base: 4 }} gap='20px' mb='20px'>
-          <GridItem colSpan={{ md: 2, xl: 3 }}>
+        <SimpleGrid columns={{ base: 1, "md": 4 }} gap='20px' mb='20px'>
+          <GridItem colSpan={{ md: 2, "2xl": 3 }}>
             <MiProde />
           </GridItem>
-          <GridItem colSpan={{ md: 2, xl: 1 }}>
+          <GridItem colSpan={{ md: 2, "2xl": 1 }}>
             <Results />
           </GridItem>
         </SimpleGrid>
