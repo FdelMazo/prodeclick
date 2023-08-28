@@ -4,39 +4,39 @@
         "partido": "Unión por la Patria",
         "candidatos": "Sergio Tomás Massa",
         "color": "cyan",
-        "percentage": 30.1
+        "defaultPercentage": 30
     },
     {
         "id": "LLA",
         "partido": "La Libertad Avanza",
         "candidatos": "Javier Gerardo Milei",
         "color": "purple",
-        "percentage": 30.1
+        "defaultPercentage": 30
     },
     {
         "id": "JxC",
         "partido": "Juntos por el Cambio",
         "candidatos": "Patricia Bullrich",
         "color": "yellow",
-        "percentage": 30.8
+        "defaultPercentage": 30
     },
     {
         "id": "OTROS",
         "partido": "Otros",
         "candidatos": "Schiaretti/Bregman",
         "color": "orange",
-        "percentage": 3.2
+        "defaultPercentage": 4
     },
     {
         "id": "BLANCO",
         "partido": "Votos en blanco",
         "color": "secondaryGray",
-        "percentage": 3.1
+        "defaultPercentage": 3
     },
     {
         "id": "NULOS",
         "partido": "Votos nulos o impugnados",
         "color": "gray",
-        "percentage": 4.7
+        "defaultPercentage": 3
     }
 ]

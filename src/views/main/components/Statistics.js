@@ -11,7 +11,7 @@ import {
   MdPeopleAlt
 } from 'react-icons/md'
 
-export default function Statistics(props) {
+export default function Statistics({ participants }) {
   const brandColor = 'brand.500'
   const boxBg = 'secondaryGray.300'
 
@@ -44,7 +44,7 @@ export default function Statistics(props) {
         />
       }
       name='El ganador se lleva...'
-      value='$15000'
+      value={"$" + (1000 * participants.length)}
     />
     <MiniStatistics
       startContent={
@@ -63,8 +63,8 @@ export default function Statistics(props) {
         />
       }
       name='Participantes'
-      value='5'
-      description={<span><b>$3000</b> por persona</span>}
+      value={participants.length}
+      description={<span><b>$1000</b> por persona</span>}
     />
     {
       daysUntilElections > 0 ? (

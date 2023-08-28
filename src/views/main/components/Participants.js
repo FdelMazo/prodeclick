@@ -34,10 +34,6 @@ const columns = [
   {
     Header: "PAGO",
     accessor: "pago",
-  },
-  {
-    Header: "PRODE",
-    accessor: "prode",
   }
 ];
 

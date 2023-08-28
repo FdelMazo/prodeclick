@@ -8,7 +8,6 @@ export default function Layout(props) {
         float='right'
         minHeight='100vh'
         height='100%'
-        overflow='auto'
         position='relative'
         maxHeight='100%'
         w={{ base: '100%' }}

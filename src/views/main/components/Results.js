@@ -4,47 +4,50 @@ import PieChart from '../../../components/charts/PieChart'
 import PARTIDOS from '../../../logic/partidos'
 import { MdPlayCircle } from 'react-icons/md';
 
-const pieChartOptions = {
-	labels: PARTIDOS.map(p => p.partido),
-	colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
-	states: {
-		hover: {
-			filter: {
-				type: "none",
-			},
-		},
-		active: {
-			filter: {
-				type: "none",
-			}
-		}
-	},
-	legend: {
-		show: false,
-	},
-	dataLabels: {
-		enabled: false,
-	},
-	hover: { mode: null },
-	fill: {
-		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-400)`),
-	},
-	tooltip: {
-		enabled: true,
-		theme: "light",
-		y: {
-			formatter: function (val) {
-				return val + "%";
-			},
-		}
-	}
-};
-
-const pieChartData = PARTIDOS.map(p => p.percentage);
-
 // TODO: dividr en dos tabs: "resultados | mis predicciones"
 // TODO: overridear en hover de cada participante
-export default function Results() {
+export default function Results({ miProde }) {
+	const pieChartOptions = {
+		labels: PARTIDOS.map(p => p.partido),
+		// colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
+		states: {
+			hover: {
+				filter: {
+					type: "none",
+				},
+			},
+			active: {
+				filter: {
+					type: "none",
+				}
+			}
+		},
+		legend: {
+			show: false,
+		},
+		dataLabels: {
+			enabled: false,
+		},
+		hover: { mode: null },
+		fill: {
+			opacity: 1,
+			colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-400)`),
+		},
+		tooltip: {
+			enabled: !!miProde,
+			theme: "light",
+			y: {
+				formatter: function (val) {
+					return val + "%";
+				},
+			}
+		}
+	};
+
+	const pieChartData = PARTIDOS.map(p =>
+		miProde?.[p.id] || p.defaultPercentage
+	)
+
 	const textColor = 'secondaryGray.900'
 	const cardColor = 'white'
 	const cardShadow = '0px 18px 40px rgba(112, 144, 176, 0.12)'
@@ -57,7 +60,7 @@ export default function Results() {
 					fontSize="lg"
 					fontWeight='700'
 				>
-					Mís Predicciones
+					Mi Prode
 				</Text>
 				{/* <Select fontSize='sm' variant='subtle' defaultValue='monthly' width='unset' fontWeight='700'>
 					<option value='daily'>Daily</option>
@@ -77,7 +80,7 @@ export default function Results() {
 								</Text>
 							</Flex>
 							<Text color={`${p.color}.600`} fontWeight='700'>
-								{p.percentage}%
+								{miProde?.[p.id] || "??"}%
 							</Text>
 						</Flex>
 					))}

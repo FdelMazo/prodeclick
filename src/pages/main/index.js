@@ -15,6 +15,7 @@ import Participants from '../../views/main/components/Participants'
 import Statistics from '../../views/main/components/Statistics'
 import Results from '../../views/main/components/Results'
 import MainLayout from '../../layouts/main'
+import { fetchParticipants } from '../../logic/db'
 import { BsGithub } from 'react-icons/bs'
 
 /*
@@ -26,10 +27,16 @@ TODO: FUTURO
   - Ocultar/mostrar los prodes del resto
 */
 
-
-
 // TODO: agregar admin panel, o info panel del programa en si?
 export default function MainDashboard() {
+  const [participants, setParticipants] = React.useState([]);
+  React.useEffect(() => {
+    fetchParticipants(setParticipants);
+  }, []);
+
+  const miProde = React.useMemo(() => {
+    return participants.find(p => p.uuid === 'me')?.prode
+  }, [participants])
   return (
     <MainLayout>
       <Heading>prode.ar</Heading>
@@ -42,15 +49,15 @@ export default function MainDashboard() {
           gap='20px'
           mb='20px'
         >
-          <Statistics />
+          <Statistics participants={participants} />
         </SimpleGrid>
 
         <SimpleGrid columns={{ base: 1, "md": 4 }} gap='20px' mb='20px'>
           <GridItem colSpan={{ md: 2, "2xl": 3 }}>
-            <MiProde />
+            <MiProde miProde={miProde} />
           </GridItem>
           <GridItem colSpan={{ md: 2, "2xl": 1 }}>
-            <Results />
+            <Results miProde={miProde} />
           </GridItem>
         </SimpleGrid>
         <SimpleGrid columns={{ base: 1 }} gap='20px' mb='20px'>
