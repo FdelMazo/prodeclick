@@ -1,7 +1,7 @@
 [
     {
         "partido": [
-            "Union por la Patria",
+            "Unión por la Patria",
             "Sergio Tomás Massa"
         ],
         "color": "cyan",
@@ -36,7 +36,7 @@
             "Votos en blanco",
             null
         ],
-        "color": "gray",
+        "color": "secondaryGray",
         "percentage": 3.1
     },
     {
@@ -44,7 +44,7 @@
             "Votos nulos o impugnados",
             null
         ],
-        "color": "secondaryGray",
+        "color": "gray",
         "percentage": 4.7
     }
 ]

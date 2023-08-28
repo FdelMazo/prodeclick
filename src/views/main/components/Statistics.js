@@ -27,6 +27,7 @@ export default function Statistics(props) {
   // TODO: agregar dos stats
   // - nombre del administrador
   // - config de la partida: votar participacion si/no, agrupar partidos minoria, mostrar/ocultar los prodes del resto
+  // - uno que sea "todavia no pagaste"/admin: x no pago
   return (<>
     <MiniStatistics
       startContent={
