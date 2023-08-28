@@ -13,9 +13,31 @@ function MyApp({ Component, pageProps }) {
       <LightMode>
         <GlobalStyle />
         <Head>
-          <title>Horizon UI Dashboard</title>
+          <meta charSet="utf-8" />
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta name='theme-color' content='#000000' />
+
+          <meta content="prode.ar" property="og:title" />
+          <meta content="https://prode.ar/" property="og:url" />
+
+          <meta
+            content="https://prode.ar/img/screen.png"
+            property="og:image"
+          />
+          <meta
+            content="https://prode.ar/img/screen.png"
+            property="og:image:secure_url"
+          />
+          <meta
+            content="Predecí las elecciones argentinas!"
+            name="description"
+          />
+          <meta
+            content="Predecí las elecciones argentinas!"
+            name="og: description"
+          />
+
+          <title>prode.ar</title>
         </Head>
         <React.StrictMode>
           <Component {...pageProps} />
