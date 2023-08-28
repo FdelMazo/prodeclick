@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Select, useColorModeValue, Icon, SimpleGrid } from '@chakra-ui/react';
+import { Box, Flex, Text, Select, Icon, SimpleGrid } from '@chakra-ui/react';
 import Card from '../../../components/card/Card'
 import PieChart from '../../../components/charts/PieChart'
 import PARTIDOS from '../../../data/partidos'
@@ -45,9 +45,9 @@ const pieChartData = PARTIDOS.map(p => p.percentage);
 // TODO: dividr en dos tabs: "resultados | mis predicciones"
 // TODO: overridear en hover de cada participante
 export default function Results() {
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const cardColor = useColorModeValue('white', 'navy.700');
-	const cardShadow = useColorModeValue('0px 18px 40px rgba(112, 144, 176, 0.12)', 'unset');
+	const textColor = 'secondaryGray.900'
+	const cardColor = 'white'
+	const cardShadow = '0px 18px 40px rgba(112, 144, 176, 0.12)'
 	return (
 		<Card p={4} alignItems='center' w='100%' h='100%' justifyContent="space-between">
 			<Flex w="100%" justifyContent="space-between" alignItems="center">

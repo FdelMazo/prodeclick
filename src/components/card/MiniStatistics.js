@@ -1,10 +1,9 @@
-import { Flex, Stat, StatLabel, StatNumber, useColorModeValue, Text } from '@chakra-ui/react';
+import { Flex, Stat, StatLabel, StatNumber, Text } from '@chakra-ui/react';
 import Card from './Card';
 
 export default function Default(props) {
 	const { startContent, endContent, name, description, value } = props;
-	// TODO: sacar tood lo relacionado a colormodes, y forzar el light mode
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
+	const textColor = 'secondaryGray.900'
 	const textColorSecondary = 'secondaryGray.600';
 
 	return (

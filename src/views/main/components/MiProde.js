@@ -8,7 +8,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
   Box,
   Icon
 } from '@chakra-ui/react'
@@ -61,8 +60,8 @@ export default function MiProde() {
     prepareRow,
   } = tableInstance
 
-  const textColor = useColorModeValue('secondaryGray.900', 'white')
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100')
+  const textColor = 'secondaryGray.900'
+  const borderColor = 'gray.200'
   return (
     <Card p={4} w='100%' h='100%' justifyContent="space-between">
       <Text

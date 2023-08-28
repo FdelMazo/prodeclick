@@ -9,7 +9,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue
 } from '@chakra-ui/react'
 import {
   useGlobalFilter,
@@ -79,8 +78,8 @@ export default function Participants(props) {
   } = tableInstance
   initialState.pageSize = 5
 
-  const textColor = useColorModeValue('secondaryGray.900', 'white')
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100')
+  const textColor = 'secondaryGray.900'
+  const borderColor = 'gray.200'
   return (
     <Card
       flexDirection='column'

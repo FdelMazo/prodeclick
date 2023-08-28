@@ -2,7 +2,6 @@ import React from 'react'
 
 import {
   Icon,
-  useColorModeValue
 } from '@chakra-ui/react'
 import MiniStatistics from '../../../components/card/MiniStatistics'
 import IconBox from '../../../components/icons/IconBox'
@@ -13,8 +12,8 @@ import {
 } from 'react-icons/md'
 
 export default function Statistics(props) {
-  const brandColor = useColorModeValue('brand.500', 'white')
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
+  const brandColor = 'brand.500'
+  const boxBg = 'secondaryGray.300'
 
   const daysUntilElections = React.useMemo(() => {
     const today = new Date()
