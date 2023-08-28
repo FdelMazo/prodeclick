@@ -14,6 +14,7 @@ import {
 export default function Statistics({ participants }) {
   const brandColor = 'brand.500'
   const boxBg = 'secondaryGray.300'
+  const borderColor = 'secondaryGray.700'
 
   const daysUntilElections = React.useMemo(() => {
     const today = new Date()
@@ -33,6 +34,8 @@ export default function Statistics({ participants }) {
           w='56px'
           h='56px'
           bg={boxBg}
+          borderColor={borderColor}
+          borderWidth={1}
           icon={
             <Icon
               w='32px'
@@ -52,6 +55,8 @@ export default function Statistics({ participants }) {
           w='56px'
           h='56px'
           bg={boxBg}
+          borderColor={borderColor}
+          borderWidth={1}
           icon={
             <Icon
               w='32px'
@@ -74,6 +79,8 @@ export default function Statistics({ participants }) {
               w='56px'
               h='56px'
               bg={boxBg}
+              borderColor={borderColor}
+              borderWidth={1}
               icon={
                 <Icon
                   w='32px'
@@ -97,6 +104,8 @@ export default function Statistics({ participants }) {
               w='56px'
               h='56px'
               bg={boxBg}
+              borderColor={borderColor}
+              borderWidth={1}
               icon={
                 <Icon
                   w='32px'
