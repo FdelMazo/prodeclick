@@ -22,10 +22,10 @@ import Menu from '../../../components/menu/MainMenu'
 
 import { MdCheckCircle, MdCancel } from 'react-icons/md'
 
-
-// TODO: agregar columna de participacion
-// TODO: convertir prode en una multi-progressbar con tooltips en hover
-// TODO: sacar columna de si pago/no pago?
+// TODO: agregar columna de ranking
+// TODO: agregar columna que diga el prode de cada jugador (multi-progressbar stacked hasta 100)
+// TODO: ordenar por quien esta mas cerca
+// TODO: agregar columna de diferencia
 const columns = [
   {
     Header: "NOMBRE",
@@ -45,18 +45,15 @@ const columns = [
 const data = [
   {
     "name": "Fede",
-    "prode": 15.5,
     "pago": true,
   },
   {
     "name": "Fede2",
-    "prode": 80.5,
     "pago": false,
   },
 ]
 
 
-// TODO: convertir en lista de participantes
 export default function Participants(props) {
   const tableInstance = useTable(
     {
@@ -104,7 +101,7 @@ export default function Participants(props) {
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps()}
                   pe='10px'
                   key={index}
                   borderColor={borderColor}
@@ -152,18 +149,6 @@ export default function Participants(props) {
                         <Text color={textColor} fontSize='sm' fontWeight='700'>
                           {cell.value ? "Ya pagó" : "Todavía no pagó"}
                         </Text>
-                      </Flex>
-                    )
-                  } else if (cell.column.Header === 'PRODE') {
-                    data = (
-                      <Flex align='center'>
-                        <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='108px'
-                          value={cell.value}
-                        />
                       </Flex>
                     )
                   }

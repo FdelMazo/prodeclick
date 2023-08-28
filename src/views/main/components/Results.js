@@ -1,11 +1,11 @@
 import { Box, Flex, Text, Select, Icon, SimpleGrid } from '@chakra-ui/react';
 import Card from '../../../components/card/Card'
 import PieChart from '../../../components/charts/PieChart'
-import PARTIDOS from '../../../data/partidos'
+import PARTIDOS from '../../../logic/partidos'
 import { MdPlayCircle } from 'react-icons/md';
 
 const pieChartOptions = {
-	labels: PARTIDOS.map(p => p.partido[0]),
+	labels: PARTIDOS.map(p => p.partido),
 	colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
 	states: {
 		hover: {
@@ -69,11 +69,11 @@ export default function Results() {
 			<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll">
 				<SimpleGrid columns={{ base: 2, "3xl": 3 }} spacing={5}>
 					{PARTIDOS.map((p) => (
-						<Flex alignItems="center" justifyContent="space-between" gap={2}>
+						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id}>
 							<Flex alignItems="center" gap={2}>
 								<Icon as={MdPlayCircle} boxSize={5} color={`${p.color}.600`} />
 								<Text color={textColor} fontWeight='700' lineHeight='100%'>
-									{p.partido[0]}
+									{p.partido}
 								</Text>
 							</Flex>
 							<Text color={`${p.color}.600`} fontWeight='700'>

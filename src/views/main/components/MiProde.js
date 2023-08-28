@@ -19,14 +19,12 @@ import {
 } from 'react-table'
 
 import Card from '../../../components/card/Card'
-import Menu from '../../../components/menu/MainMenu'
-import PARTIDOS from '../../../data/partidos'
+import PARTIDOS from '../../../logic/partidos'
 import { MdPlayCircle } from 'react-icons/md'
 
-// TODO: dividir entre partido y candidato, y poner colores
 // TODO: agregar columna de resultados reales y diff el dia de las elecciones
-// TODO: agregar slider de participacion, submitbutton, editbutton
-
+// TODO: agregar submitbutton, editbutton
+// TODO: fix error de matching tbody
 const data = PARTIDOS
 
 const columns = [
@@ -82,7 +80,7 @@ export default function MiProde() {
                   index
                 ) => (
                   <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    {...column.getHeaderProps()}
                     key={index}
                     borderColor={borderColor}
                   >
@@ -108,10 +106,10 @@ export default function MiProde() {
                         <Icon as={MdPlayCircle} boxSize={6} mr={2} color={`${row.original.color}.600`} />
                         <Box>
                           <Text color={textColor} fontSize='lg' fontWeight='700'>
-                            {cell.value[0]}
+                            {cell.value}
                           </Text>
                           <Text color="gray" fontSize='sm' fontWeight='700'>
-                            {cell.value[1]}
+                            {row.original.candidatos}
                           </Text>
                         </Box>
                       </Flex>

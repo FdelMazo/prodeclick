@@ -17,8 +17,19 @@ import Results from '../../views/main/components/Results'
 import MainLayout from '../../layouts/main'
 import { BsGithub } from 'react-icons/bs'
 
+/*
+TODO: FUTURO
+- Agregar prode de participacion electoral
+- Permitir que las partidas sean configurables
+  - Participacion si/no
+  - Agrupar partidos minoristas en otros si/no
+  - Ocultar/mostrar los prodes del resto
+*/
+
+
+
 // TODO: agregar admin panel, o info panel del programa en si?
-export default function UserReports() {
+export default function MainDashboard() {
   return (
     <MainLayout>
       <Heading>prode.ar</Heading>
