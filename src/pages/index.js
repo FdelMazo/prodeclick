@@ -15,7 +15,7 @@ import Control from '../views/main/components/Control'
 import Statistics from '../views/main/components/Statistics'
 import Results from '../views/main/components/Results'
 import MainLayout from '../layouts/main'
-import { fetchParticipants } from '../logic/db'
+import { fetchNumberParticipants, fetchNumberParties } from '../logic/db'
 import { BsGithub } from 'react-icons/bs'
 
 /*
@@ -29,9 +29,11 @@ TODO: FUTURO
 
 // TODO: agregar admin panel, o info panel del programa en si?
 export default function MainDashboard() {
-  const [participants, setParticipants] = React.useState([]);
+  const [numberParticipants, setNumberParticipants] = React.useState(null);
+  const [numberParties, setNumberParties] = React.useState(null);
   React.useEffect(() => {
-    fetchParticipants(setParticipants);
+    fetchNumberParticipants(setNumberParticipants);
+    fetchNumberParties(setNumberParties);
   }, []);
 
   return (
@@ -46,7 +48,7 @@ export default function MainDashboard() {
           gap='20px'
           mb='20px'
         >
-          <Statistics participants={participants} />
+          <Statistics numberParticipants={numberParticipants} numberParties={numberParties} />
         </SimpleGrid>
 
         <SimpleGrid

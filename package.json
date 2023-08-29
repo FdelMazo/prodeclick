@@ -13,6 +13,7 @@
     "@vercel/kv": "^0.2.2",
     "apexcharts": "^3.35.2",
     "framer-motion": "^4.1.17",
+    "nanoid": "^4.0.2",
     "next": "^12.2.5",
     "react": "^17.0.2",
     "react-apexcharts": "^1.4.0",

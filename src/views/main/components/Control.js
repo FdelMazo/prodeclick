@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
 import {
-  Icon, Input, Text,
+  Icon, Input, Spinner, Text,
 } from '@chakra-ui/react'
 import ControlButton from '../../../components/card/ControlButton'
 import IconBox from '../../../components/icons/IconBox'
@@ -9,9 +10,11 @@ import {
   MdGroupAdd,
   MdLibraryAdd,
 } from 'react-icons/md'
-import { AddIcon } from '@chakra-ui/icons'
+import { createParty } from '../../../logic/db'
 
 export default function Statistics() {
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(false)
   const brandColor = 'brand.500'
   const boxBg = 'secondaryGray.300'
   const borderColor = 'secondaryGray.700'
@@ -32,15 +35,19 @@ export default function Statistics() {
             <Icon
               w='28px'
               h='28px'
-              as={MdLibraryAdd}
+              as={loading ? Spinner : MdLibraryAdd}
               color={brandColor}
             />
           }
         />
       }
       title="Creá una partida"
-      link="/asd"
-      description="Jugá con tus amigos, familia o con quien quieras!"
+      onClick={async () => {
+        setLoading(true)
+        const partyId = await createParty()
+        router.push(`/${partyId}`)
+      }}
+      description="Jugá con tus amigos, familia, o con quien quieras!"
     />
     <ControlButton
       startContent={
@@ -62,7 +69,7 @@ export default function Statistics() {
       }
       title="Sumate a una partida"
       description="Pedile el código a quien la armó!"
-      endContent={<Input placeholder='Código de partida' bg="white" />}
+      endContent={<Input borderColor={borderColor} borderWidth={1} placeholder='Código de partida' bg="white" />}
     />
   </>)
 }

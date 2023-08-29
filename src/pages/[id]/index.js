@@ -28,7 +28,8 @@ TODO: FUTURO
 */
 
 // TODO: agregar admin panel, o info panel del programa en si?
-export default function MainDashboard() {
+export default function MainDashboard({ params }) {
+    console.log(params)
     const [participants, setParticipants] = React.useState([]);
     React.useEffect(() => {
         fetchParticipants(setParticipants);
@@ -39,7 +40,7 @@ export default function MainDashboard() {
     }, [participants])
     return (
         <MainLayout>
-            <Heading>prode.ar - aaa</Heading>
+            <Heading>prode.ar - Partida </Heading>
             <Heading color="gray.600" fontSize="xl">Elecciones Generales 2023 🇦🇷</Heading>
 
             <Box pt={6}>

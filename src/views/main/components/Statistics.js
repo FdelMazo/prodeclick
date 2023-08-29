@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  Icon,
+  Icon, Spinner,
 } from '@chakra-ui/react'
 import MiniStatistics from '../../../components/card/MiniStatistics'
 import IconBox from '../../../components/icons/IconBox'
@@ -11,7 +11,7 @@ import {
   MdPeopleAlt
 } from 'react-icons/md'
 
-export default function Statistics({ participants }) {
+export default function Statistics({ numberParticipants, numberParties }) {
   const brandColor = 'brand.500'
   const boxBg = 'secondaryGray.300'
   const borderColor = 'secondaryGray.700'
@@ -114,8 +114,8 @@ export default function Statistics({ participants }) {
         />
       }
       name='Participantes'
-      value={participants.length}
-      description={<span>En <b>35</b> partidas</span>}
+      value={numberParticipants ? numberParticipants : <Spinner />}
+      description={numberParties ? <span>En <b>{numberParties}</b> partidas</span> : <br />}
     />
   </>)
 }

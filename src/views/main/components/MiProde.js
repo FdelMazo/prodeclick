@@ -112,6 +112,7 @@ export default function MiProde({ miProde, dummy }) {
               setProde(editProde)
               setIsEdit(false)
             }}
+            isDisabled={suma.sum != 100.0}
             icon={<CheckIcon boxSize={5} />}
           /> : <IconButton
             borderRadius='lg'
