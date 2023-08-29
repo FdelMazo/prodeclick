@@ -46,8 +46,8 @@ export default function Statistics({ participants }) {
           }
         />
       }
-      name='Armá tu partida y apostá con tus amigos'
-      value="$1000 por participante"
+      name='El ganador se lleva...'
+      value={"$" + (1000 * participants.length)}
     />
     {daysUntilElections > 0 ? (
       <MiniStatistics
@@ -74,26 +74,26 @@ export default function Statistics({ participants }) {
         description={<span>Se pueden cambiar las predicciones hasta el <b>viernes</b> pre-elecciones</span>}
       />
     ) : (
-        // TODO: poner aca un coso que dice cuantas mesas ya estan escrutinadas y un link a resultados.gob.ar
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              borderColor={borderColor}
-              borderWidth={1}
-              icon={
-                <Icon
-                  w='32px'
-                  h='32px'
-                  as={MdOutlineCalendarMonth}
-                  color={brandColor}
-                />
-              }
-            />
-          }
-        />
+      // TODO: poner aca un coso que dice cuantas mesas ya estan escrutinadas y un link a resultados.gob.ar
+      <MiniStatistics
+        startContent={
+          <IconBox
+            w='56px'
+            h='56px'
+            bg={boxBg}
+            borderColor={borderColor}
+            borderWidth={1}
+            icon={
+              <Icon
+                w='32px'
+                h='32px'
+                as={MdOutlineCalendarMonth}
+                color={brandColor}
+              />
+            }
+          />
+        }
+      />
     )}
     <MiniStatistics
       startContent={
@@ -115,7 +115,7 @@ export default function Statistics({ participants }) {
       }
       name='Participantes'
       value={participants.length}
-      description={<span>En <b>35</b> partidas</span>}
+      description={<span><b>$1000</b> por persona</span>}
     />
   </>)
 }

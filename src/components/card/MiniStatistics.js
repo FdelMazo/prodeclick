@@ -31,7 +31,7 @@ export default function Default(props) {
 					</StatNumber>
 					{description && (
 						<Flex align='center'>
-							<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+							<Text color={textColorSecondary} fontSize='xs' fontWeight='400'>
 								{description}
 							</Text>
 						</Flex>

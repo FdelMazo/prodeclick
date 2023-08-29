@@ -49,8 +49,8 @@ const columns = [
 ];
 
 
-export default function MiProde({ miProde }) {
-  const [isEdit, setIsEdit] = React.useState(!miProde)
+export default function MiProde({ miProde, dummy }) {
+  const [isEdit, setIsEdit] = React.useState(!dummy && !miProde)
   const [editProde, setEditProde] = React.useState(
     Object.fromEntries(PARTIDOS.map(p => [p.id, p.defaultPercentage - 0.1]))
   )
@@ -99,28 +99,29 @@ export default function MiProde({ miProde }) {
         >
           {isEdit && 'Armar'} Mi Prode
         </Text>
-        {isEdit ? <IconButton
-          borderRadius='lg'
-          bg={bgButton}
-          color={iconColor}
-          title='Guardar predicciones'
-          onClick={() => {
-            if (suma.sum != 100.0) {
-              return
-            }
-            console.log("fede")
-            setProde(editProde)
-            setIsEdit(false)
-          }}
-          icon={<CheckIcon boxSize={5} />}
-        /> : <IconButton
-          borderRadius='lg'
-          bg={bgButton}
-          color={iconColor}
-          title='Editar predicciones'
-          onClick={() => setIsEdit(true)}
-          icon={<EditIcon boxSize={5} />}
-        />}
+        {!dummy && <>
+          {isEdit ? <IconButton
+            borderRadius='lg'
+            bg={bgButton}
+            color={iconColor}
+            title='Guardar predicciones'
+            onClick={() => {
+              if (suma.sum != 100.0) {
+                return
+              }
+              setProde(editProde)
+              setIsEdit(false)
+            }}
+            icon={<CheckIcon boxSize={5} />}
+          /> : <IconButton
+            borderRadius='lg'
+            bg={bgButton}
+            color={iconColor}
+            title='Editar predicciones'
+            onClick={() => setIsEdit(true)}
+            icon={<EditIcon boxSize={5} />}
+          />}
+        </>}
       </Flex>
       <Table {...getTableProps()}>
         <Thead>
@@ -189,11 +190,12 @@ export default function MiProde({ miProde }) {
                         </NumberInputStepper>
                       </NumberInput>
                     ) : (
-                      <Text
-                          color={textColor}
+                        <Text
+                          textAlign={"center"}
+                          color={`${row.original.color}.600`}
                           fontWeight='700'
                         >
-                          {miProde?.[row.original.id]}%
+                          {miProde?.[row.original.id] || "??"}%
                         </Text>
                       )
                   }

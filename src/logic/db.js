@@ -1,14 +1,11 @@
 export const fetchParticipants = async (cb) => {
     const response = await fetch("/api/participants");
-    const data = await response.json();
-    cb(data)
-};
+    await response.json().then(cb).catch((err) => alert(err));
+}
 
 export const setProde = async (data) => {
-    const response = await fetch("/api/participants",
-        {
+    return fetch("/api/participants", {
             method: 'PUT',
             body: JSON.stringify({ prode: data })
-        });
-    return await response.json();
+    });
 };

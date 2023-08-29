@@ -6,7 +6,7 @@ import { MdPlayCircle } from 'react-icons/md';
 
 // TODO: dividr en dos tabs: "resultados | mis predicciones"
 // TODO: overridear en hover de cada participante
-export default function Results({ miProde }) {
+export default function Results({ prode, title }) {
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
 		// colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
@@ -34,7 +34,7 @@ export default function Results({ miProde }) {
 			colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-400)`),
 		},
 		tooltip: {
-			enabled: !!miProde,
+			enabled: !!prode,
 			theme: "light",
 			y: {
 				formatter: function (val) {
@@ -45,7 +45,7 @@ export default function Results({ miProde }) {
 	};
 
 	const pieChartData = PARTIDOS.map(p =>
-		miProde?.[p.id] || p.defaultPercentage
+		prode?.[p.id] || p.defaultPercentage
 	)
 
 	const textColor = 'secondaryGray.900'
@@ -60,7 +60,7 @@ export default function Results({ miProde }) {
 					fontSize="lg"
 					fontWeight='700'
 				>
-					Mi Prode
+					{title || "Resultados"}
 				</Text>
 				{/* <Select fontSize='sm' variant='subtle' defaultValue='monthly' width='unset' fontWeight='700'>
 					<option value='daily'>Daily</option>
@@ -80,7 +80,7 @@ export default function Results({ miProde }) {
 								</Text>
 							</Flex>
 							<Text color={`${p.color}.600`} fontWeight='700'>
-								{miProde?.[p.id] || "??"}%
+								{prode?.[p.id] || "??"}%
 							</Text>
 						</Flex>
 					))}

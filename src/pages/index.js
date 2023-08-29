@@ -11,7 +11,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react'
 import MiProde from '../views/main/components/MiProde'
-import Participants from '../views/main/components/Participants'
+import Control from '../views/main/components/Control'
 import Statistics from '../views/main/components/Statistics'
 import Results from '../views/main/components/Results'
 import MainLayout from '../layouts/main'
@@ -34,9 +34,6 @@ export default function MainDashboard() {
     fetchParticipants(setParticipants);
   }, []);
 
-  const miProde = React.useMemo(() => {
-    return participants.find(p => p.uuid === 'me')?.prode
-  }, [participants])
   return (
     <MainLayout>
       <Heading>prode.ar</Heading>
@@ -45,23 +42,30 @@ export default function MainDashboard() {
       <Box pt={6}>
         {/* TODO: modificar cantidad de columnas en base a cuantas stats terminan siendo */}
         <SimpleGrid
-          columns={{ base: 1, md: 2, '2xl': 6 }}
+          columns={{ base: 1, lg: 3 }}
           gap='20px'
           mb='20px'
         >
           <Statistics participants={participants} />
         </SimpleGrid>
 
+        <SimpleGrid
+          m="auto"
+          w="80%"
+          columns={{ base: 1, sm: 2 }}
+          gap='20px'
+          mb='20px'
+        >
+          <Control />
+        </SimpleGrid>
+
         <SimpleGrid columns={{ base: 1, "md": 4 }} gap='20px' mb='20px'>
           <GridItem colSpan={{ md: 2, "2xl": 3 }}>
-            <MiProde miProde={miProde} />
+            <MiProde dummy />
           </GridItem>
           <GridItem colSpan={{ md: 2, "2xl": 1 }}>
-            <Results miProde={miProde} />
+            <Results />
           </GridItem>
-        </SimpleGrid>
-        <SimpleGrid columns={{ base: 1 }} gap='20px' mb='20px'>
-          <Participants />
         </SimpleGrid>
       </Box>
 
