@@ -14,12 +14,12 @@ export const inputStyles = {
           field: {
             bg: mode("transparent", "navy.800")(props),
             border: "1px solid",
-            color: mode("secondaryGray.900", "white")(props),
-            borderColor: mode("secondaryGray.100", "whiteAlpha.100")(props),
+            color: mode("darkgray.900", "white")(props),
+            borderColor: mode("darkgray.100", "whiteAlpha.100")(props),
             borderRadius: "16px",
             fontSize: "sm",
             p: "20px",
-            _placeholder: { color: "secondaryGray.400" },
+            _placeholder: { color: "darkgray.400" },
           },
         }),
         auth: (props) => ({
@@ -29,20 +29,20 @@ export const inputStyles = {
             bg: mode("transparent", "transparent")(props),
             border: "1px solid",
             borderColor: mode(
-              "secondaryGray.100",
+              "darkgray.100",
               "rgba(135, 140, 189, 0.3)"
             )(props),
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600", fontWeight: "400" },
+            _placeholder: { color: "darkgray.600", fontWeight: "400" },
           },
         }),
         authSecondary: () => ({
           field: {
             bg: "transparent",
             border: "1px solid",
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         search: () => ({
@@ -50,7 +50,7 @@ export const inputStyles = {
             border: "none",
             py: "11px",
             borderRadius: "inherit",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
       },
@@ -68,9 +68,9 @@ export const inputStyles = {
             bg: "transparent",
             border: "1px solid",
 
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         auth: () => ({
@@ -78,9 +78,9 @@ export const inputStyles = {
             bg: "transparent",
             border: "1px solid",
 
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         authSecondary: () => ({
@@ -88,9 +88,9 @@ export const inputStyles = {
             bg: "transparent",
             border: "1px solid",
 
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         search: () => ({
@@ -98,7 +98,7 @@ export const inputStyles = {
             border: "none",
             py: "11px",
             borderRadius: "inherit",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
       },
@@ -115,13 +115,13 @@ export const inputStyles = {
           field: {
             bg: mode("transparent", "navy.800")(props),
             border: "1px solid",
-            color: "secondaryGray.600",
-            borderColor: mode("secondaryGray.100", "whiteAlpha.100")(props),
+            color: "darkgray.600",
+            borderColor: mode("darkgray.100", "whiteAlpha.100")(props),
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
           icon: {
-            color: "secondaryGray.600",
+            color: "darkgray.600",
           },
         }),
         mini: (props) => ({
@@ -130,10 +130,10 @@ export const inputStyles = {
             border: "0px solid transparent",
             fontSize: "0px",
             p: "10px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
           icon: {
-            color: "secondaryGray.600",
+            color: "darkgray.600",
           },
         }),
         subtle: () => ({
@@ -143,13 +143,13 @@ export const inputStyles = {
           field: {
             bg: "transparent",
             border: "0px solid",
-            color: "secondaryGray.600",
+            color: "darkgray.600",
             borderColor: "transparent",
             width: "max-content",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
           icon: {
-            color: "secondaryGray.600",
+            color: "darkgray.600",
           },
         }),
         transparent: (props) => ({
@@ -157,20 +157,20 @@ export const inputStyles = {
             bg: "transparent",
             border: "0px solid",
             width: "min-content",
-            color: mode("secondaryGray.600", "secondaryGray.600")(props),
+            color: mode("darkgray.600", "darkgray.600")(props),
             borderColor: "transparent",
             padding: "0px",
             paddingLeft: "8px",
             paddingRight: "20px",
             fontWeight: "700",
             fontSize: "14px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
           icon: {
             transform: "none !important",
             position: "unset !important",
             width: "unset",
-            color: "secondaryGray.600",
+            color: "darkgray.600",
             right: "0px",
           },
         }),
@@ -179,9 +179,9 @@ export const inputStyles = {
             bg: "transparent",
             border: "1px solid",
 
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         authSecondary: (props) => ({
@@ -189,9 +189,9 @@ export const inputStyles = {
             bg: "transparent",
             border: "1px solid",
 
-            borderColor: "secondaryGray.100",
+            borderColor: "darkgray.100",
             borderRadius: "16px",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
         search: (props) => ({
@@ -199,7 +199,7 @@ export const inputStyles = {
             border: "none",
             py: "11px",
             borderRadius: "inherit",
-            _placeholder: { color: "secondaryGray.600" },
+            _placeholder: { color: "darkgray.600" },
           },
         }),
       },

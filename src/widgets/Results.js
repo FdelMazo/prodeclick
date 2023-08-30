@@ -1,15 +1,13 @@
-import { Box, Flex, Text, Select, Icon, SimpleGrid } from '@chakra-ui/react';
-import Card from '../../../components/card/Card'
-import PieChart from '../../../components/charts/PieChart'
-import PARTIDOS from '../../../logic/partidos'
+import { Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
 import { MdPlayCircle } from 'react-icons/md';
+import Card from '../components/card/Card';
+import PieChart from '../components/charts/PieChart';
+import PARTIDOS from '../logic/partidos';
 
-// TODO: dividr en dos tabs: "resultados | mis predicciones"
-// TODO: overridear en hover de cada participante
 export default function Results({ prode, title }) {
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
-		// colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
+		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
 		states: {
 			hover: {
 				filter: {
@@ -48,7 +46,7 @@ export default function Results({ prode, title }) {
 		prode?.[p.id] || p.defaultPercentage
 	)
 
-	const textColor = 'secondaryGray.900'
+	const textColor = 'darkgray.900'
 	const cardColor = 'white'
 	const cardShadow = '0px 18px 40px rgba(112, 144, 176, 0.12)'
 	return (
@@ -70,9 +68,9 @@ export default function Results({ prode, title }) {
 			</Flex>
 			<PieChart chartData={pieChartData} chartOptions={pieChartOptions} />
 			<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll">
-				<SimpleGrid columns={{ base: 2, "3xl": 3 }} spacing={5}>
+				<SimpleGrid columns={{ base: 2, "xl": 3, "2xl": 2, "3xl": 3 }} spacing={5}>
 					{PARTIDOS.map((p) => (
-						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id}>
+						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id} w="100%">
 							<Flex alignItems="center" gap={2}>
 								<Icon as={MdPlayCircle} boxSize={5} color={`${p.color}.600`} />
 								<Text color={textColor} fontWeight='700' lineHeight='100%'>

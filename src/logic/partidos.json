@@ -1,15 +1,15 @@
 [
     {
-        "id": "UP",
+        "id": "UxP",
         "partido": "Unión por la Patria",
-        "candidatos": "Sergio Tomás Massa",
+        "candidatos": "Sergio Massa",
         "color": "cyan",
         "defaultPercentage": 30
     },
     {
         "id": "LLA",
         "partido": "La Libertad Avanza",
-        "candidatos": "Javier Gerardo Milei",
+        "candidatos": "Javier Milei",
         "color": "purple",
         "defaultPercentage": 30
     },
@@ -21,22 +21,29 @@
         "defaultPercentage": 30
     },
     {
-        "id": "OTROS",
-        "partido": "Otros",
-        "candidatos": "Schiaretti/Bregman",
-        "color": "orange",
-        "defaultPercentage": 4
+        "id": "HNP",
+        "partido": "Hacemos por Nuestro País",
+        "candidatos": "Juan Schiaretti",
+        "color": "green",
+        "defaultPercentage": 2.5
+    },
+    {
+        "id": "FIT-U",
+        "partido": "Frente de Izquierda",
+        "candidatos": "Myriam Bregman",
+        "color": "red",
+        "defaultPercentage": 2.5
     },
     {
         "id": "BLANCO",
         "partido": "Votos en blanco",
-        "color": "secondaryGray",
-        "defaultPercentage": 3
+        "color": "darkgray",
+        "defaultPercentage": 2.5
     },
     {
         "id": "NULOS",
-        "partido": "Votos nulos o impugnados",
+        "partido": "Votos nulos",
         "color": "gray",
-        "defaultPercentage": 3
+        "defaultPercentage": 2.5
     }
 ]

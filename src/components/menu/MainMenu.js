@@ -1,35 +1,35 @@
 import React from 'react';
 
 import {
-	Icon,
 	Flex,
-	Text,
+	Icon,
 	Menu,
 	MenuButton,
 	MenuItem,
 	MenuList,
+	Text,
 	useDisclosure,
 } from '@chakra-ui/react';
 import {
-	MdOutlineMoreHoriz,
-	MdOutlinePerson,
 	MdOutlineCardTravel,
 	MdOutlineLightbulb,
+	MdOutlineMoreHoriz,
+	MdOutlinePerson,
 	MdOutlineSettings
 } from 'react-icons/md';
 
 export default function Banner(props) {
 	const { ...rest } = props;
 
-	const textColor = 'secondaryGray.500'
-	const textHover = { color: 'secondaryGray.900', bg: 'unset' }
+	const textColor = 'darkgray.500'
+	const textHover = { color: 'darkgray.900', bg: 'unset' }
 
 	const iconColor = 'brand.500'
 	const bgList = 'white'
 	const bgShadow = '14px 17px 40px 4px rgba(112, 144, 176, 0.08)'
-	const bgButton = 'secondaryGray.300'
-	const bgHover = { bg: 'secondaryGray.400' }
-	const bgFocus = { bg: 'secondaryGray.300' }
+	const bgButton = 'darkgray.300'
+	const bgHover = { bg: 'darkgray.400' }
+	const bgFocus = { bg: 'darkgray.300' }
 
 	// Ellipsis modals
 	const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();

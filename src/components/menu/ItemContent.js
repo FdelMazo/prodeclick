@@ -1,4 +1,4 @@
-import { Icon, Flex, Text } from "@chakra-ui/react";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 import { MdUpgrade } from "react-icons/md";
 
 export function ItemContent(props) {

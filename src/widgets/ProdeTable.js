@@ -1,24 +1,23 @@
-import React from 'react'
 import {
+  Box,
   Flex,
+  Icon,
+  IconButton,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Progress,
   Table,
-  Checkbox,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
-  Tr,
-  Box,
-  Icon,
-  IconButton,
-  NumberInput,
-  NumberInputField,
-  Progress,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper
+  Tr
 } from '@chakra-ui/react'
+import React from 'react'
 import {
   useGlobalFilter,
   usePagination,
@@ -26,15 +25,13 @@ import {
   useTable,
 } from 'react-table'
 
-import Card from '../../../components/card/Card'
-import PARTIDOS from '../../../logic/partidos'
-import { MdPlayCircle } from 'react-icons/md'
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
-import { setProde } from '../../../logic/db'
+import { useRouter } from 'next/router'
+import { MdPlayCircle } from 'react-icons/md'
+import Card from '../components/card/Card'
+import { setProde } from '../logic'
+import PARTIDOS from '../logic/partidos'
 
-// TODO: agregar columna de resultados reales y diff el dia de las elecciones
-// TODO: agregar submitbutton, editbutton
-// TODO: fix error de matching tbody
 const data = PARTIDOS
 
 const columns = [
@@ -49,19 +46,16 @@ const columns = [
 ];
 
 
-export default function MiProde({ miProde, dummy }) {
-  const [isEdit, setIsEdit] = React.useState(!dummy && !miProde)
-  const [editProde, setEditProde] = React.useState(
-    Object.fromEntries(PARTIDOS.map(p => [p.id, p.defaultPercentage - 0.1]))
-  )
+export default function ProdeTable({ prode, setProde }) {
   const suma = React.useMemo(() => {
-    const sum = (Object.values(editProde).reduce((a, b) => a + b, 0)).toFixed(1)
+    const sum = (Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)
     const color = sum < 100 ? 'pink' : sum > 100 ? 'red' : 'green'
     return {
       sum,
       color
     }
-  }, [editProde])
+  }, [prode])
+
   const tableInstance = useTable(
     {
       columns,
@@ -81,64 +75,28 @@ export default function MiProde({ miProde, dummy }) {
     initialState,
   } = tableInstance
   initialState.pageSize = PARTIDOS.length
-  const textColor = 'secondaryGray.900'
+
+  const textColor = 'darkgray.900'
   const borderColor = 'gray.200'
   const iconColor = 'brand.500'
-  const bgButton = 'secondaryGray.300'
+  const bgButton = 'darkgray.300'
 
   const format = (val) => `${val}%`
 
   return (
-    <Card p={4} w='100%' h='100%' justifyContent="space-between">
-      <Flex w="100%" justifyContent="space-between" alignItems="center">
-        <Text
-          px={2}
-          color={textColor}
-          fontSize="xl"
-          fontWeight='700'
-        >
-          {isEdit && 'Armar'} Mi Prode
-        </Text>
-        {!dummy && <>
-          {isEdit ? <IconButton
-            borderRadius='lg'
-            bg={bgButton}
-            color={iconColor}
-            title='Guardar predicciones'
-            onClick={() => {
-              if (suma.sum != 100.0) {
-                return
-              }
-              setProde(editProde)
-              setIsEdit(false)
-            }}
-            isDisabled={suma.sum != 100.0}
-            icon={<CheckIcon boxSize={5} />}
-          /> : <IconButton
-            borderRadius='lg'
-            bg={bgButton}
-            color={iconColor}
-            title='Editar predicciones'
-            onClick={() => setIsEdit(true)}
-            icon={<EditIcon boxSize={5} />}
-          />}
-        </>}
-      </Flex>
+    <Box w="100%">
       <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map(
-                (
-                  column,
-                  index
-                ) => (
+                (column, index) => (
                   <Th
                     {...column.getHeaderProps()}
                     key={index}
                     borderColor={borderColor}
                   >
-                    <Flex color='secondaryGray'>
+                    <Flex color='darkgray'>
                       {column.render('Header')}
                     </Flex>
                   </Th>
@@ -169,36 +127,31 @@ export default function MiProde({ miProde, dummy }) {
                       </Flex>
                     )
                   } else if (cell.column.Header === 'PORCENTAJE') {
-                    data = isEdit ? (
+                    data = (
                       <NumberInput
                         w="10ch"
                         min={0}
                         max={100}
                         step={0.1}
                         precision={1}
-                        value={format(editProde[row.original.id])}
+                        value={format(prode[row.original.id])}
                         onChange={(value) => {
-                          setEditProde({
-                            ...editProde,
+                          setProde({
+                            ...prode,
                             [row.original.id]: parseFloat(value),
                           })
                         }}
                       >
-                        <NumberInputField textAlign="center" />
+                        <NumberInputField textAlign="center"
+                          color={`${row.original.color}.600`}
+                          fontWeight={500}
+                        />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />
                         </NumberInputStepper>
                       </NumberInput>
-                    ) : (
-                        <Text
-                          textAlign={"center"}
-                          color={`${row.original.color}.600`}
-                          fontWeight='700'
-                        >
-                          {miProde?.[row.original.id] || "??"}%
-                        </Text>
-                      )
+                    )
                   }
                   return (
                     <Td
@@ -215,15 +168,13 @@ export default function MiProde({ miProde, dummy }) {
           })}
         </Tbody>
       </Table>
-      {isEdit && (
-        <Flex flexDir="column" alignSelf="flex-end" mt={4} mr={2}>
-          <Progress hasStripe bg="gray.200" colorScheme={suma.color} value={suma.sum} w="100%" h={2} borderRadius={4} />
-          <Box>
-            <Text as="span" fontWeight={600}>Suma:</Text>
-            <Text as="span" fontWeight={600} color={`${suma.color}.600`} ml={1}>{suma.sum}%</Text>
-          </Box>
-        </Flex>
-      )}
-    </Card>
+      <Flex flexDir="column" w="70%" m="auto" p={4} alignItems="flex-end">
+        <Progress hasStripe bg="gray.200" colorScheme={suma.color} value={suma.sum} w="100%" h={2} borderRadius={4} />
+        <Box>
+          <Text as="span" fontWeight={600}>Suma:</Text>
+          <Text as="span" fontWeight={600} color={`${suma.color}.600`} ml={1}>{suma.sum}%</Text>
+        </Box>
+      </Flex>
+    </Box>
   )
 }

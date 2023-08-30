@@ -1,4 +1,4 @@
-import { useStyleConfig, chakra, forwardRef } from '@chakra-ui/react';
+import { chakra, forwardRef, useStyleConfig } from '@chakra-ui/react';
 const CustomCard = forwardRef((props, ref) => {
 	const { size, variant, ...rest } = props;
 	const styles = useStyleConfig('Card', { size, variant });

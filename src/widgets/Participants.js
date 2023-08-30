@@ -1,14 +1,13 @@
 import {
   Flex,
-  Table,
-  Progress,
   Icon,
+  Table,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
-  Tr,
+  Tr
 } from '@chakra-ui/react'
 import {
   useGlobalFilter,
@@ -17,15 +16,11 @@ import {
   useTable
 } from 'react-table'
 
-import Card from '../../../components/card/Card'
-import Menu from '../../../components/menu/MainMenu'
+import Card from '../components/card/Card'
+import Menu from '../components/menu/MainMenu'
 
-import { MdCheckCircle, MdCancel } from 'react-icons/md'
+import { MdCancel, MdCheckCircle } from 'react-icons/md'
 
-// TODO: agregar columna de ranking
-// TODO: agregar columna que diga el prode de cada jugador (multi-progressbar stacked hasta 100)
-// TODO: ordenar por quien esta mas cerca
-// TODO: agregar columna de diferencia
 const columns = [
   {
     Header: "NOMBRE",
@@ -71,7 +66,7 @@ export default function Participants(props) {
   } = tableInstance
   initialState.pageSize = 5
 
-  const textColor = 'secondaryGray.900'
+  const textColor = 'darkgray.900'
   const borderColor = 'gray.200'
   return (
     <Card

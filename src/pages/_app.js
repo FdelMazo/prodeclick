@@ -1,9 +1,7 @@
 import { ChakraProvider, GlobalStyle, LightMode } from '@chakra-ui/react'
 import React from 'react'
 import theme from '../theme/theme'
-
-import '../styles/Fonts.css'
-import '../styles/App.css'
+import './styles.css'
 
 import Head from 'next/head'
 
@@ -17,16 +15,12 @@ function MyApp({ Component, pageProps }) {
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta name='theme-color' content='#000000' />
 
-          <meta content="prode.ar" property="og:title" />
           <meta content="https://prode.ar/" property="og:url" />
+          <meta content="prode.ar" property="og:title" />
 
           <meta
             content="https://prode.ar/img/screen.png"
             property="og:image"
-          />
-          <meta
-            content="https://prode.ar/img/screen.png"
-            property="og:image:secure_url"
           />
           <meta
             content="Predecí las elecciones argentinas!"

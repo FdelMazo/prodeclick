@@ -1,22 +1,18 @@
 import React from 'react'
 
 import {
-  Box,
-  Flex,
   GridItem,
-  Heading,
-  Icon,
-  Image,
-  Link,
   SimpleGrid,
+  useToast
 } from '@chakra-ui/react'
-import MiProde from '../views/main/components/MiProde'
-import Control from '../views/main/components/Control'
-import Statistics from '../views/main/components/Statistics'
-import Results from '../views/main/components/Results'
-import MainLayout from '../layouts/main'
-import { fetchNumberParticipants, fetchNumberParties } from '../logic/db'
-import { BsGithub } from 'react-icons/bs'
+import { useRouter } from 'next/router'
+import MainLayout from '../layouts'
+import { daysUntilElections } from '../logic'
+import { getN } from '../logic/db'
+import Control from '../widgets/Control'
+import MiProde from '../widgets/MiProde'
+import Results from '../widgets/Results'
+import Statistics from '../widgets/Statistics'
 
 /*
 TODO: FUTURO
@@ -27,67 +23,65 @@ TODO: FUTURO
   - Ocultar/mostrar los prodes del resto
 */
 
-// TODO: agregar admin panel, o info panel del programa en si?
-export default function MainDashboard() {
-  const [numberParticipants, setNumberParticipants] = React.useState(null);
-  const [numberParties, setNumberParties] = React.useState(null);
+export default function MainDashboard({ stats }) {
+  const router = useRouter()
+  const toast = useToast()
+  const toastId = 'error'
   React.useEffect(() => {
-    fetchNumberParticipants(setNumberParticipants);
-    fetchNumberParties(setNumberParties);
-  }, []);
+    if (router.query.error && !toast.isActive(toastId)) {
+      toast({
+        description: "La partida que buscas no existe, creá una nueva!",
+        status: "error",
+        isClosable: true,
+        position: 'top-end',
+        id: toastId
+      })
+    }
+    router.replace('/', undefined, { shallow: true })
+  }, [router.query.error])
 
   return (
     <MainLayout>
-      <Heading>prode.ar</Heading>
-      <Heading color="gray.600" fontSize="xl">Elecciones Generales 2023 🇦🇷</Heading>
+      <SimpleGrid
+        columns={{ base: 1, lg: 3 }}
+        gap='20px'
+        mb='20px'
+      >
+        <Statistics stats={stats} />
+      </SimpleGrid>
 
-      <Box pt={6}>
-        {/* TODO: modificar cantidad de columnas en base a cuantas stats terminan siendo */}
-        <SimpleGrid
-          columns={{ base: 1, lg: 3 }}
-          gap='20px'
-          mb='20px'
-        >
-          <Statistics numberParticipants={numberParticipants} numberParties={numberParties} />
-        </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        gap='20px'
+        mb='20px'
+        mx="auto"
+        w="80%"
+      >
+        <Control />
+      </SimpleGrid>
 
-        <SimpleGrid
-          m="auto"
-          w="80%"
-          columns={{ base: 1, sm: 2 }}
-          gap='20px'
-          mb='20px'
-        >
-          <Control />
-        </SimpleGrid>
-
-        <SimpleGrid columns={{ base: 1, "md": 4 }} gap='20px' mb='20px'>
-          <GridItem colSpan={{ md: 2, "2xl": 3 }}>
-            <MiProde dummy />
-          </GridItem>
-          <GridItem colSpan={{ md: 2, "2xl": 1 }}>
-            <Results />
-          </GridItem>
-        </SimpleGrid>
-      </Box>
-
-      <Flex position="absolute" bottom={0} gap={4} alignItems="center">
-        <Link href='https://fede.dm' isExternal _hover={{ textDecoration: 'underline' }}>
-          <Flex alignItems="center">
-            <Box boxSize={7}>
-              <Image src="img/deadmona.png" display={"inline"} />
-            </Box>
-            <Heading color="gray.600" fontSize="md" ml={2}>fede.dm</Heading>
-          </Flex>
-        </Link>
-        •
-        <Link href='https://github.com/fdelmazo/prode' isExternal _hover={{ textDecoration: 'underline' }}>
-          <Flex alignItems="center">
-            <Icon boxSize={6} as={BsGithub} />
-            <Heading color="gray.600" fontSize="md" ml={2}>fdelmazo</Heading>
-          </Flex>
-        </Link>
-      </Flex>
+      <SimpleGrid columns={{ base: 1, md: 4 }} gap='20px' mb='20px'>
+        <GridItem colSpan={{ md: 2, "2xl": 3 }}>
+          <MiProde />
+        </GridItem>
+        <GridItem colSpan={{ md: 2, "2xl": 1 }}>
+          <Results />
+        </GridItem>
+      </SimpleGrid>
     </MainLayout>
   )
+}
+
+export async function getStaticProps() {
+  const stats = {
+    parties: await getN('party'),
+    users: await getN('user'),
+    daysUntilElections: daysUntilElections()
+  }
+
+  return {
+    props: {
+      stats
+    }
+  }
 }
