@@ -55,3 +55,7 @@ export const createUser = async (partyId, values) => {
 export const createParty = async (partyId, values) => {
     return create('party', { bounty: 1000, users: [] })
 }
+
+export const updateUserProde = async (userId, prode) => {
+    return kv.hset(`user:${userId}`, { prode });
+}

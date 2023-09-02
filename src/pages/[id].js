@@ -27,8 +27,7 @@ TODO: FUTURO
 export default function MainDashboard() {
     const router = useRouter()
     const { id: partyId } = router.query
-    const { data: party, isLoading, mutate, revalidate } = useSWR(`/api/party/${partyId}`, GET)
-    console.log(revalidate)
+    const { data: party, isLoading, mutate } = useSWR(`/api/party/${partyId}`, GET)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [userId, setUserId] = React.useState(null)
 
@@ -65,7 +64,7 @@ export default function MainDashboard() {
 
             <SimpleGrid columns={{ base: 1, md: 4 }} gap='20px' mb='20px'>
                 <GridItem colSpan={{ md: 2, "2xl": 3 }}>
-                    <MiProde prode={user?.prode} isLoading={isLoading} />
+                    <MiProde prode={user?.prode} isLoading={isLoading} key={isLoading} userId={userId} mutate={mutate} />
                 </GridItem>
                 <GridItem colSpan={{ md: 2, "2xl": 1 }}>
                     {/* <Results prode={miProde} title="Mi Prode" /> */}

@@ -32,7 +32,7 @@ import { MdPlayCircle } from 'react-icons/md'
 import Card from '../components/card/Card'
 import { setProde } from '../logic'
 import PARTIDOS from '../logic/partidos'
-
+import { createUser, updateUserProde } from '../logic/api'
 const data = PARTIDOS
 
 const columns = [
@@ -47,12 +47,11 @@ const columns = [
 ];
 
 
-export default function MiProde({ prode, isLoading }) {
+export default function MiProde({ prode, isLoading, userId, mutate }) {
   const router = useRouter()
   const isParty = !!router.query.id
   const [isEdit, setIsEdit] = React.useState(false)
   const [editProde, setEditProde] = React.useState(prode)
-
   const suma = React.useMemo(() => {
     if (!editProde) {
       return {
@@ -60,7 +59,7 @@ export default function MiProde({ prode, isLoading }) {
         color: 'gray'
       }
     }
-    const sum = (Object.values(editProde).reduce((a, b) => a + b, 0)).toFixed(1)
+    const sum = (Object.values(editProde).reduce((a, b) => (a || 0) + (b || 0), 0)).toFixed(1)
     const color = sum < 100 ? 'pink' : sum > 100 ? 'red' : 'green'
     return {
       sum,
@@ -113,11 +112,11 @@ export default function MiProde({ prode, isLoading }) {
           title={isEdit ? 'Guardar predicciones' : 'Editar predicciones'}
           isDisabled={isEdit && suma.sum != 100.0}
           icon={<Icon as={isEdit ? CheckIcon : EditIcon} boxSize={5} />}
-          onClick={isEdit ? () => {
+          onClick={isEdit ? async () => {
             if (suma.sum != 100.0) {
               return
             }
-            setProde(editProde)
+            await updateUserProde(userId, editProde, mutate)
             setIsEdit(false)
           } : () => setIsEdit(true)}
         />}
@@ -171,7 +170,7 @@ export default function MiProde({ prode, isLoading }) {
                         max={100}
                         step={0.1}
                         precision={1}
-                        value={format(editProde[row.original.id])}
+                        value={format(editProde[row.original.id] || 0)}
                         onChange={(value) => {
                           setEditProde({
                             ...editProde,
@@ -179,7 +178,11 @@ export default function MiProde({ prode, isLoading }) {
                           })
                         }}
                       >
-                        <NumberInputField textAlign="center" />
+                        <NumberInputField
+                          color={`${row.original.color}.600`}
+                          fontWeight={500}
+                          textAlign="center"
+                        />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />
@@ -213,7 +216,7 @@ export default function MiProde({ prode, isLoading }) {
         </Tbody>
       </Table>
       {isEdit && (
-        <Flex flexDir="column" alignSelf="flex-end" mt={4} mr={2}>
+        <Flex flexDir="column" w="85%" m="auto" p={4} alignItems="flex-end">
           <Progress hasStripe bg="gray.200" colorScheme={suma.color} value={suma.sum} w="100%" h={2} borderRadius={4} />
           <Box>
             <Text as="span" fontWeight={600}>Suma:</Text>

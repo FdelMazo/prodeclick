@@ -48,7 +48,7 @@ const columns = [
 
 export default function ProdeTable({ prode, setProde }) {
   const suma = React.useMemo(() => {
-    const sum = (Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)
+    const sum = (Object.values(prode).reduce((a, b) => (a || 0) + (b || 0), 0)).toFixed(1)
     const color = sum < 100 ? 'pink' : sum > 100 ? 'red' : 'green'
     return {
       sum,
@@ -134,7 +134,7 @@ export default function ProdeTable({ prode, setProde }) {
                         max={100}
                         step={0.1}
                         precision={1}
-                        value={format(prode[row.original.id])}
+                        value={format(prode[row.original.id] || 0)}
                         onChange={(value) => {
                           setProde({
                             ...prode,
@@ -142,7 +142,8 @@ export default function ProdeTable({ prode, setProde }) {
                           })
                         }}
                       >
-                        <NumberInputField textAlign="center"
+                        <NumberInputField
+                          textAlign="center"
                           color={`${row.original.color}.600`}
                           fontWeight={500}
                         />
