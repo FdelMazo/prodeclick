@@ -24,7 +24,7 @@ import { createUser } from '../logic/api';
 import PARTIDOS from '../logic/partidos';
 import ProdeTable from './ProdeTable';
 
-export default function LoginModal({ isOpen, onClose, partyId }) {
+export default function LoginModal({ isOpen, onClose, partyId, onLogin }) {
 	const [name, setName] = React.useState('')
 	const [password, setPassword] = React.useState('')
 	const [showPassword, setShowPassword] = React.useState(false)
@@ -43,7 +43,6 @@ export default function LoginModal({ isOpen, onClose, partyId }) {
 			size="2xl"
 			closeOnOverlayClick={false}
 			closeOnEsc={false}
-
 		>
 			<ModalOverlay />
 			<ModalContent mx={4} my={4} p={4}>
@@ -82,11 +81,11 @@ export default function LoginModal({ isOpen, onClose, partyId }) {
 							w="75%"
 							m="auto"
 							isDisabled={!prodeValid}
-							onClick={() => {
+							onClick={async () => {
 								setSubmitted(true)
 								if (name && password && prodeValid) {
-									createUser(partyId, name, password, prode)
-									onClose()
+									const { userId } = await createUser(partyId, name, password, prode)
+									onLogin(userId)
 								}
 							}}
 						>

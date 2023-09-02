@@ -13,29 +13,32 @@ export const getAll = async (key) => {
     return (await kv.scan(0, { match: `${key}:*`, count: 10000 }))[1]
 }
 
-export const getAllFull = async (keys) => {
-    return Promise.all(keys.map(async k => {
-        const data = await kv.hgetall(k);
-        return {
-            id: k.split(':')[1],
-            ...data
-        };
-    }))
-}
-
 export const getN = async (key) => {
     return (await getAll(key)).length
 }
 
-export const getFullParty = async (partyId) => {
+export const getParty = async (partyId) => {
     const party = await kv.hgetall(`party:${partyId}`);
-    const users = await getAllFull(party.users)
+    const users = await Promise.all(party.users.map(u => u.split(':')[1]).map(getUser));
     return {
         id: partyId,
         ...party,
         users,
     }
 }
+
+export const getUser = async (userId) => {
+    const keys = await kv.hkeys(`user:${userId}`);
+    const user = { id: userId }
+    for (const key of keys) {
+        if (key === 'password') {
+            continue;
+        }
+        user[key] = await kv.hget(`user:${userId}`, key);
+    }
+    return user
+}
+
 
 export const createUser = async (partyId, values) => {
     const { name, password, prode } = values;

@@ -1,7 +1,7 @@
 import { Flex, Stat, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react';
 import Card from './Card';
 
-export default function Default({ startContent, bottomContent, name, description, value, ...rest }) {
+export default function Default({ startContent, bottomContent, name, description, value, isLoading, ...rest }) {
 	const textColor = 'darkgray.900'
 	const textColorSecondary = 'darkgray.700';
 

@@ -1,6 +1,4 @@
-import { customAlphabet } from 'nanoid';
-import { createUser, update } from '../../logic/db';
-const id = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 8);
+import { createUser} from '../../../logic/db';
 
 export default async function handler(request, response) {
     if (request.method === 'POST') {

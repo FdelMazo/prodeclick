@@ -9,6 +9,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Progress,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -46,22 +47,26 @@ const columns = [
 ];
 
 
-export default function MiProde({ miProde }) {
+export default function MiProde({ prode, isLoading }) {
   const router = useRouter()
   const isParty = !!router.query.id
-  const [isEdit, setIsEdit] = React.useState(isParty && !miProde)
-  const [editProde, setEditProde] = React.useState(
-    Object.fromEntries(PARTIDOS.map(p => [p.id, p.defaultPercentage]))
-  )
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [editProde, setEditProde] = React.useState(prode)
 
   const suma = React.useMemo(() => {
+    if (!editProde) {
+      return {
+        sum: 0,
+        color: 'gray'
+      }
+    }
     const sum = (Object.values(editProde).reduce((a, b) => a + b, 0)).toFixed(1)
     const color = sum < 100 ? 'pink' : sum > 100 ? 'red' : 'green'
     return {
       sum,
       color
     }
-  }, [editProde])
+  }, [editProde, isLoading])
 
   const tableInstance = useTable(
     {
@@ -181,12 +186,15 @@ export default function MiProde({ miProde }) {
                         </NumberInputStepper>
                       </NumberInput>
                     ) : (
-                        <Text
-                        color={`${row.original.color}.600`}
-                        fontWeight='700'
-                      >
-                        {miProde?.[row.original.id] || "??"}%
-                      </Text>
+                        <Box color={`${row.original.color}.600`}>
+                          {(isLoading || (isParty && !prode)) ? <Spinner size="xs" /> : (
+                            <Text
+                              fontWeight='700'
+                            >
+                              {isParty ? prode?.[row.original.id] : "??"}%
+                            </Text>
+                          )}
+                        </Box>
                     )
                   }
                   return (

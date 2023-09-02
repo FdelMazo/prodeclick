@@ -2,7 +2,8 @@ import React from 'react'
 
 import {
   Box,
-  Icon
+  Icon,
+  Spinner
 } from '@chakra-ui/react'
 import {
   MdAttachMoney,
@@ -13,7 +14,7 @@ import MiniStatistics from '../components/card/MiniStatistics'
 import { daysUntilElections } from '../logic'
 
 
-export default function Statistics({ party }) {
+export default function Statistics({ party, isLoading }) {
   const brandColor = 'brand.500'
   const days = React.useMemo(daysUntilElections, [])
 
@@ -46,7 +47,7 @@ export default function Statistics({ party }) {
         </Box>
       }
       name='El ganador se lleva...'
-      value={"$" + (party.bounty * party.users.length)}
+      value={isLoading ? <Spinner size="sm" /> : "$" + (party.bounty * party.users.length)}
     />
     {days > 0 && (
       <MiniStatistics
@@ -65,8 +66,8 @@ export default function Statistics({ party }) {
     )}
     <MiniStatistics
       name='Participantes'
-      value={party.users.length}
-      description={<span><b>$1000</b> por persona</span>}
+      value={isLoading ? <Spinner size="sm" /> : party.users.length}
+      description={isLoading ? <br /> : <span><b>{party.bounty}</b> por persona</span>}
       startContent={
         <Box {...iconBoxProps}>
           <Icon

@@ -7,7 +7,6 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import MainLayout from '../layouts'
-import { daysUntilElections } from '../logic'
 import { getN } from '../logic/db'
 import Control from '../widgets/Control'
 import MiProde from '../widgets/MiProde'
@@ -76,7 +75,6 @@ export async function getStaticProps() {
   const stats = {
     parties: await getN('party'),
     users: await getN('user'),
-    daysUntilElections: daysUntilElections()
   }
 
   return {
