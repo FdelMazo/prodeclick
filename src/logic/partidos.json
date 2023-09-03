@@ -4,46 +4,34 @@
         "partido": "Unión por la Patria",
         "candidatos": "Sergio Massa",
         "color": "cyan",
-        "defaultPercentage": 30
+        "defaultPercentage": 20
     },
     {
         "id": "LLA",
         "partido": "La Libertad Avanza",
         "candidatos": "Javier Milei",
         "color": "purple",
-        "defaultPercentage": 30
+        "defaultPercentage": 20
     },
     {
         "id": "JxC",
         "partido": "Juntos por el Cambio",
         "candidatos": "Patricia Bullrich",
         "color": "yellow",
-        "defaultPercentage": 30
+        "defaultPercentage": 20
     },
     {
         "id": "HNP",
         "partido": "Hacemos por Nuestro País",
         "candidatos": "Juan Schiaretti",
         "color": "green",
-        "defaultPercentage": 2.5
+        "defaultPercentage": 20
     },
     {
         "id": "FIT-U",
-        "partido": "Frente de Izquierda",
+        "partido": "Frente de Izquierda y de Trabajadores",
         "candidatos": "Myriam Bregman",
         "color": "red",
-        "defaultPercentage": 2.5
-    },
-    {
-        "id": "BLANCO",
-        "partido": "Votos en blanco",
-        "color": "darkgray",
-        "defaultPercentage": 2.5
-    },
-    {
-        "id": "NULOS",
-        "partido": "Votos nulos",
-        "color": "gray",
-        "defaultPercentage": 2.5
+        "defaultPercentage": 20
     }
 ]
