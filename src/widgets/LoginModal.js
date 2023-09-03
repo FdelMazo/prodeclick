@@ -24,6 +24,7 @@ import { createUser } from '../logic/api';
 import PARTIDOS from '../logic/partidos';
 import ProdeTable from './ProdeTable';
 import useParty from '../logic/useParty';
+import { validProde } from './ProdeComponents';
 
 export default function LoginModal({ isOpen, onClose }) {
 	const { party, user, isLoading, mutate, login, isLogged } = useParty()
@@ -35,8 +36,6 @@ export default function LoginModal({ isOpen, onClose }) {
 	const [prode, setProde] = React.useState(
 		Object.fromEntries(PARTIDOS.map(p => [p.id, p.defaultPercentage]))
 	)
-	const prodeValid = React.useMemo(() => (((Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)) == 100.0), [prode])
-
 
 	return (
 		<Modal
@@ -77,15 +76,15 @@ export default function LoginModal({ isOpen, onClose }) {
 								</InputGroup>
 							</FormControl>
 						</Flex>
-						<ProdeTable prode={prode} setProde={setProde} />
+						<ProdeTable prode={prode} setProde={setProde} isEdit={true} />
 						<Button
 							colorScheme="brand"
 							w="75%"
 							m="auto"
-							isDisabled={!prodeValid}
+							isDisabled={!validProde(prode)}
 							onClick={async () => {
 								setSubmitted(true)
-								if (name && password && prodeValid) {
+								if (name && password && validProde(prode)) {
 									const { userId } = await createUser(party.id, name, password, prode)
 									login(userId)
 									mutate()

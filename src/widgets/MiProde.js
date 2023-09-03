@@ -1,15 +1,7 @@
 import {
-  Box,
   Flex,
   Icon,
   IconButton,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Progress,
-  Spinner,
   Table,
   Tbody,
   Td,
@@ -27,12 +19,11 @@ import {
 } from 'react-table'
 
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
-import { useRouter } from 'next/router'
-import { MdPlayCircle } from 'react-icons/md'
 import Card from '../components/card/Card'
 import { updateUserProde } from '../logic/api'
 import PARTIDOS from '../logic/partidos'
 import useParty from '../logic/useParty'
+import { Partido, Porcentaje, Suma, validProde } from './ProdeComponents'
 const data = PARTIDOS
 
 const columns = [
@@ -49,33 +40,8 @@ const columns = [
 
 export default function MiProde() {
   const { user, isLoading, mutate, isParty } = useParty()
-
   const [isEdit, setIsEdit] = React.useState(false)
   const [editProde, setEditProde] = React.useState(user?.prode)
-  const suma = React.useMemo(() => {
-    if (!editProde) {
-      return {
-        sum: 0,
-        color: 'gray'
-      }
-    }
-    const sum = (Object.values(editProde).reduce((a, b) => (a || 0) + (b || 0), 0)).toFixed(1)
-    const color = sum < 100 ? 'pink' : sum > 100 ? 'red' : 'green'
-    return {
-      sum,
-      color
-    }
-  }, [editProde, isLoading])
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  )
 
   const {
     getTableProps,
@@ -84,36 +50,29 @@ export default function MiProde() {
     page,
     prepareRow,
     initialState,
-  } = tableInstance
+  } = useTable({ columns, data }, useGlobalFilter, useSortBy, usePagination)
   initialState.pageSize = PARTIDOS.length
-
-  const textColor = 'darkgray.900'
-  const borderColor = 'gray.200'
-  const iconColor = 'brand.500'
-  const bgButton = 'darkgray.300'
-
-  const format = (val) => `${val}%`
 
   return (
     <Card p={4} w='100%' h='100%' justifyContent="space-between">
       <Flex w="100%" justifyContent="space-between" alignItems="center">
         <Text
           px={2}
-          color={textColor}
+          color='darkgray.900'
           fontSize="xl"
           fontWeight='700'
         >
-          {isEdit && 'Armar'} Mi Prode
+          {isEdit && 'Editar'} Mi Prode
         </Text>
         {isParty && <IconButton
           borderRadius='lg'
-          bg={bgButton}
-          color={iconColor}
+          bg='darkgray.300'
+          color='brand.500'
           title={isEdit ? 'Guardar predicciones' : 'Editar predicciones'}
-          isDisabled={isEdit && suma.sum != 100.0}
+          isDisabled={isEdit && !validProde(editProde)}
           icon={<Icon as={isEdit ? CheckIcon : EditIcon} boxSize={5} />}
           onClick={isEdit ? async () => {
-            if (suma.sum != 100.0) {
+            if (!validProde(editProde)) {
               return
             }
             await updateUserProde(user?.id, editProde, mutate)
@@ -131,9 +90,9 @@ export default function MiProde() {
                   <Th
                     {...column.getHeaderProps()}
                     key={index}
-                    borderColor={borderColor}
+                    borderColor='gray.200'
                   >
-                    <Flex color='darkgray'>
+                    <Flex color='darkgray' justifyContent={column.Header === "PORCENTAJE" && "center"}>
                       {column.render('Header')}
                     </Flex>
                   </Th>
@@ -150,56 +109,9 @@ export default function MiProde() {
                 {row.cells.map((cell, index) => {
                   let data
                   if (cell.column.Header === 'PARTIDO') {
-                    data = (
-                      <Flex alignItems="center">
-                        <Icon as={MdPlayCircle} boxSize={6} mr={2} color={`${row.original.color}.600`} />
-                        <Box>
-                          <Text color={textColor} fontSize='lg' fontWeight='700'>
-                            {cell.value}
-                          </Text>
-                          <Text color="gray" fontSize='sm' fontWeight='700'>
-                            {row.original.candidatos}
-                          </Text>
-                        </Box>
-                      </Flex>
-                    )
+                    data = <Partido partido={row.original} />
                   } else if (cell.column.Header === 'PORCENTAJE') {
-                    data = isEdit ? (
-                      <NumberInput
-                        w="10ch"
-                        min={0}
-                        max={100}
-                        step={0.1}
-                        precision={1}
-                        value={format(editProde[row.original.id] || 0)}
-                        onChange={(value) => {
-                          setEditProde({
-                            ...editProde,
-                            [row.original.id]: parseFloat(value),
-                          })
-                        }}
-                      >
-                        <NumberInputField
-                          color={`${row.original.color}.600`}
-                          fontWeight={500}
-                          textAlign="center"
-                        />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    ) : (
-                        <Box color={`${row.original.color}.600`}>
-                          {(isLoading || (isParty && !user?.prode)) ? <Spinner size="xs" /> : (
-                            <Text
-                              fontWeight='700'
-                            >
-                              {isParty ? user?.prode?.[row.original.id] : "??"}%
-                            </Text>
-                          )}
-                        </Box>
-                    )
+                    data = <Porcentaje partido={row.original} prode={editProde} setProde={setEditProde} isEdit={isEdit} isLoading={isLoading} />
                   }
                   return (
                     <Td
@@ -216,15 +128,7 @@ export default function MiProde() {
           })}
         </Tbody>
       </Table>
-      {isEdit && (
-        <Flex flexDir="column" w="85%" m="auto" p={4} alignItems="flex-end">
-          <Progress hasStripe bg="gray.200" colorScheme={suma.color} value={suma.sum} w="100%" h={2} borderRadius={4} />
-          <Box>
-            <Text as="span" fontWeight={600}>Suma:</Text>
-            <Text as="span" fontWeight={600} color={`${suma.color}.600`} ml={1}>{suma.sum}%</Text>
-          </Box>
-        </Flex>
-      )}
+      {isEdit && <Suma prode={editProde} />}
     </Card>
   )
 }

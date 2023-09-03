@@ -1,10 +1,11 @@
-import { Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
-import { MdPlayCircle } from 'react-icons/md';
+import { Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import React from 'react';
 import Card from '../components/card/Card';
 import PieChart from '../components/charts/PieChart';
 import PARTIDOS from '../logic/partidos';
+import { Partido } from './ProdeComponents';
 
-export default function Results({ prode, title }) {
+export default function Results({ prode }) {
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
 		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
@@ -55,28 +56,18 @@ export default function Results({ prode, title }) {
 				<Text
 					px={2}
 					color={textColor}
-					fontSize="lg"
+					fontSize="xl"
 					fontWeight='700'
 				>
-					{title || "Resultados"}
+					Resultados
 				</Text>
-				{/* <Select fontSize='sm' variant='subtle' defaultValue='monthly' width='unset' fontWeight='700'>
-					<option value='daily'>Daily</option>
-					<option value='monthly'>Monthly</option>
-					<option value='yearly'>Yearly</option>
-				</Select> */}
 			</Flex>
 			<PieChart chartData={pieChartData} chartOptions={pieChartOptions} />
 			<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll">
 				<SimpleGrid columns={{ base: 2, "xl": 3, "2xl": 2, "3xl": 3 }} spacing={5}>
 					{PARTIDOS.map((p) => (
 						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id} w="100%">
-							<Flex alignItems="center" gap={2}>
-								<Icon as={MdPlayCircle} boxSize={5} color={`${p.color}.600`} />
-								<Text color={textColor} fontWeight='700' lineHeight='100%'>
-									{p.partido}
-								</Text>
-							</Flex>
+							<Partido partido={p} showCandidatos={false} fontSize='md' boxSize={5} />
 							<Text color={`${p.color}.600`} fontWeight='700'>
 								{prode?.[p.id] || "??"}%
 							</Text>
