@@ -23,7 +23,7 @@ const data = PARTIDOS
 
 const columns = [
   {
-    Header: "PARTIDO",
+    Header: "FUERZA POLÍTICA",
   },
   {
     Header: "PORCENTAJE",
@@ -71,7 +71,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data
-                  if (cell.column.Header === 'PARTIDO') {
+                  if (cell.column.Header === 'FUERZA POLÍTICA') {
                     data = <Partido partido={row.original} />
                   } else if (cell.column.Header === 'PORCENTAJE') {
                       data = <Porcentaje partido={row.original} prode={prode} setProde={setProde} isEdit={isEdit} />

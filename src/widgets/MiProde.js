@@ -28,7 +28,7 @@ const data = PARTIDOS
 
 const columns = [
   {
-    Header: "PARTIDO",
+    Header: "FUERZA POLÍTICA",
     accessor: "partido",
   },
   {
@@ -108,7 +108,7 @@ export default function MiProde() {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data
-                  if (cell.column.Header === 'PARTIDO') {
+                  if (cell.column.Header === 'FUERZA POLÍTICA') {
                     data = <Partido partido={row.original} />
                   } else if (cell.column.Header === 'PORCENTAJE') {
                     data = <Porcentaje partido={row.original} prode={editProde} setProde={setEditProde} isEdit={isEdit} isLoading={isLoading} />
