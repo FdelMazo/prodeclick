@@ -25,9 +25,7 @@ TODO: FUTURO
 */
 
 export default function MainDashboard() {
-    const router = useRouter()
-    const { id: partyId } = router.query
-    const { party, user, isLoading, mutate, login, isLogged } = useParty()
+    const { partyId, party, user, isLoading, mutate, login, isLogged } = useParty()
     const { isOpen, onOpen, onClose } = useDisclosure()
     React.useEffect(() => {
         if (!window.localStorage.userId || window.localStorage.partyId !== partyId) {

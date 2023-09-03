@@ -25,6 +25,7 @@ export default function useParty() {
         isLoading,
         mutate,
         login,
+        partyId,
         isParty: !!partyId
     }
 }
