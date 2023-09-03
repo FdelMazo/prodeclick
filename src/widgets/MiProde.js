@@ -30,9 +30,9 @@ import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { MdPlayCircle } from 'react-icons/md'
 import Card from '../components/card/Card'
-import { setProde } from '../logic'
+import { updateUserProde } from '../logic/api'
 import PARTIDOS from '../logic/partidos'
-import { createUser, updateUserProde } from '../logic/api'
+import useParty from '../logic/useParty'
 const data = PARTIDOS
 
 const columns = [
@@ -47,11 +47,11 @@ const columns = [
 ];
 
 
-export default function MiProde({ prode, isLoading, userId, mutate }) {
-  const router = useRouter()
-  const isParty = !!router.query.id
+export default function MiProde() {
+  const { user, isLoading, mutate, isParty } = useParty()
+
   const [isEdit, setIsEdit] = React.useState(false)
-  const [editProde, setEditProde] = React.useState(prode)
+  const [editProde, setEditProde] = React.useState(user?.prode)
   const suma = React.useMemo(() => {
     if (!editProde) {
       return {
@@ -116,7 +116,8 @@ export default function MiProde({ prode, isLoading, userId, mutate }) {
             if (suma.sum != 100.0) {
               return
             }
-            await updateUserProde(userId, editProde, mutate)
+            await updateUserProde(user?.id, editProde, mutate)
+            mutate()
             setIsEdit(false)
           } : () => setIsEdit(true)}
         />}
@@ -190,11 +191,11 @@ export default function MiProde({ prode, isLoading, userId, mutate }) {
                       </NumberInput>
                     ) : (
                         <Box color={`${row.original.color}.600`}>
-                          {(isLoading || (isParty && !prode)) ? <Spinner size="xs" /> : (
+                          {(isLoading || (isParty && !user?.prode)) ? <Spinner size="xs" /> : (
                             <Text
                               fontWeight='700'
                             >
-                              {isParty ? prode?.[row.original.id] : "??"}%
+                              {isParty ? user?.prode?.[row.original.id] : "??"}%
                             </Text>
                           )}
                         </Box>

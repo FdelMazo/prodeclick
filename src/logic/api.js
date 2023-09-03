@@ -18,11 +18,10 @@ export const createUser = async (partyId, name, password, prode) => {
     })
 }
 
-export const updateUserProde = async (userId, prode, mutate) => {
+export const updateUserProde = async (userId, prode) => {
     await PUT(`/api/user/${userId}`, {
         body: JSON.stringify({
             prode
         })
     })
-    mutate()
 }

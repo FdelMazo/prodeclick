@@ -23,8 +23,12 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { createUser } from '../logic/api';
 import PARTIDOS from '../logic/partidos';
 import ProdeTable from './ProdeTable';
+import useParty from '../logic/useParty';
 
-export default function LoginModal({ isOpen, onClose, partyId, onLogin }) {
+export default function LoginModal({ isOpen, onClose }) {
+	const { party, user, isLoading, mutate, login, isLogged } = useParty()
+
+	const [submitted, setSubmitted] = React.useState(false)
 	const [name, setName] = React.useState('')
 	const [password, setPassword] = React.useState('')
 	const [showPassword, setShowPassword] = React.useState(false)
@@ -33,8 +37,6 @@ export default function LoginModal({ isOpen, onClose, partyId, onLogin }) {
 	)
 	const prodeValid = React.useMemo(() => (((Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)) == 100.0), [prode])
 
-
-	const [submitted, setSubmitted] = React.useState(false)
 
 	return (
 		<Modal
@@ -84,8 +86,10 @@ export default function LoginModal({ isOpen, onClose, partyId, onLogin }) {
 							onClick={async () => {
 								setSubmitted(true)
 								if (name && password && prodeValid) {
-									const { userId } = await createUser(partyId, name, password, prode)
-									onLogin(userId)
+									const { userId } = await createUser(party.id, name, password, prode)
+									login(userId)
+									mutate()
+									onClose()
 								}
 							}}
 						>
@@ -94,9 +98,9 @@ export default function LoginModal({ isOpen, onClose, partyId, onLogin }) {
 					</Flex>
 				</ModalBody>
 				<ModalFooter w="80%" alignSelf={"flex-end"}>
-					<Text fontSize="sm" textAlign="right">
-						Podes invitar a más gente pasandoles el código de partida <Kbd>{partyId}</Kbd> o directamente un link a esta página
-					</Text>
+					{!isLoading && <Text fontSize="sm" textAlign="right">
+						Podes invitar a más gente pasandoles el código de partida <Kbd>{party.id}</Kbd> o directamente un link a esta página
+					</Text>}
 				</ModalFooter>
 			</ModalContent>
 		</Modal >

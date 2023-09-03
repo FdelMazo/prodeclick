@@ -12,9 +12,12 @@ import {
 } from 'react-icons/md'
 import MiniStatistics from '../components/card/MiniStatistics'
 import { daysUntilElections } from '../logic'
+import useParty from '../logic/useParty'
 
 
-export default function Statistics({ party, isLoading }) {
+export default function Statistics() {
+  const { party, user, isLoading, mutate, login, isLogged } = useParty()
+
   const brandColor = 'brand.500'
   const days = React.useMemo(daysUntilElections, [])
 
