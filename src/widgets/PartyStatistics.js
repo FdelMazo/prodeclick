@@ -70,7 +70,7 @@ export default function Statistics() {
     <MiniStatistics
       name='Participantes'
       value={isLoading ? <Spinner size="sm" /> : party.users.length}
-      description={isLoading ? <br /> : <span><b>{party.bounty}</b> por persona</span>}
+      description={isLoading ? <br /> : <span><b>${party.bounty}</b> por persona</span>}
       startContent={
         <Box {...iconBoxProps}>
           <Icon

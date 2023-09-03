@@ -4,8 +4,10 @@ import Card from '../components/card/Card';
 import PieChart from '../components/charts/PieChart';
 import PARTIDOS from '../logic/partidos';
 import { Partido } from './ProdeComponents';
+import useParty from '../logic/useParty';
 
 export default function Results({ prode }) {
+	const { user, isLoading, mutate, isParty } = useParty()
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
 		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
@@ -59,12 +61,12 @@ export default function Results({ prode }) {
 					fontSize="xl"
 					fontWeight='700'
 				>
-					Resultados
+					{isParty && "Simular "} Resultados
 				</Text>
 			</Flex>
 			<PieChart chartData={pieChartData} chartOptions={pieChartOptions} />
 			<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll">
-				<SimpleGrid columns={{ base: 2, "xl": 3, "2xl": 2, "3xl": 3 }} spacing={5}>
+				<SimpleGrid columns={{ base: 1, md: 2, "xl": 3, "2xl": 2, "3xl": 3 }} spacing={5}>
 					{PARTIDOS.map((p) => (
 						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id} w="100%">
 							<Partido partido={p} showCandidatos={false} fontSize='md' boxSize={5} />
