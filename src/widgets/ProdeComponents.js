@@ -16,9 +16,8 @@ import React from 'react'
 import { MdPlayCircle } from 'react-icons/md'
 import useParty from '../logic/useParty'
 
-export const Porcentaje = ({ partido, prode, setProde, isEdit, isLoading }) => {
-  const { isParty } = useParty()
-  const format = (val) => `${val}%`
+export const Porcentaje = ({ partido, editProde, prode, setEditProde, isEdit }) => {
+  const { isParty, isLoading } = useParty()
 
   return isEdit ? (
     <NumberInput
@@ -28,11 +27,11 @@ export const Porcentaje = ({ partido, prode, setProde, isEdit, isLoading }) => {
       max={100}
       step={0.1}
       precision={1}
-      value={format(prode[partido.id] || 0)}
+      defaultValue={editProde[partido.id] || 0}
       onChange={(value) => {
-        setProde({
-          ...prode,
-          [partido.id]: parseFloat(value),
+        setEditProde({
+          ...editProde,
+          [partido.id]: parseFloat(value)
         })
       }}
     >
@@ -98,5 +97,6 @@ export const Partido = ({ partido, showCandidatos = true, fontSize = "lg", boxSi
 }
 
 export const validProde = (prode) => {
+  if (!prode) return false
   return (((Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)) == 100.0)
 }

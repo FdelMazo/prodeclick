@@ -11,7 +11,7 @@ export const initParty = async (partyId, name, adminUserId) => {
     await PUT(`/api/party/${partyId}`, {
         body: JSON.stringify({
             name,
-            adminUserId
+            admin: adminUserId
         })
     })
 }
@@ -31,6 +31,14 @@ export const updateUserProde = async (userId, prode) => {
     await PUT(`/api/user/${userId}`, {
         body: JSON.stringify({
             prode
+        })
+    })
+}
+
+export const updatePartyBounty = async (partyId, bounty) => {
+    await PUT(`/api/party/${partyId}`, {
+        body: JSON.stringify({
+            bounty
         })
     })
 }

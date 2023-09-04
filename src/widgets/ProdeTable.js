@@ -74,7 +74,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
                   if (cell.column.Header === 'FUERZA POLÍTICA') {
                     data = <Partido partido={row.original} />
                   } else if (cell.column.Header === 'PORCENTAJE') {
-                      data = <Porcentaje partido={row.original} prode={prode} setProde={setProde} isEdit={isEdit} />
+                    data = <Porcentaje partido={row.original} editProde={prode} setEditProde={setProde} isEdit={isEdit} />
                   }
                   return (
                     <Td

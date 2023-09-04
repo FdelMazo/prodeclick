@@ -61,6 +61,6 @@ export const updateUserProde = async (userId, prode) => {
     return kv.hset(`user:${userId}`, { prode });
 }
 
-export const initParty = async (partyId, name, adminUserId) => {
-    return kv.hset(`party:${partyId}`, { name, admin: adminUserId });
+export const updateParty = async (partyId, body) => {
+    return kv.hset(`party:${partyId}`, body);
 }

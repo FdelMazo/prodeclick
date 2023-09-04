@@ -51,7 +51,7 @@ export default function MainDashboard() {
                 mb='20px'
             >
                 <PartyStatistics />
-                {!isLoading && (
+                {party?.admin && (
                     <GridItem
                         colSpan={3}
                         mx="auto"

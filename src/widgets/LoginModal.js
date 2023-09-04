@@ -30,7 +30,7 @@ export default function LoginModal({ isOpen, onClose }) {
 	const { party, needsAdmin, partyId, user, isLoading, mutate, login, isLogged } = useParty()
 
 	const [submitted, setSubmitted] = React.useState(false)
-	const [saving, setSaving] = React.useState(true)
+	const [saving, setSaving] = React.useState(false)
 	const [partyName, setPartyName] = React.useState('')
 	const [name, setName] = React.useState('')
 	const [password, setPassword] = React.useState('')

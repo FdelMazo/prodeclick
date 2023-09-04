@@ -1,4 +1,4 @@
-import { getParty, initParty } from "../../../logic/db";
+import { getParty, updateParty } from "../../../logic/db";
 
 export default async function handler(request, response) {
     if (request.method === 'GET') {
@@ -8,8 +8,7 @@ export default async function handler(request, response) {
     } else if (request.method === 'PUT') {
         const { id } = request.query;
         const body = JSON.parse(request.body)
-        const { name, adminUserId } = body;
-        await initParty(id, name, adminUserId);
+        await updateParty(id, body);
         return response.status(200).json({ ok: true });
     }
 }

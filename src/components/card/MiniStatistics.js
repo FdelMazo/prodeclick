@@ -1,12 +1,13 @@
-import { Flex, Stat, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react';
+import { Flex, IconButton, Stat, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react';
 import Card from './Card';
 
-export default function Default({ startContent, bottomContent, name, description, value, isLoading, ...rest }) {
+export default function Default({ startContent, bottomContent, topContent, name, description, value, isLoading, ...rest }) {
 	const textColor = 'darkgray.900'
 	const textColorSecondary = 'darkgray.700';
 
 	return (
 		<Card p={2} w='100%' h='100%' justifyContent="space-between" {...rest}>
+			{topContent}
 			<Flex
 				h='100%'
 				align="center"

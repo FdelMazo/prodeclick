@@ -111,7 +111,7 @@ export default function MiProde() {
                   if (cell.column.Header === 'FUERZA POLÍTICA') {
                     data = <Partido partido={row.original} />
                   } else if (cell.column.Header === 'PORCENTAJE') {
-                    data = <Porcentaje partido={row.original} prode={editProde} setProde={setEditProde} isEdit={isEdit} isLoading={isLoading} />
+                    data = <Porcentaje partido={row.original} prode={user?.prode} editProde={editProde} setEditProde={setEditProde} isEdit={isEdit} />
                   }
                   return (
                     <Td
