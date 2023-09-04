@@ -19,6 +19,14 @@ export default function useParty() {
         return party?.users?.find(u => u.id === userId)
     }, [party, userId])
 
+    const needsAdmin = React.useMemo(() => {
+        return !party?.admin
+    }, [party])
+
+    const isAdmin = React.useMemo(() => {
+        return party?.admin?.id === userId
+    }, [party, userId])
+
     return {
         user,
         party,
@@ -26,6 +34,8 @@ export default function useParty() {
         mutate,
         login,
         partyId,
-        isParty: !!partyId
+        isParty: !!partyId,
+        needsAdmin,
+        isAdmin
     }
 }

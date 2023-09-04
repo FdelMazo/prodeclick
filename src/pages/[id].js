@@ -7,14 +7,15 @@ import {
     GridItem,
     SimpleGrid,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import Head from "next/head";
 import MainLayout from '../layouts';
 import { getAll } from '../logic/db';
 import useParty from '../logic/useParty';
 import LoginModal from '../widgets/LoginModal';
 import MiProde from '../widgets/MiProde';
-import Results from '../widgets/Results';
+import PartyInfo from "../widgets/PartyInfo";
 import PartyStatistics from '../widgets/PartyStatistics';
+import Results from '../widgets/Results';
 /*
 TODO: FUTURO
 - Agregar prode de participacion electoral
@@ -25,16 +26,24 @@ TODO: FUTURO
 */
 
 export default function MainDashboard() {
-    const { partyId, party, user, isLoading, mutate, login, isLogged } = useParty()
+    const { partyId, party, user, isLoading, isAdmin, mutate, login, isLogged } = useParty()
     const { isOpen, onOpen, onClose } = useDisclosure()
     React.useEffect(() => {
+        if (isLoading) return
         if (!window.localStorage.userId || window.localStorage.partyId !== partyId) {
             onOpen()
         }
-    }, [])
+    }, [isLoading])
+
 
     return (
         <MainLayout>
+            {!isLoading && (
+                <Head>
+                    <title>prode.ar - {party.name}</title>
+                </Head>
+            )}
+
             <LoginModal isOpen={isOpen} onClose={onClose} />
             <SimpleGrid
                 columns={{ base: 1, lg: 3 }}
@@ -42,6 +51,15 @@ export default function MainDashboard() {
                 mb='20px'
             >
                 <PartyStatistics />
+                {!isLoading && (
+                    <GridItem
+                        colSpan={3}
+                        mx="auto"
+                        w="80%"
+                    >
+                        <PartyInfo />
+                    </GridItem>
+                )}
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1, md: 4 }} gap='20px' mb='20px'>

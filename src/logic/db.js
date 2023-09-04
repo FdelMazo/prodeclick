@@ -24,6 +24,7 @@ export const getParty = async (partyId) => {
         id: partyId,
         ...party,
         users,
+        admin: party.admin ? await getUser(party.admin) : null
     }
 }
 
@@ -58,4 +59,8 @@ export const createParty = async (partyId, values) => {
 
 export const updateUserProde = async (userId, prode) => {
     return kv.hset(`user:${userId}`, { prode });
+}
+
+export const initParty = async (partyId, name, adminUserId) => {
+    return kv.hset(`party:${partyId}`, { name, admin: adminUserId });
 }
