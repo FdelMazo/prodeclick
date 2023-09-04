@@ -1,6 +1,5 @@
 import {
   Flex,
-  Icon,
   Table,
   Tbody,
   Td,
@@ -17,44 +16,22 @@ import {
 } from 'react-table'
 
 import Card from '../components/card/Card'
-import Menu from '../components/menu/MainMenu'
 
-import { MdCancel, MdCheckCircle } from 'react-icons/md'
+import useParty from '../logic/useParty'
+import { InlineProde } from './ProdeComponents'
 
 const columns = [
   {
     Header: "NOMBRE",
-    accessor: "name",
   },
   {
-    Header: "PAGO",
-    accessor: "pago",
+    Header: "PRODE",
   }
 ];
 
-
-const data = [
-  {
-    "name": "Fede",
-    "pago": true,
-  },
-  {
-    "name": "Fede2",
-    "pago": false,
-  },
-]
-
-
-export default function Participants(props) {
-  const tableInstance = useTable(
-    {
-      columns,
-      data
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  )
+export default function Participants() {
+  const { partyId, party, user, isLoading, isAdmin, mutate, login, isLogged } = useParty()
+  const data = party.users.map(u => ({ name: u.name, prode: Object.entries(u.prode) }))
 
   const {
     getTableProps,
@@ -63,46 +40,40 @@ export default function Participants(props) {
     page,
     prepareRow,
     initialState
-  } = tableInstance
-  initialState.pageSize = 5
+  } = useTable(
+    {
+      columns,
+      data
+    },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  )
+  initialState.pageSize = party.users.length
 
-  const textColor = 'darkgray.900'
-  const borderColor = 'gray.200'
   return (
-    <Card
-      flexDirection='column'
-      w='100%'
-      px='0px'
-      overflowX={{ sm: 'scroll', lg: 'hidden' }}
-    >
-      <Flex px='25px' justify='space-between' mb='10px' align='center'>
+    <Card p={4} w='100%' h='100%' justifyContent="space-between">
+      <Flex w="100%" justifyContent="space-between" alignItems="center">
         <Text
-          color={textColor}
-          fontSize='22px'
+          px={2}
+          color='darkgray.900'
+          fontSize="xl"
           fontWeight='700'
-          lineHeight='100%'
         >
           Participantes
         </Text>
-        <Menu />
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
+      <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
                   {...column.getHeaderProps()}
-                  pe='10px'
                   key={index}
-                  borderColor={borderColor}
+                  borderColor='gray.200'
                 >
-                  <Flex
-                    justify='space-between'
-                    align='center'
-                    fontSize={{ sm: '10px', lg: '12px' }}
-                    color='gray.400'
-                  >
+                  <Flex color='darkgray' justifyContent={column.Header === "PRODE" && "center"}>
                     {column.render('Header')}
                   </Flex>
                 </Th>
@@ -119,38 +90,17 @@ export default function Participants(props) {
                   let data
                   if (cell.column.Header === 'NOMBRE') {
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                      <Text color='darkgray.900' fontSize='sm' fontWeight='700'>
+                        {row.original.name}
                       </Text>
                     )
-                  } else if (cell.column.Header === 'PAGO') {
-                    data = (
-                      <Flex align='center'>
-                        <Icon
-                          w='24px'
-                          h='24px'
-                          me='5px'
-                          color={
-                            cell.value ? 'green.500' : 'red.500'
-                          }
-                          as={
-                            cell.value ? MdCheckCircle : MdCancel
-                          }
-                        />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value ? "Ya pagó" : "Todavía no pagó"}
-                        </Text>
-                      </Flex>
-                    )
+                  } else if (cell.column.Header === 'PRODE') {
+                    data = <InlineProde prode={row.original.prode} />
                   }
                   return (
                     <Td
                       {...cell.getCellProps()}
                       key={index}
-                      fontSize={{ sm: '14px' }}
-                      maxH='30px !important'
-                      py='8px'
-                      minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                       borderColor='transparent'
                     >
                       {data}

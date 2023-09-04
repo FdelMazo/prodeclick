@@ -9,12 +9,14 @@ import {
   NumberInputStepper,
   Progress,
   Spinner,
-  Text
+  Text,
+  Tooltip
 } from '@chakra-ui/react'
 import React from 'react'
 
 import { MdPlayCircle } from 'react-icons/md'
 import useParty from '../logic/useParty'
+import PARTIDOS from '../logic/partidos'
 
 export const Porcentaje = ({ partido, editProde, prode, setEditProde, isEdit }) => {
   const { isParty, isLoading } = useParty()
@@ -95,6 +97,24 @@ export const Partido = ({ partido, showCandidatos = true, fontSize = "lg", boxSi
     </Flex>
   )
 }
+
+export const InlineProde = ({ prode }) => {
+  return (
+    <Flex justifyContent="center" gap={2}>
+      {prode.map(([partidoId, porcentaje]) => {
+        const partido = PARTIDOS.find(p => p.id === partidoId)
+        return (
+          <Tooltip label={partido.partido} key={partidoId} position="top">
+            <Text color={`${partido.color}.600`} fontWeight={600} key={partidoId}>
+              {porcentaje}%
+            </Text>
+          </Tooltip>
+        )
+      })}
+    </Flex>
+  )
+}
+
 
 export const validProde = (prode) => {
   if (!prode) return false

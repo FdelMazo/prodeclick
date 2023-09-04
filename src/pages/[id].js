@@ -16,6 +16,7 @@ import MiProde from '../widgets/MiProde';
 import PartyInfo from "../widgets/PartyInfo";
 import PartyStatistics from '../widgets/PartyStatistics';
 import Results from '../widgets/Results';
+import Participants from '../widgets/Participants';
 /*
 TODO: FUTURO
 - Agregar prode de participacion electoral
@@ -72,7 +73,7 @@ export default function MainDashboard() {
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1 }} gap='20px' mb='20px'>
-                {/* <Participants /> */}
+                {/* {party?.users?.length > 0 && <Participants />} */}
             </SimpleGrid>
         </MainLayout>
     )

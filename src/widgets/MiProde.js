@@ -29,7 +29,6 @@ const data = PARTIDOS
 const columns = [
   {
     Header: "FUERZA POLÍTICA",
-    accessor: "partido",
   },
   {
     Header: "PORCENTAJE",
@@ -75,7 +74,7 @@ export default function MiProde() {
             if (!validProde(editProde)) {
               return
             }
-            await updateUserProde(user?.id, editProde, mutate)
+            await updateUserProde(user?.id, editProde)
             mutate()
             setIsEdit(false)
           } : () => setIsEdit(true)}

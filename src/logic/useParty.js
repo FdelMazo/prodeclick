@@ -7,7 +7,7 @@ import { useLocalStorage } from "usehooks-ts"
 export default function useParty() {
     const router = useRouter()
     const { id: partyId } = router.query
-    const { data: party, isLoading, mutate } = useSWR(partyId ? `/api/party/${partyId}` : null, GET)
+    const { data: party, isLoading, mutate } = useSWR(`/api/party/${partyId}`, GET)
 
     const [userId, setUserId] = useLocalStorage('userId', null)
     const login = (id) => {
