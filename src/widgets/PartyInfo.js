@@ -25,7 +25,7 @@ export default function PartyInfo() {
       description={
         <>
           {party.admin && (<Text fontSize="md" fontWeight={500}>
-            La partida esta administrada por <b>{isAdmin ? "vos" : party.admin.name}</b>. {isAdmin ? "Pedile al resto de los participantes que te den la plata antes de las elecciones!" : "Si todavía no le diste la plata, hacelo ya!"}
+            La partida esta administrada por <b>{isAdmin ? "vos" : party.admin.name}</b>. {isAdmin ? "Pedile al resto de los participantes que te den la plata antes de las elecciones!" : "Si todavía no le diste la plata, hacelo!"}
           </Text>)}
           <Text fontSize="sm" fontWeight={500}>
             Podes invitar a más gente pasándoles el código de partida <Kbd>{party.id}</Kbd> o directamente un link a esta página
