@@ -39,9 +39,9 @@ function MainDashboard() {
 
     return (
         <MainLayout>
-            <Head>
+            {party.name && <Head>
                 <title>prode.ar - {party.name}</title>
-            </Head>
+            </Head>}
 
             <LoginModal isOpen={isOpen} onClose={onClose} />
             <SimpleGrid
@@ -69,7 +69,7 @@ function MainDashboard() {
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1 }} gap='20px' mb='20px'>
-                {/* <Participants /> */}
+                <Participants />
             </SimpleGrid>
         </MainLayout>
     )

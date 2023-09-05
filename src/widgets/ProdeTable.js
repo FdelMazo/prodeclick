@@ -36,11 +36,9 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    rows,
     prepareRow,
-    initialState,
-  } = useTable({ columns, data }, useGlobalFilter, useSortBy, usePagination)
-  initialState.pageSize = PARTIDOS.length
+  } = useTable({ columns, data })
 
   return (
     <Box w="100%">
@@ -65,7 +63,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
           ))}
         </Thead>
         <Tbody {...getTableBodyProps()}>
-          {page.map((row, index) => {
+          {rows.map((row, index) => {
             prepareRow(row)
             return (
               <Tr {...row.getRowProps()} key={index}>

@@ -24,8 +24,8 @@ import { updateUserProde } from '../logic/api'
 import PARTIDOS from '../logic/partidos'
 import useParty from '../logic/useParty'
 import { Partido, Porcentaje, Suma, validProde } from './ProdeComponents'
-const data = PARTIDOS
 
+const data = PARTIDOS
 const columns = [
   {
     Header: "FUERZA POLÍTICA",
@@ -49,11 +49,9 @@ export default function MiProde() {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    rows,
     prepareRow,
-    initialState,
-  } = useTable({ columns, data }, useGlobalFilter, useSortBy, usePagination)
-  initialState.pageSize = PARTIDOS.length
+  } = useTable({ columns, data })
 
   return (
     <Card p={4} w='100%' h='100%' justifyContent="space-between">
@@ -104,7 +102,7 @@ export default function MiProde() {
           ))}
         </Thead>
         <Tbody {...getTableBodyProps()}>
-          {page.map((row, index) => {
+          {rows.map((row, index) => {
             prepareRow(row)
             return (
               <Tr {...row.getRowProps()} key={index}>

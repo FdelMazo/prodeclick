@@ -29,27 +29,71 @@ const columns = [
   }
 ];
 
-export default function Participants() {
-  const { party } = useParty()
-  const data = party.users.map(u => ({ name: u.name, prode: Object.entries(u.prode) }))
-
+const ParticipantsTable = ({ data }) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    rows,
     prepareRow,
-    initialState
-  } = useTable(
-    {
-      columns,
-      data
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
+  } = useTable({ columns, data })
+
+  return (
+    <Table {...getTableProps()}>
+      <Thead>
+        {headerGroups.map((headerGroup, index) => (
+          <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
+            {headerGroup.headers.map((column, index) => (
+              <Th
+                {...column.getHeaderProps()}
+                key={index}
+                borderColor='gray.200'
+              >
+                <Flex color='darkgray' justifyContent={column.Header === "PRODE" && "center"}>
+                  {column.render('Header')}
+                </Flex>
+              </Th>
+            ))}
+          </Tr>
+        ))}
+      </Thead>
+      <Tbody {...getTableBodyProps()}>
+        {rows.map((row, index) => {
+          prepareRow(row)
+          return (
+            <Tr {...row.getRowProps()} key={index}>
+              {row.cells.map((cell, index) => {
+                let data
+                if (cell.column.Header === 'NOMBRE') {
+                  data = (
+                    <Text color='darkgray.900' fontSize='sm' fontWeight='700'>
+                      {row.original.name}
+                    </Text>
+                  )
+                } else if (cell.column.Header === 'PRODE') {
+                  data = <InlineProde prode={row.original.prode} />
+                }
+                return (
+                  <Td
+                    {...cell.getCellProps()}
+                    key={index}
+                    borderColor='transparent'
+                  >
+                    {data}
+                  </Td>
+                )
+              })}
+            </Tr>
+          )
+        })}
+      </Tbody>
+    </Table>
   )
-  initialState.pageSize = party.users.length
+}
+
+export default function Participants() {
+  const { party } = useParty()
+  const data = party.users.map(u => ({ name: u.name, prode: Object.entries(u.prode) }))
 
   return (
     <Card p={4} w='100%' h='100%' justifyContent="space-between">
@@ -63,55 +107,7 @@ export default function Participants() {
           Participantes
         </Text>
       </Flex>
-      <Table {...getTableProps()}>
-        <Thead>
-          {headerGroups.map((headerGroup, index) => (
-            <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
-              {headerGroup.headers.map((column, index) => (
-                <Th
-                  {...column.getHeaderProps()}
-                  key={index}
-                  borderColor='gray.200'
-                >
-                  <Flex color='darkgray' justifyContent={column.Header === "PRODE" && "center"}>
-                    {column.render('Header')}
-                  </Flex>
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {page.map((row, index) => {
-            prepareRow(row)
-            return (
-              <Tr {...row.getRowProps()} key={index}>
-                {row.cells.map((cell, index) => {
-                  let data
-                  if (cell.column.Header === 'NOMBRE') {
-                    data = (
-                      <Text color='darkgray.900' fontSize='sm' fontWeight='700'>
-                        {row.original.name}
-                      </Text>
-                    )
-                  } else if (cell.column.Header === 'PRODE') {
-                    data = <InlineProde prode={row.original.prode} />
-                  }
-                  return (
-                    <Td
-                      {...cell.getCellProps()}
-                      key={index}
-                      borderColor='transparent'
-                    >
-                      {data}
-                    </Td>
-                  )
-                })}
-              </Tr>
-            )
-          })}
-        </Tbody>
-      </Table>
+      <ParticipantsTable data={data} />
     </Card>
   )
 }
