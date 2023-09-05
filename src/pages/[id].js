@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import Head from "next/head";
 import MainLayout from '../layouts';
-import { getAll } from '../logic/db';
+import { getAll, getParty } from '../logic/db';
 import useParty from '../logic/useParty';
 import LoginModal from '../widgets/LoginModal';
 import MiProde from '../widgets/MiProde';
@@ -17,6 +17,7 @@ import PartyInfo from "../widgets/PartyInfo";
 import PartyStatistics from '../widgets/PartyStatistics';
 import Results from '../widgets/Results';
 import Participants from '../widgets/Participants';
+import { SWRConfig } from "swr";
 /*
 TODO: FUTURO
 - Agregar prode de participacion electoral
@@ -26,7 +27,7 @@ TODO: FUTURO
   - Ocultar/mostrar los prodes del resto
 */
 
-export default function MainDashboard() {
+function MainDashboard() {
     const { partyId, party, user, isLoading, isAdmin, mutate, login, isLogged } = useParty()
     const { isOpen, onOpen, onClose } = useDisclosure()
     React.useEffect(() => {
@@ -35,7 +36,6 @@ export default function MainDashboard() {
             onOpen()
         }
     }, [isLoading])
-
 
     return (
         <MainLayout>
@@ -79,9 +79,25 @@ export default function MainDashboard() {
     )
 }
 
-export async function getStaticProps() {
+export default function Index({ fallback }) {
+    return (
+        <SWRConfig value={{ fallback }}>
+            <MainDashboard />
+        </SWRConfig>
+    )
+}
+
+export async function getStaticProps({ params }) {
+    const partyId = params.id
+    const party = await getParty(partyId)
+    const url = `/api/party/${partyId}`
     return {
-        props: {}
+        props: {
+            fallback: {
+                [url]: party,
+            },
+        },
+        revalidate: 60,
     }
 }
 
