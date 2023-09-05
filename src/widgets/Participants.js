@@ -30,7 +30,7 @@ const columns = [
 ];
 
 export default function Participants() {
-  const { partyId, party, user, isLoading, isAdmin, mutate, login, isLogged } = useParty()
+  const { party } = useParty()
   const data = party.users.map(u => ({ name: u.name, prode: Object.entries(u.prode) }))
 
   const {

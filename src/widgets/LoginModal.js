@@ -27,7 +27,7 @@ import useParty from '../logic/useParty';
 import { validProde } from './ProdeComponents';
 
 export default function LoginModal({ isOpen, onClose }) {
-	const { party, needsAdmin, partyId, user, isLoading, mutate, login, isLogged } = useParty()
+	const { party, needsAdmin, mutate, login } = useParty()
 
 	const [submitted, setSubmitted] = React.useState(false)
 	const [saving, setSaving] = React.useState(false)
@@ -94,10 +94,10 @@ export default function LoginModal({ isOpen, onClose }) {
 								if (needsAdmin && !partyName) return
 
 								if (name && password && validProde(prode)) {
-									const { userId } = await createUser(partyId, name, password, prode)
+									const { userId } = await createUser(party.id, name, password, prode)
 									login(userId)
 									if (needsAdmin) {
-										await initParty(partyId, partyName, userId)
+										await initParty(party.id, partyName, userId)
 									}
 									mutate()
 									setSaving(true)
@@ -111,7 +111,7 @@ export default function LoginModal({ isOpen, onClose }) {
 				</ModalBody>
 				<ModalFooter w="80%" alignSelf={"flex-end"}>
 					<Text fontSize="sm" textAlign="right">
-						Podes invitar a más gente pasándoles el código de partida <Kbd>{partyId}</Kbd> o directamente un link a esta página
+						Podes invitar a más gente pasándoles el código de partida <Kbd>{party.id}</Kbd> o directamente un link a esta página
 					</Text>
 				</ModalFooter>
 			</ModalContent>

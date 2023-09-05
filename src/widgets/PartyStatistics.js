@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Icon,
@@ -8,8 +9,7 @@ import {
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
-  Spinner
+  NumberInputStepper
 } from '@chakra-ui/react'
 import {
   MdAttachMoney,
@@ -18,9 +18,8 @@ import {
 } from 'react-icons/md'
 import MiniStatistics from '../components/card/MiniStatistics'
 import { daysUntilElections } from '../logic'
-import useParty from '../logic/useParty'
-import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import { updatePartyBounty } from '../logic/api'
+import useParty from '../logic/useParty'
 
 const BountyInput = ({ editBounty, setEditBounty }) => {
   const format = (value) => `$${value}`
@@ -43,7 +42,7 @@ const BountyInput = ({ editBounty, setEditBounty }) => {
 }
 
 export default function Statistics() {
-  const { party, partyId, user, isLoading, mutate, login, isLogged, isAdmin } = useParty()
+  const { party, mutate, isAdmin } = useParty()
 
   const [isEditBounty, setisEditBounty] = React.useState(false)
   const [editBounty, setEditBounty] = React.useState(party?.bounty || 1000)
@@ -80,8 +79,7 @@ export default function Statistics() {
         </Box>
       }
       name='El ganador se lleva...'
-      value={isLoading ? <Spinner size="sm" /> :
-        isEditBounty ? <BountyInput editBounty={editBounty} setEditBounty={setEditBounty} /> : "$" + (party.bounty * party.users.length)}
+      value={isEditBounty ? <BountyInput editBounty={editBounty} setEditBounty={setEditBounty} /> : "$" + (party.bounty * party.users.length)}
       topContent={isAdmin && (
         <IconButton
           borderRadius='lg'
@@ -93,7 +91,7 @@ export default function Statistics() {
           title={'Editar apuesta por participante'}
           icon={<Icon as={isEditBounty ? CheckIcon : EditIcon} boxSize={4} />}
           onClick={isEditBounty ? async () => {
-            await updatePartyBounty(partyId, editBounty)
+            await updatePartyBounty(party.id, editBounty)
             mutate()
             setisEditBounty(false)
           } : () => setisEditBounty(true)}
@@ -118,8 +116,8 @@ export default function Statistics() {
     )}
     <MiniStatistics
       name='Participantes'
-      value={isLoading ? <Spinner size="sm" /> : party.users.length}
-      description={isLoading ? <br /> : <span><b>${party.bounty}</b> por persona</span>}
+      value={party.users.length}
+      description={<span><b>${party.bounty}</b> por persona</span>}
       startContent={
         <Box {...iconBoxProps}>
           <Icon

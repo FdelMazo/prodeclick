@@ -7,7 +7,7 @@ import { Partido } from './ProdeComponents';
 import useParty from '../logic/useParty';
 
 export default function Results({ prode }) {
-	const { user, isLoading, mutate, isParty } = useParty()
+	const { isParty } = useParty()
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
 		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),

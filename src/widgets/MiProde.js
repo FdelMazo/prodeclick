@@ -38,9 +38,12 @@ const columns = [
 
 
 export default function MiProde() {
-  const { user, isLoading, mutate, isParty } = useParty()
+  const { user, mutate, isParty } = useParty()
   const [isEdit, setIsEdit] = React.useState(false)
   const [editProde, setEditProde] = React.useState(user?.prode)
+  React.useEffect(() => {
+    setEditProde(user?.prode)
+  }, [user])
 
   const {
     getTableProps,

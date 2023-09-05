@@ -15,11 +15,11 @@ import {
 import React from 'react'
 
 import { MdPlayCircle } from 'react-icons/md'
-import useParty from '../logic/useParty'
 import PARTIDOS from '../logic/partidos'
+import useParty from '../logic/useParty'
 
 export const Porcentaje = ({ partido, editProde, prode, setEditProde, isEdit }) => {
-  const { isParty, isLoading } = useParty()
+  const { isParty } = useParty()
 
   return isEdit ? (
     <NumberInput
@@ -49,7 +49,7 @@ export const Porcentaje = ({ partido, editProde, prode, setEditProde, isEdit }) 
     </NumberInput>
   ) : (
     <Box color={`${partido.color}.600`} textAlign="center">
-      {isLoading || (isParty && !prode) ? <Spinner size="xs" /> : (
+        {(isParty && !prode) ? <Spinner size="xs" /> : (
         <Text fontWeight='700'>
           {isParty ? prode?.[partido.id] : "??"}%
         </Text>

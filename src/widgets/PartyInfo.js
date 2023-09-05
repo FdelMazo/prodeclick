@@ -10,7 +10,7 @@ import useParty from '../logic/useParty'
 
 
 export default function PartyInfo() {
-  const { party, user, partyId, isAdmin, isLoading, mutate, login, isLogged } = useParty()
+  const { party, isAdmin } = useParty()
 
   const miniStatisticsProps = {
     bg: 'brand.100',
@@ -24,11 +24,11 @@ export default function PartyInfo() {
       value={`Estás en la partida ${party.name}`}
       description={
         <>
-          <Text fontSize="md" fontWeight={500}>
+          {party.admin && (<Text fontSize="md" fontWeight={500}>
             La partida esta administrada por <b>{isAdmin ? "vos" : party.admin.name}</b>. {isAdmin ? "Pedile al resto de los participantes que te den la plata antes de las elecciones!" : "Si todavía no le diste la plata, hacelo ya!"}
-          </Text>
+          </Text>)}
           <Text fontSize="sm" fontWeight={500}>
-            Podes invitar a más gente pasándoles el código de partida <Kbd>{partyId}</Kbd> o directamente un link a esta página
+            Podes invitar a más gente pasándoles el código de partida <Kbd>{party.id}</Kbd> o directamente un link a esta página
           </Text>
         </>}
       height="fit-content"
