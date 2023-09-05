@@ -50,13 +50,15 @@ function MainDashboard() {
                 mb='20px'
             >
                 <PartyStatistics />
-                <GridItem
-                    colSpan={3}
-                    mx="auto"
-                    w="80%"
-                >
-                    <PartyInfo />
-                </GridItem>
+            </SimpleGrid>
+
+            <SimpleGrid
+                columns={{ base: 1 }}
+                mx="auto"
+                mb='20px'
+                w="80%"
+            >
+                <PartyInfo />
             </SimpleGrid>
 
             <SimpleGrid columns={{ base: 1, md: 4 }} gap='20px' mb='20px'>
