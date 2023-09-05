@@ -89,6 +89,6 @@ export async function getStaticPaths() {
     const parties = await getAll('party')
     return {
         paths: parties.map(p => ({ params: { id: p.split(':')[1] } })),
-        fallback: false
+        fallback: 'blocking'
     }
 }
