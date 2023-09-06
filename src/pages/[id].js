@@ -40,7 +40,7 @@ function MainDashboard() {
     return (
         <MainLayout>
             {party.name && <Head>
-                <title>prode.ar - {party.name}</title>
+                <title>prode.click - {party.name}</title>
             </Head>}
 
             <LoginModal isOpen={isOpen} onClose={onClose} />

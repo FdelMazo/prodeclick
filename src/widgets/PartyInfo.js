@@ -21,7 +21,7 @@ export default function PartyInfo() {
   return (<>
     <MiniStatistics
       textAlign="center"
-      value={`Estás en la partida ${party.name}`}
+      value={`Estás en la partida ${party.name || 'de prode.click'}`}
       description={
         <>
           {party.admin && (<Text fontSize="md" fontWeight={500}>

@@ -51,7 +51,7 @@ export default function LoginModal({ isOpen, onClose }) {
 			<ModalContent mx={4} my={4} p={4}>
 				<ModalHeader>{needsAdmin ?
 					<>
-						<Text>Bienvenido a prode.ar</Text>
+						<Text>Bienvenido a prode.click</Text>
 						<Text fontSize="md" color="darkgray.900">Creá una partida, invita a todas las personas que quieras!</Text>
 						<Text fontSize="sm" color="darkgray.900">Decidan un número entre todos y apuesten el futuro del país!</Text>
 					</>

@@ -23,7 +23,7 @@ export default function Layout(props) {
       p={{ base: '20px', md: '30px' }}
       minH='99vh'
     >
-      <Heading>prode.ar</Heading>
+      <Heading>prode.click</Heading>
       <Heading color="gray.600" fontSize="xl">Elecciones Generales 2023 🇦🇷</Heading>
 
       <Box py={6}>

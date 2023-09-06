@@ -15,11 +15,11 @@ function MyApp({ Component, pageProps }) {
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta name='theme-color' content='#000000' />
 
-          <meta content="https://prode.ar/" property="og:url" />
-          <meta content="prode.ar" property="og:title" />
+          <meta content="https://prode.click/" property="og:url" />
+          <meta content="prode.click" property="og:title" />
 
           <meta
-            content="https://prode.ar/img/screen.png"
+            content="https://prode.click/img/screen.png"
             property="og:image"
           />
           <meta
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
             name="og: description"
           />
 
-          <title>prode.ar</title>
+          <title>prode.click</title>
         </Head>
         <React.StrictMode>
           <Component {...pageProps} />
