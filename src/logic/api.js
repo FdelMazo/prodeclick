@@ -27,6 +27,15 @@ export const createUser = async (partyId, name, password, prode) => {
     })
 }
 
+export const checkUser = async (partyId, name, password) => {
+    return PUT(`/api/login/${partyId}`, {
+        body: JSON.stringify({
+            name,
+            password,
+        })
+    })
+}
+
 export const updateUserProde = async (userId, prode) => {
     await PUT(`/api/user/${userId}`, {
         body: JSON.stringify({

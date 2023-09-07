@@ -53,6 +53,22 @@ export const createUser = async (partyId, values) => {
     return userId;
 }
 
+export const checkUser = async (partyId, userName, userPassword) => {
+    const party = await getParty(partyId);
+    const user = party.users.find(u => u.name === userName);
+    if (!user) {
+        return { userId: null }
+    }
+    const hash = crypto.createHash('sha256');
+    hash.update(userPassword)
+    const hashedPassword = hash.digest('hex');
+    const currentPassword = await kv.hget(`user:${user.id}`, 'password');
+    if (hashedPassword !== currentPassword) {
+        return { userId: null }
+    }
+    return { userId: user.id }
+}
+
 export const createParty = async (partyId, values) => {
     return create('party', { bounty: 1000, users: [] })
 }

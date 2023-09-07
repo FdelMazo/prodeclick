@@ -5,7 +5,6 @@ import {
   Text
 } from '@chakra-ui/react'
 import MiniStatistics from '../components/card/MiniStatistics'
-import { daysUntilElections } from '../logic'
 import useParty from '../logic/useParty'
 
 
