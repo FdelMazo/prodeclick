@@ -9,6 +9,10 @@ import {
   NumberInputStepper,
   Progress,
   Spinner,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
   Text,
   Tooltip
 } from '@chakra-ui/react'
@@ -101,7 +105,7 @@ export const Partido = ({ partido, showCandidatos = true, fontSize = "lg", boxSi
 export const InlineProde = ({ prode }) => {
   return (
     <Flex justifyContent="center" gap={2}>
-      {prode.map(([partidoId, porcentaje]) => {
+      {Object.entries(prode).map(([partidoId, porcentaje]) => {
         const partido = PARTIDOS.find(p => p.id === partidoId)
         return (
           <Tooltip label={partido.partido} key={partidoId} position="top">
@@ -119,4 +123,27 @@ export const InlineProde = ({ prode }) => {
 export const validProde = (prode) => {
   if (!prode) return false
   return (((Object.values(prode).reduce((a, b) => a + b, 0)).toFixed(1)) == 100.0)
+}
+
+export const Diferencia = ({ prode, results }) => {
+  if (!prode || !results) return null
+  const diferencia = React.useMemo(() => {
+    return Object.fromEntries(Object.entries(prode).map(([partidoId, porcentaje]) => {
+      const diff = Math.abs((porcentaje - results[partidoId]).toFixed(1))
+      return [
+        partidoId,
+        diff
+      ]
+    }))
+  }, [prode, results])
+
+  return (
+    <Stat>
+      <StatLabel>Diferencia</StatLabel>
+      <StatNumber>
+        <Text>{(Object.values(diferencia).reduce((a, b) => (a || 0) + (b || 0), 0)).toFixed(1)} puntos</Text>
+      </StatNumber>
+      <StatHelpText>Mientras menos diferencia, mejor!</StatHelpText>
+    </Stat>
+  )
 }

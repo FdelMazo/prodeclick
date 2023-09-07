@@ -18,6 +18,7 @@ import Participants from '../widgets/Participants';
 import PartyInfo from "../widgets/PartyInfo";
 import PartyStatistics from '../widgets/PartyStatistics';
 import Results from '../widgets/Results';
+import { ProdeProvider } from "../logic/ProdeContext";
 /*
 TODO: FUTURO
 - Agregar prode de participacion electoral

@@ -1,13 +1,21 @@
-import { Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Flex,
+	SimpleGrid,
+	Text
+} from '@chakra-ui/react';
 import React from 'react';
 import Card from '../components/card/Card';
 import PieChart from '../components/charts/PieChart';
+import { ProdeContext } from '../logic/ProdeContext';
 import PARTIDOS from '../logic/partidos';
-import { Partido } from './ProdeComponents';
 import useParty from '../logic/useParty';
+import { Diferencia, InlineProde, Partido } from './ProdeComponents';
 
 export default function Results({ prode }) {
-	const { isParty } = useParty()
+	const { isParty, user } = useParty()
+	const [isEdit, setIsEdit] = React.useState(false)
+	const { simulatedResults } = React.useContext(ProdeContext)
 	const pieChartOptions = {
 		labels: PARTIDOS.map(p => p.partido),
 		colors: PARTIDOS.map(p => `var(--chakra-colors-${p.color}-200)`),
@@ -63,9 +71,31 @@ export default function Results({ prode }) {
 				>
 					{isParty && "Simular "} Resultados
 				</Text>
+				{/* {isParty && <IconButton
+					borderRadius='lg'
+					bg='darkgray.300'
+					color='brand.500'
+					title={'Simular resultados'}
+					// isDisabled={isEdit && !validProde(editProde)}
+					icon={<Icon as={MdBarChart} boxSize={5} />}
+					onClick={isEdit ? () => {
+						// if (!validProde(editProde)) {
+						// 	return
+						// }
+						setIsEdit(false)
+					} : () => setIsEdit(true)}
+				/>} */}
 			</Flex>
-			<PieChart chartData={pieChartData} chartOptions={pieChartOptions} />
-			<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll">
+
+			<Box fontSize="xl">
+				<PieChart chartData={pieChartData} chartOptions={pieChartOptions} />
+				{isParty && <InlineProde prode={simulatedResults} />}
+			</Box>
+			{isParty ? (
+				<Card bg={cardColor} boxShadow={cardShadow} p={2} overflowX="scroll" fontSize="xl">
+					<Diferencia prode={user?.prode} results={simulatedResults} />
+				</Card>
+			) : <>
 				<SimpleGrid columns={{ base: 1, md: 2, "xl": 3, "2xl": 2, "3xl": 3 }} spacing={5}>
 					{PARTIDOS.map((p) => (
 						<Flex alignItems="center" justifyContent="space-between" gap={2} key={p.id} w="100%">
@@ -76,7 +106,8 @@ export default function Results({ prode }) {
 						</Flex>
 					))}
 				</SimpleGrid>
-			</Card>
+			</>
+			}
 		</Card>
 	);
 }

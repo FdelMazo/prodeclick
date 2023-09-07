@@ -93,7 +93,7 @@ const ParticipantsTable = ({ data }) => {
 
 export default function Participants() {
   const { party } = useParty()
-  const data = party.users.map(u => ({ name: u.name, prode: Object.entries(u.prode) }))
+  const data = party.users.map(u => ({ name: u.name, prode: u.prode }))
 
   return (
     <Card p={4} w='100%' h='100%' justifyContent="space-between">

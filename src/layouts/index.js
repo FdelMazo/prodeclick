@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Icon, Image, Link } from '@chakra-ui/react'
 import { BsGithub } from 'react-icons/bs'
+import { ProdeProvider } from '../logic/ProdeContext'
 
 const FooterLink = ({ link, text, left }) => {
   return (
@@ -12,7 +13,7 @@ const FooterLink = ({ link, text, left }) => {
   )
 }
 
-export default function Layout(props) {
+function MainLayout(props) {
   const { children } = props
   return (
     <Box
@@ -36,5 +37,14 @@ export default function Layout(props) {
         <FooterLink text="fede.dm" link="https://fede.dm" left={<Image src="img/deadmona.png" boxSize={7} display={"inline"} />} />
       </Flex>
     </Box>
+  )
+}
+
+
+export default function Layout(props) {
+  return (
+    <ProdeProvider>
+      <MainLayout {...props} />
+    </ProdeProvider>
   )
 }

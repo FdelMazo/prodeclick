@@ -49,7 +49,7 @@ export default function Statistics({ stats }) {
       <MiniStatistics
         name='Días hasta las elecciones'
         value={days}
-        description={<span>Se pueden cambiar las predicciones hasta el <b>viernes</b> pre-elecciones</span>}
+        description={<span>Se pueden cambiar las predicciones hasta el <b>sábado</b> pre-elecciones</span>}
         startContent={
           <Box {...iconBoxProps}>
             <Icon

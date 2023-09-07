@@ -32,7 +32,6 @@ const columns = [
   },
   {
     Header: "PORCENTAJE",
-    accessor: "percentage",
   },
 ];
 
