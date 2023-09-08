@@ -43,11 +43,3 @@ export const updateUserProde = async (userId, prode) => {
         })
     })
 }
-
-export const updatePartyBounty = async (partyId, bounty) => {
-    await PUT(`/api/party/${partyId}`, {
-        body: JSON.stringify({
-            bounty
-        })
-    })
-}

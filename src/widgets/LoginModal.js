@@ -55,13 +55,10 @@ export default function LoginModal({ isOpen, onClose }) {
 					<>
 						<Text>Bienvenido a prode.click</Text>
 						<Text fontSize="md" color="darkgray.900">Creá una partida, invita a todas las personas que quieras!</Text>
-						<Text fontSize="sm" color="darkgray.900">Decidan un número entre todos y apuesten el futuro del país!</Text>
 					</>
 					:
 					<>
 						<Text>Estás en la partida {party.name}</Text>
-						<Text fontSize="md" color="darkgray.900">La partida esta administrada por <b>{party.admin.name}</b></Text>
-						<Text fontSize="sm" color="darkgray.900">Después de armar tu prode, no te olvides de darle la plata!</Text>
 					</>
 				}
 				</ModalHeader>

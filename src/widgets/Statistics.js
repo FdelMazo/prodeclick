@@ -33,18 +33,6 @@ export default function Statistics({ stats }) {
   }
 
   return (<>
-    <MiniStatistics
-      name='Armá tu partida y apostá con tus amigos'
-      value="$1000 por participante"
-      startContent={
-        <Box {...iconBoxProps}>
-          <Icon
-            {...iconProps}
-            as={MdAttachMoney}
-          />
-        </Box>
-      }
-    />
     {days > 0 && (
       <MiniStatistics
         name='Días hasta las elecciones'

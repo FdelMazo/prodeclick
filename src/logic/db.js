@@ -70,7 +70,7 @@ export const checkUser = async (partyId, userName, userPassword) => {
 }
 
 export const createParty = async (partyId, values) => {
-    return create('party', { bounty: 1000, users: [] })
+    return create('party', { users: [] })
 }
 
 export const updateUserProde = async (userId, prode) => {
