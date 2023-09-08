@@ -1,15 +1,18 @@
-import { ChakraProvider, GlobalStyle, LightMode } from '@chakra-ui/react'
+import { ChakraProvider, LightMode } from '@chakra-ui/react'
 import React from 'react'
 import theme from '../theme/theme'
-import './styles.css'
 
 import Head from 'next/head'
+
+import '@fontsource/dm-sans/400.css'
+import '@fontsource/dm-sans/500.css'
+import '@fontsource/dm-sans/600.css'
+import '@fontsource/dm-sans/700.css'
 
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <LightMode>
-        <GlobalStyle />
         <Head>
           <meta charSet="utf-8" />
           <meta name='viewport' content='width=device-width, initial-scale=1' />
