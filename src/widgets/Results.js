@@ -5,8 +5,8 @@ import {
 	Text
 } from '@chakra-ui/react';
 import React from 'react';
-import Card from '../components/card/Card';
-import PieChart from '../components/charts/PieChart';
+import Card from '../components/Card';
+import PieChart from '../components/PieChart';
 import { ProdeContext } from '../logic/ProdeContext';
 import PARTIDOS from '../logic/partidos';
 import useParty from '../logic/useParty';

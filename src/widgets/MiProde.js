@@ -19,7 +19,7 @@ import {
 } from 'react-table'
 
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
-import Card from '../components/card/Card'
+import Card from '../components/Card'
 import { updateUserProde } from '../logic/api'
 import PARTIDOS from '../logic/partidos'
 import useParty from '../logic/useParty'

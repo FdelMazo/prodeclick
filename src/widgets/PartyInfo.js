@@ -4,7 +4,7 @@ import {
   Kbd,
   Text
 } from '@chakra-ui/react'
-import MiniStatistics from '../components/card/MiniStatistics'
+import MiniStatistics from '../components/MiniStatistics'
 import useParty from '../logic/useParty'
 
 

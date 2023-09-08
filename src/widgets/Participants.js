@@ -15,7 +15,7 @@ import {
   useTable
 } from 'react-table'
 
-import Card from '../components/card/Card'
+import Card from '../components/Card'
 
 import useParty from '../logic/useParty'
 import { InlineProde } from './ProdeComponents'

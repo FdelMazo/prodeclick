@@ -16,7 +16,7 @@ import {
   MdOutlineCalendarMonth,
   MdPeopleAlt
 } from 'react-icons/md'
-import MiniStatistics from '../components/card/MiniStatistics'
+import MiniStatistics from '../components/MiniStatistics'
 import { daysUntilElections } from '../logic'
 import useParty from '../logic/useParty'
 
