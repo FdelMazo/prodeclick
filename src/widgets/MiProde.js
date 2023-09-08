@@ -8,7 +8,8 @@ import {
   Text,
   Th,
   Thead,
-  Tr
+  Tr,
+  Card, CardBody
 } from '@chakra-ui/react'
 import React from 'react'
 import {
@@ -19,7 +20,6 @@ import {
 } from 'react-table'
 
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'
-import Card from '../components/Card'
 import { updateUserProde } from '../logic/api'
 import PARTIDOS from '../logic/partidos'
 import useParty from '../logic/useParty'
@@ -53,7 +53,8 @@ export default function MiProde() {
   } = useTable({ columns, data })
 
   return (
-    <Card p={4} w='100%' h='100%' justifyContent="space-between">
+    <Card>
+      <CardBody p={4} w='100%' h='100%' justifyContent="space-between">
       <Flex w="100%" justifyContent="space-between" alignItems="center">
         <Text
           px={2}
@@ -128,6 +129,7 @@ export default function MiProde() {
         </Tbody>
       </Table>
       {isEdit && <Suma prode={editProde} />}
+      </CardBody>
     </Card>
   )
 }

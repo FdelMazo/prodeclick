@@ -1,5 +1,4 @@
 import { extendTheme } from '@chakra-ui/react';
-import { CardComponent } from './additions/card/card';
 import { badgeStyles } from './components/badge';
 import { buttonStyles } from './components/button';
 import { inputStyles } from './components/input';
@@ -8,6 +7,7 @@ import { progressStyles } from './components/progress';
 import { sliderStyles } from './components/slider';
 import { switchStyles } from './components/switch';
 import { textareaStyles } from './components/textarea';
+import { cardStyles } from './components/card';
 import { breakpoints } from './foundations/breakpoints';
 import { globalStyles } from './styles';
 
@@ -22,5 +22,5 @@ export default extendTheme(
 	inputStyles, // input styles
 	textareaStyles, // textarea styles
 	switchStyles, // switch styles
-	CardComponent // card component
+	cardStyles, // card component
 );

@@ -39,16 +39,9 @@ export const globalStyles = {
   styles: {
     global: (props) => ({
       body: {
-        overflowX: "hidden",
         bg: mode("darkgray.300", "navy.900")(props),
         fontFamily: "DM Sans",
         letterSpacing: "-0.5px",
-      },
-      input: {
-        color: "gray.700",
-      },
-      html: {
-        fontFamily: "DM Sans",
       },
     }),
   },

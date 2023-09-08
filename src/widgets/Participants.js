@@ -6,7 +6,9 @@ import {
   Text,
   Th,
   Thead,
-  Tr
+  Tr,
+  Card,
+  CardBody
 } from '@chakra-ui/react'
 import {
   useGlobalFilter,
@@ -15,7 +17,6 @@ import {
   useTable
 } from 'react-table'
 
-import Card from '../components/Card'
 
 import useParty from '../logic/useParty'
 import { InlineProde } from './ProdeComponents'
@@ -96,7 +97,8 @@ export default function Participants() {
   const data = party.users.map(u => ({ name: u.name, prode: u.prode }))
 
   return (
-    <Card p={4} w='100%' h='100%' justifyContent="space-between">
+    <Card>
+      <CardBody p={4} w='100%' h='100%' justifyContent="space-between">
       <Flex w="100%" justifyContent="space-between" alignItems="center">
         <Text
           px={2}
@@ -108,6 +110,7 @@ export default function Participants() {
         </Text>
       </Flex>
       <ParticipantsTable data={data} />
+      </CardBody>
     </Card>
   )
 }

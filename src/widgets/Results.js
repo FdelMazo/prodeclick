@@ -2,10 +2,11 @@ import {
 	Box,
 	Flex,
 	SimpleGrid,
-	Text
+	Text,
+	Card,
+	CardBody
 } from '@chakra-ui/react';
 import React from 'react';
-import Card from '../components/Card';
 import PieChart from '../components/PieChart';
 import { ProdeContext } from '../logic/ProdeContext';
 import PARTIDOS from '../logic/partidos';
@@ -61,7 +62,8 @@ export default function Results({ prode }) {
 	const cardColor = 'white'
 	const cardShadow = '0px 18px 40px rgba(112, 144, 176, 0.12)'
 	return (
-		<Card p={4} alignItems='center' w='100%' h='100%' justifyContent="space-between">
+		<Card>
+			<CardBody p={4} alignItems='center' w='100%' h='100%' justifyContent="space-between">
 			<Flex w="100%" justifyContent="space-between" alignItems="center">
 				<Text
 					px={2}
@@ -108,6 +110,7 @@ export default function Results({ prode }) {
 				</SimpleGrid>
 			</>
 			}
+			</CardBody>
 		</Card>
 	);
 }
