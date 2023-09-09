@@ -1,24 +1,16 @@
 import React from 'react'
 
-import { CheckIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Icon,
-  IconButton,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper
+  Icon
 } from '@chakra-ui/react'
 import {
-  MdAttachMoney,
   MdOutlineCalendarMonth,
   MdPeopleAlt
 } from 'react-icons/md'
-import MiniStatistics from '../components/MiniStatistics'
 import { daysUntilElections } from '../logic'
 import useParty from '../logic/useParty'
+import MiniStatistics from './MiniStatistics'
 
 export default function Statistics() {
   const { party, mutate, isAdmin } = useParty()

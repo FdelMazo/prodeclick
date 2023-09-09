@@ -1,19 +1,16 @@
 import {
-    Box,
-    Flex,
-    Table,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr
+  Box,
+  Flex,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr
 } from '@chakra-ui/react'
 import React from 'react'
 import {
-    useGlobalFilter,
-    usePagination,
-    useSortBy,
-    useTable,
+  useTable
 } from 'react-table'
 
 import PARTIDOS from '../logic/partidos'

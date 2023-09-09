@@ -1,4 +1,5 @@
 import {
+  Card, CardBody,
   Flex,
   Icon,
   IconButton,
@@ -8,15 +9,11 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
-  Card, CardBody
+  Tr
 } from '@chakra-ui/react'
 import React from 'react'
 import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
+  useTable
 } from 'react-table'
 
 import { CheckIcon, EditIcon } from '@chakra-ui/icons'

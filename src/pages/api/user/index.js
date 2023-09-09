@@ -1,4 +1,4 @@
-import { createUser} from '../../../logic/db';
+import { createUser } from '../../../logic/db';
 
 export default async function handler(request, response) {
     if (request.method === 'POST') {

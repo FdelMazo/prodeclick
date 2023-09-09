@@ -1,4 +1,6 @@
 import {
+  Card,
+  CardBody,
   Flex,
   Table,
   Tbody,
@@ -6,20 +8,15 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
-  Card,
-  CardBody
-} from '@chakra-ui/react'
+  Tr
+} from '@chakra-ui/react';
 import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
   useTable
-} from 'react-table'
+} from 'react-table';
 
 
-import useParty from '../logic/useParty'
-import { InlineProde } from './ProdeComponents'
+import useParty from '../logic/useParty';
+import { InlineProde } from './ProdeComponents';
 
 const columns = [
   {

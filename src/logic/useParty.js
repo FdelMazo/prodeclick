@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
-import useSWR from 'swr'
-import { GET } from "./api"
 import React from "react"
+import useSWR from 'swr'
 import { useLocalStorage } from "usehooks-ts"
+import { GET } from "./api"
 
 export default function useParty() {
     const router = useRouter()

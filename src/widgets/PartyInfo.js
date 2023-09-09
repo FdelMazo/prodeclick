@@ -4,8 +4,8 @@ import {
   Kbd,
   Text
 } from '@chakra-ui/react'
-import MiniStatistics from '../components/MiniStatistics'
 import useParty from '../logic/useParty'
+import MiniStatistics from './MiniStatistics'
 
 
 export default function PartyInfo() {

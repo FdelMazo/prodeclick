@@ -5,12 +5,11 @@ import {
   Icon
 } from '@chakra-ui/react'
 import {
-  MdAttachMoney,
   MdOutlineCalendarMonth,
   MdPeopleAlt
 } from 'react-icons/md'
-import MiniStatistics from '../components/MiniStatistics'
 import { daysUntilElections } from '../logic'
+import MiniStatistics from './MiniStatistics'
 
 export default function Statistics({ stats }) {
   const days = React.useMemo(daysUntilElections, [])

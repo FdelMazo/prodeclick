@@ -1,17 +1,47 @@
 import {
 	Box,
+	Card,
+	CardBody,
 	Flex,
 	SimpleGrid,
-	Text,
-	Card,
-	CardBody
+	Text
 } from '@chakra-ui/react';
 import React from 'react';
-import PieChart from '../components/PieChart';
 import { ProdeContext } from '../logic/ProdeContext';
 import PARTIDOS from '../logic/partidos';
 import useParty from '../logic/useParty';
 import { Diferencia, InlineProde, Partido } from './ProdeComponents';
+
+import dynamic from 'next/dist/shared/lib/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+
+class PieChart extends React.Component {
+	state = {
+		chartData: [],
+		chartOptions: {}
+	}
+
+	constructor(props) {
+		super(props)
+	}
+
+	componentDidMount() {
+		this.setState({
+			chartData: this.props.chartData,
+			chartOptions: this.props.chartOptions
+		})
+	}
+
+	render() {
+		return (
+			<Chart
+				options={this.state.chartOptions}
+				series={this.state.chartData}
+				type='pie'
+			/>
+		)
+	}
+}
 
 export default function Results({ prode }) {
 	const { isParty, user } = useParty()

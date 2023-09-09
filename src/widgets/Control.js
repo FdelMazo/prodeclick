@@ -9,8 +9,8 @@ import {
   MdLibraryAdd,
   MdPeopleAlt
 } from 'react-icons/md'
-import MiniStatistics from '../components/MiniStatistics'
 import { createParty } from '../logic/api'
+import MiniStatistics from './MiniStatistics'
 
 export default function Control() {
   const [loadingCreate, setLoadingCreate] = React.useState(false)
