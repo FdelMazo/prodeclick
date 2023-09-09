@@ -1,6 +1,6 @@
 import { ChakraProvider, LightMode } from '@chakra-ui/react'
 import React from 'react'
-import theme from '../theme/theme'
+import theme from '../logic/theme'
 
 import Head from 'next/head'
 
