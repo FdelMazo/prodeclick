@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
@@ -17,6 +16,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
@@ -29,12 +29,11 @@ import ProdeTable from "./ProdeTable";
 export default function LoginModal({ isOpen, onClose }) {
   const { party, needsAdmin, mutate, login } = useParty();
 
-  const [submitted, setSubmitted] = React.useState(false);
-  const [saving, setSaving] = React.useState(false);
   const [partyName, setPartyName] = React.useState("");
-  const [error, setError] = React.useState(false);
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const [formStatus, setFormStatus] = React.useState("");
   const [showProde, setShowProde] = React.useState(needsAdmin);
   const [showPassword, setShowPassword] = React.useState(false);
   const [prode, setProde] = React.useState(
@@ -55,7 +54,7 @@ export default function LoginModal({ isOpen, onClose }) {
           {needsAdmin ? (
             <>
               <Text>Bienvenido a prode.click</Text>
-              <Text fontSize="md" color="darkgray.900">
+              <Text fontSize="md" color="darkgray.800">
                 Creá una partida, invita a todas las personas que quieras!
               </Text>
             </>
@@ -66,130 +65,140 @@ export default function LoginModal({ isOpen, onClose }) {
           )}
         </ModalHeader>
         <ModalBody>
-          <Flex flexDir="column" alignItems="center" gap={6}>
+          <VStack spacing={6}>
             {needsAdmin && (
-              <FormControl isInvalid={submitted && !partyName}>
+              <FormControl isInvalid={formStatus == "submitted" && !partyName}>
                 <FormLabel>Nombre de la partida</FormLabel>
                 <Input
                   size="sm"
                   borderRadius="md"
-                  value={partyName}
                   onChange={(e) => setPartyName(e.target.value)}
                 />
               </FormControl>
             )}
-            <Flex gap={4} w="80%" alignItems="flex-end">
-              <FormControl isInvalid={(submitted && !name) || error}>
-                <FormLabel m={0}>Tu Nombre</FormLabel>
-                <Input
-                  size="sm"
-                  borderRadius="md"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </FormControl>
-              <FormControl isInvalid={(submitted && !password) || error}>
-                <FormLabel m={0}>Contraseña</FormLabel>
-                <InputGroup justifyContent="center" size="sm">
+            <VStack w="100%">
+              <Flex gap={4} w="80%">
+                <FormControl
+                  isInvalid={
+                    (formStatus == "submitted" && !name) ||
+                    formStatus == "error"
+                  }
+                >
+                  <FormLabel m={0}>Tu Nombre</FormLabel>
                   <Input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    size="sm"
                     borderRadius="md"
-                    type={showPassword ? "text" : "password"}
+                    isReadOnly={formStatus == "filled"}
+                    variant={formStatus == "filled" ? "filled" : "outline"}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  <InputRightElement>
-                    <IconButton
-                      h="fit-content"
-                      variant="link"
-                      _hover={{ color: "darkgray.900" }}
-                      onClick={() => setShowPassword(!showPassword)}
-                      icon={<Icon as={showPassword ? IoMdEyeOff : IoMdEye} />}
+                </FormControl>
+                <FormControl
+                  isInvalid={
+                    (formStatus == "submitted" && !password) ||
+                    formStatus == "error"
+                  }
+                >
+                  <FormLabel m={0}>Contraseña</FormLabel>
+                  <InputGroup justifyContent="center" size="sm">
+                    <Input
+                      size="sm"
+                      borderRadius="md"
+                      isReadOnly={formStatus == "filled"}
+                      variant={formStatus == "filled" ? "filled" : "outline"}
+                      onChange={(e) => setPassword(e.target.value)}
+                      type={showPassword ? "text" : "password"}
                     />
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-            </Flex>
-            {!showProde && (
-              <Flex flexDir="column" gap={4} alignItems={"center"}>
-                <Button
-                  colorScheme="brand"
-                  variant="link"
-                  isLoading={saving}
-                  size="md"
-                  onClick={async () => {
-                    setSubmitted(true);
-                    if (name && password) {
-                      setSaving(true);
-                      const { userId } = await checkUser(
-                        party.id,
-                        name,
-                        password
-                      );
-                      if (!userId) {
-                        setSaving(false);
-                        setError(true);
-                        setSubmitted(false);
-                        return;
-                      }
-                      login(userId);
-                      mutate();
-                      onClose();
-                    }
-                  }}
-                >
-                  iniciar sesión
-                </Button>
-                <Button
-                  size="lg"
-                  colorScheme="brand"
-                  isDisabled={saving}
-                  rightIcon={<ChevronDownIcon />}
-                  onClick={() => {
-                    setShowProde(true);
-                  }}
-                >
-                  armar prode
-                </Button>
+                    <InputRightElement>
+                      <IconButton
+                        h="fit-content"
+                        variant="link"
+                        _hover={{ color: "darkgray.900" }}
+                        onClick={() => setShowPassword(!showPassword)}
+                        icon={<Icon as={showPassword ? IoMdEyeOff : IoMdEye} />}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
               </Flex>
-            )}
+              {formStatus == "error" && (
+                <Text color="red.400">
+                  El nombre ya esta en uso o la contraseña es incorrecta
+                </Text>
+              )}
+            </VStack>
 
-            {showProde && (
+            {showProde ? (
               <>
                 <ProdeTable prode={prode} setProde={setProde} isEdit={true} />
                 <Button
                   colorScheme="brand"
                   w="75%"
-                  m="auto"
-                  isLoading={saving}
+                  isLoading={formStatus == "loading"}
                   isDisabled={!validProde(prode)}
                   onClick={async () => {
-                    setSubmitted(true);
-                    if (needsAdmin && !partyName) return;
+                    setFormStatus("submitted");
+                    if (!name || !password || (needsAdmin && !partyName))
+                      return;
 
-                    if (name && password && validProde(prode)) {
-                      setSaving(true);
-                      const { userId } = await createUser(
-                        party.id,
-                        name,
-                        password,
-                        prode
-                      );
-                      login(userId);
-                      if (needsAdmin) {
-                        await initParty(party.id, partyName, userId);
-                      }
-                      mutate();
-                      onClose();
+                    setFormStatus("loading");
+                    const { userId } = await createUser(
+                      party.id,
+                      name,
+                      password,
+                      prode
+                    );
+
+                    login(userId);
+                    if (needsAdmin) {
+                      await initParty(party.id, partyName, userId);
                     }
+                    mutate();
+                    setFormStatus("");
+                    onClose();
                   }}
                 >
                   Guardar mi prode
                 </Button>
               </>
+            ) : (
+              <Button
+                size="lg"
+                colorScheme="brand"
+                isLoading={formStatus == "loading"}
+                onClick={async () => {
+                  setFormStatus("submitted");
+                  if (!name || !password) return;
+
+                  setFormStatus("loading");
+                  const { create, wrongPassword, userId } = await checkUser(
+                    party.id,
+                    name,
+                    password
+                  );
+
+                  if (create) {
+                    setShowProde(true);
+                    setFormStatus("filled");
+                  } else if (wrongPassword) {
+                    setFormStatus("error");
+                  } else if (userId) {
+                    login(userId);
+                    mutate();
+                    setFormStatus("");
+                  }
+
+                  if (userId) {
+                    onClose();
+                  }
+                }}
+              >
+                continuar
+              </Button>
             )}
-          </Flex>
+          </VStack>
         </ModalBody>
-        <ModalFooter w="80%" alignSelf={"flex-end"}>
+        <ModalFooter w="80%" alignSelf="flex-end">
           {needsAdmin && (
             <Text fontSize="sm" textAlign="right">
               Podes invitar a más gente pasándoles el código de partida{" "}

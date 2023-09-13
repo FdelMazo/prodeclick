@@ -50,7 +50,7 @@ export const createUser = async (partyId, values) => {
   const hashedPassword = hash.digest("hex");
 
   const userId = await create("user", {
-    name,
+    name: name.toLowerCase(),
     password: hashedPassword,
     prode,
   });
@@ -61,17 +61,21 @@ export const createUser = async (partyId, values) => {
 
 export const checkUser = async (partyId, userName, userPassword) => {
   const party = await getParty(partyId);
-  const user = party.users.find((u) => u.name === userName);
+  const user = party.users.find((u) => u.name === userName.toLowerCase());
+  // if the user doesn't exist, we can create it
   if (!user) {
-    return { userId: null };
+    return { create: true };
   }
   const hash = crypto.createHash("sha256");
   hash.update(userPassword);
   const hashedPassword = hash.digest("hex");
   const currentPassword = await kv.hget(`user:${user.id}`, "password");
   if (hashedPassword !== currentPassword) {
-    return { userId: null };
+    // if the user exists, but the password is wrong, we error out
+    return { wrongPassword: true };
   }
+
+  // if the user exists and the password is correct, we return the userId
   return { userId: user.id };
 };
 

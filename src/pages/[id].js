@@ -36,7 +36,7 @@ function MainDashboard() {
     <MainLayout>
       {party.name && (
         <Head>
-          <title>prode.click - {party.name}</title>
+          <title>{`prode.click - ${party.name}`}</title>
         </Head>
       )}
 
