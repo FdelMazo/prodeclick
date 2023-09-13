@@ -19,18 +19,17 @@ import {
 import React from "react";
 
 import { MdPlayCircle } from "react-icons/md";
+import { sum } from "../logic";
 import PARTIDOS from "../logic/partidos";
-import useParty from "../logic/useParty";
 
 export const Porcentaje = ({
   partido,
-  editProde,
   prode,
-  setEditProde,
+  setProde,
   isEdit,
+  isLoading,
+  isDummy,
 }) => {
-  const { isParty } = useParty();
-
   return isEdit ? (
     <NumberInput
       w="10ch"
@@ -39,10 +38,10 @@ export const Porcentaje = ({
       max={100}
       step={0.1}
       precision={1}
-      defaultValue={editProde[partido.id] || 0}
+      defaultValue={prode?.[partido.id] || 0}
       onChange={(value) => {
-        setEditProde({
-          ...editProde,
+        setProde({
+          ...prode,
           [partido.id]: parseFloat(value),
         });
       }}
@@ -59,10 +58,10 @@ export const Porcentaje = ({
     </NumberInput>
   ) : (
     <Box color={`${partido.color}.600`} textAlign="center">
-      {isParty && !prode ? (
+      {isLoading ? (
         <Spinner size="xs" />
       ) : (
-        <Text fontWeight="700">{isParty ? prode?.[partido.id] : "??"}%</Text>
+        <Text fontWeight="700">{isDummy ? "??" : prode?.[partido.id]}%</Text>
       )}
     </Box>
   );
@@ -71,25 +70,23 @@ export const Porcentaje = ({
 export const Suma = ({ prode }) => {
   if (!prode) return null;
   const suma = React.useMemo(() => {
-    const sum = Object.values(prode)
-      .reduce((a, b) => (a || 0) + (b || 0), 0)
-      .toFixed(1);
-    const color = sum < 100 ? "pink" : sum > 100 ? "red" : "green";
+    const n = sum(prode);
+    const color = n < 100 ? "pink" : n > 100 ? "red" : "green";
     return {
-      sum,
+      n,
       color,
     };
   }, [prode]);
 
   return (
-    <Flex flexDir="column" w="40%" m="auto" my={2} alignItems="center">
+    <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
       <Progress
         hasStripe
-        bg="gray.200"
+        bg="gray.300"
         colorScheme={suma.color}
-        value={suma.sum}
+        value={suma.n}
         w="100%"
-        h={2}
+        h={3}
         borderRadius={4}
       />
       <Box>
@@ -97,35 +94,24 @@ export const Suma = ({ prode }) => {
           Suma:
         </Text>
         <Text as="span" fontWeight={600} color={`${suma.color}.600`} ml={1}>
-          {suma.sum}%
+          {suma.n}%
         </Text>
       </Box>
     </Flex>
   );
 };
 
-export const Partido = ({
-  partido,
-  showCandidatos = true,
-  fontSize = "lg",
-  boxSize = 6,
-}) => {
+export const Partido = ({ partido }) => {
   return (
-    <Flex alignItems="center" gap={2}>
-      <Icon
-        as={MdPlayCircle}
-        boxSize={boxSize}
-        color={`${partido.color}.600`}
-      />
-      <Box>
-        <Text color={"darkgray.900"} fontSize={fontSize} fontWeight="700">
+    <Flex alignItems="center" gap={3}>
+      <Icon as={MdPlayCircle} boxSize={6} color={`${partido.color}.600`} />
+      <Box fontWeight="700">
+        <Text color="darkgray.900" fontSize="lg">
           {partido.partido}
         </Text>
-        {showCandidatos && (
-          <Text color="gray" fontSize="sm" fontWeight="700">
-            {partido.candidatos}
-          </Text>
-        )}
+        <Text color="darkgray.800" fontSize="sm">
+          {partido.candidatos}
+        </Text>
       </Box>
     </Flex>
   );
@@ -137,12 +123,8 @@ export const InlineProde = ({ prode }) => {
       {Object.entries(prode).map(([partidoId, porcentaje]) => {
         const partido = PARTIDOS.find((p) => p.id === partidoId);
         return (
-          <Tooltip label={partido.partido} key={partidoId} position="top">
-            <Text
-              color={`${partido.color}.600`}
-              fontWeight={600}
-              key={partidoId}
-            >
+          <Tooltip label={partido.partido} key={partidoId}>
+            <Text color={`${partido.color}.600`} fontWeight={600}>
               {porcentaje}%
             </Text>
           </Tooltip>
@@ -152,17 +134,9 @@ export const InlineProde = ({ prode }) => {
   );
 };
 
-export const validProde = (prode) => {
-  if (!prode) return false;
-  return (
-    Object.values(prode)
-      .reduce((a, b) => a + b, 0)
-      .toFixed(1) == 100.0
-  );
-};
-
 export const Diferencia = ({ prode, results }) => {
   if (!prode || !results) return null;
+
   const diferencia = React.useMemo(() => {
     return Object.fromEntries(
       Object.entries(prode).map(([partidoId, porcentaje]) => {
@@ -176,12 +150,7 @@ export const Diferencia = ({ prode, results }) => {
     <Stat>
       <StatLabel>Diferencia</StatLabel>
       <StatNumber>
-        <Text>
-          {Object.values(diferencia)
-            .reduce((a, b) => (a || 0) + (b || 0), 0)
-            .toFixed(1)}{" "}
-          puntos
-        </Text>
+        <Text>{sum(diferencia)} puntos</Text>
       </StatNumber>
       <StatHelpText>Mientras menos diferencia, mejor!</StatHelpText>
     </Stat>

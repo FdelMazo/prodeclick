@@ -23,7 +23,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { checkUser, createUser, initParty } from "../logic/api";
 import PARTIDOS from "../logic/partidos";
 import useParty from "../logic/useParty";
-import { validProde } from "./ProdeComponents";
+import { validProde } from "../logic";
 import ProdeTable from "./ProdeTable";
 
 export default function LoginModal({ isOpen, onClose }) {

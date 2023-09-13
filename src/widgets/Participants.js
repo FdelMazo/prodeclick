@@ -90,13 +90,13 @@ export default function Participants() {
   const data = party.users.map((u) => ({ name: u.name, prode: u.prode }));
 
   return (
-    <Card h="100%">
+    <Card>
       <CardHeader
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text px={2} color="darkgray.900" fontSize="xl" fontWeight="700">
+        <Text color="darkgray.900" fontSize="xl" fontWeight="700">
           Participantes
         </Text>
       </CardHeader>
