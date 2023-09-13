@@ -41,11 +41,11 @@ function MainDashboard() {
       )}
 
       <LoginModal isOpen={isOpen} onClose={onClose} />
-      <SimpleGrid w="100%" columns={{ base: 1, lg: 3 }} gap={4}>
+      <SimpleGrid columns={{ base: 2 }} gap={4}>
         <Statistics stats={{ users: party.users.length }} />
       </SimpleGrid>
 
-      <SimpleGrid w="80%" columns={{ base: 1 }} gap={4}>
+      <SimpleGrid columns={{ base: 1 }} gap={4}>
         <PartyInfo />
       </SimpleGrid>
 

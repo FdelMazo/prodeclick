@@ -20,11 +20,11 @@ TODO: FUTURO
 export default function MainDashboard({ stats, partyIds }) {
   return (
     <MainLayout>
-      <SimpleGrid w="100%" columns={{ base: 1, lg: 3 }} gap={4}>
+      <SimpleGrid columns={{ base: 2 }} gap={4}>
         <Statistics stats={stats} />
       </SimpleGrid>
 
-      <SimpleGrid w="80%" columns={{ base: 1, lg: 2 }} gap={4}>
+      <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
         <ControlPanel partyIds={partyIds} />
       </SimpleGrid>
 
