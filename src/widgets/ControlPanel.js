@@ -45,9 +45,10 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-export default function ControlPanel() {
+export default function ControlPanel({ partyIds }) {
   const [loadingCreate, setLoadingCreate] = React.useState(false);
   const [loadingJoin, setLoadingJoin] = React.useState(false);
+  const [joinError, setJoinError] = React.useState(false);
   const router = useRouter();
 
   const iconBoxProps = {
@@ -98,12 +99,21 @@ export default function ControlPanel() {
         }}
         body={
           <Box ml={1}>
-            <Text>Pedile el código a quien la armó!</Text>
+            <Text color={joinError && "red.400"}>
+              {joinError
+                ? "La partida no existe"
+                : "Pedile el código a quien la armó!"}
+            </Text>
             <form
               onSubmit={(t) => {
                 t.preventDefault();
-                const partyId = t.target.partyId.value;
+                const partyId = t.target.partyId.value.trim();
                 if (!partyId) return;
+                if (!partyIds.includes(partyId)) {
+                  setJoinError(true);
+                  return;
+                }
+
                 setLoadingJoin(true);
                 router.push(`/${partyId}`);
               }}
@@ -115,7 +125,14 @@ export default function ControlPanel() {
                   variant="flushed"
                   placeholder="Código"
                   color="darkgray.900"
-                  _placeholder={{ opacity: 0.9, color: "darkgray.700" }}
+                  _placeholder={{
+                    opacity: 0.9,
+                    color: "darkgray.700",
+                    textTransform: "none",
+                  }}
+                  css={{
+                    textTransform: "uppercase",
+                  }}
                 />
                 <InputRightElement>
                   <IconButton
