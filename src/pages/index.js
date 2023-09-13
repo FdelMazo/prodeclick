@@ -1,6 +1,7 @@
 import React from "react";
 
-import { GridItem, SimpleGrid } from "@chakra-ui/react";
+import { GridItem, SimpleGrid, useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import MainLayout from "../layouts";
 import { getAll, getN } from "../logic/db";
 import ControlPanel from "../widgets/ControlPanel";
@@ -18,6 +19,22 @@ TODO: FUTURO
 */
 
 export default function MainDashboard({ stats, partyIds }) {
+  const router = useRouter();
+  const toast = useToast();
+  const toastId = "error";
+  React.useEffect(() => {
+    if (router.query.error && !toast.isActive(toastId)) {
+      toast({
+        description: "La partida que buscas no existe, creá una nueva!",
+        status: "error",
+        isClosable: true,
+        position: "top-end",
+        id: toastId,
+      });
+    }
+    router.replace("/", undefined, { shallow: true });
+  }, [router.query.error]);
+
   return (
     <MainLayout>
       <SimpleGrid columns={{ base: 2 }} gap={4}>

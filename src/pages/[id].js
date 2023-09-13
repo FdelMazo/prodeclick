@@ -74,6 +74,13 @@ export default function Index({ fallback }) {
 }
 
 export async function getStaticProps({ params }) {
+  const parties = await getAll("party");
+  if (!parties.includes(`party:${params.id}`)) {
+    return {
+      notFound: true,
+    };
+  }
+
   const partyId = params.id;
   const party = await getParty(partyId);
   const url = `/api/party/${partyId}`;
