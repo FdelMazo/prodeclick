@@ -7,8 +7,8 @@ export default async function handler(request, response) {
     return response.status(200).json(party);
   } else if (request.method === "PUT") {
     const { id } = request.query;
-    const body = JSON.parse(request.body);
-    await updateParty(id, body);
+    const { name, admin } = JSON.parse(request.body);
+    await updateParty(id, name, admin);
     return response.status(200).json({ ok: true });
   }
 }

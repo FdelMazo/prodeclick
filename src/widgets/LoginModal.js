@@ -20,10 +20,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { validProde } from "../logic";
 import { checkUser, createUser, initParty } from "../logic/api";
 import PARTIDOS from "../logic/partidos";
 import useParty from "../logic/useParty";
-import { validProde } from "../logic";
 import ProdeTable from "./ProdeTable";
 
 export default function LoginModal({ isOpen, onClose }) {
@@ -67,7 +67,9 @@ export default function LoginModal({ isOpen, onClose }) {
         <ModalBody>
           <VStack spacing={6}>
             {needsAdmin && (
-              <FormControl isInvalid={formStatus == "submitted" && !partyName}>
+              <FormControl
+                isInvalid={formStatus == "submitted" && !partyName.trim()}
+              >
                 <FormLabel>Nombre de la partida</FormLabel>
                 <Input
                   size="sm"
@@ -80,7 +82,7 @@ export default function LoginModal({ isOpen, onClose }) {
               <Flex gap={4} w="80%">
                 <FormControl
                   isInvalid={
-                    (formStatus == "submitted" && !name) ||
+                    (formStatus == "submitted" && !name.trim()) ||
                     formStatus == "error"
                   }
                 >
@@ -138,7 +140,11 @@ export default function LoginModal({ isOpen, onClose }) {
                   isDisabled={!validProde(prode)}
                   onClick={async () => {
                     setFormStatus("submitted");
-                    if (!name || !password || (needsAdmin && !partyName))
+                    if (
+                      !name.trim() ||
+                      !password ||
+                      (needsAdmin && !partyName.trim())
+                    )
                       return;
 
                     setFormStatus("loading");

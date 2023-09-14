@@ -50,7 +50,7 @@ export const createUser = async (partyId, values) => {
   const hashedPassword = hash.digest("hex");
 
   const userId = await create("user", {
-    name: name.toLowerCase(),
+    name: name.trim(),
     password: hashedPassword,
     prode,
   });
@@ -61,7 +61,9 @@ export const createUser = async (partyId, values) => {
 
 export const checkUser = async (partyId, userName, userPassword) => {
   const party = await getParty(partyId);
-  const user = party.users.find((u) => u.name === userName.toLowerCase());
+  const user = party.users.find(
+    (u) => u.name.trim().toLowerCase() === userName.trim().toLowerCase()
+  );
   // if the user doesn't exist, we can create it
   if (!user) {
     return { create: true };
@@ -87,6 +89,9 @@ export const updateUserProde = async (userId, prode) => {
   return kv.hset(`user:${userId}`, { prode });
 };
 
-export const updateParty = async (partyId, body) => {
-  return kv.hset(`party:${partyId}`, body);
+export const updateParty = async (partyId, name, admin) => {
+  return kv.hset(`party:${partyId}`, {
+    name: name.trim(),
+    admin,
+  });
 };
