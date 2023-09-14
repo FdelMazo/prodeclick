@@ -17,7 +17,7 @@ import ProdeTable from "./ProdeTable";
 export default function MiProde() {
   const { user, mutate, isParty } = useParty();
   const [isEdit, setIsEdit] = React.useState(false);
-  const [prode, setProde] = React.useState(user?.prode);
+  const [prode, setProde] = React.useState(null);
   React.useEffect(() => {
     setProde(user?.prode);
   }, [user]);
