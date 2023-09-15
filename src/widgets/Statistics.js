@@ -21,8 +21,7 @@ const MiniStat = ({
   description,
   value,
 }) => {
-  const textColor = "darkgray.900";
-  const textColorSecondary = "darkgray.700";
+  const textColorSecondary = "darkgray.800";
 
   return (
     <Card direction="row" alignItems="center" p={2} gap={4}>
@@ -31,7 +30,7 @@ const MiniStat = ({
       <CardBody p={0}>
         <Stat>
           <StatLabel color={textColorSecondary}>{name}</StatLabel>
-          <StatNumber color={textColor}>{value}</StatNumber>
+          <StatNumber>{value}</StatNumber>
           <StatHelpText color={textColorSecondary} fontSize="xs">
             {description}
           </StatHelpText>

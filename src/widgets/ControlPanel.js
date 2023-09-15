@@ -18,9 +18,6 @@ import { MdLibraryAdd, MdPeopleAlt } from "react-icons/md";
 import { createParty } from "../logic/api";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
-  const textColor = "darkgray.900";
-  const textColorSecondary = "darkgray.700";
-
   return (
     <Card
       bg="brand.100"
@@ -34,10 +31,10 @@ export const Control = ({ startContent, body, title, ...rest }) => {
     >
       {startContent}
       <CardBody p={0}>
-        <Text color={textColor} fontSize="2xl" fontWeight={600}>
+        <Text fontSize="2xl" fontWeight={600}>
           {title}
         </Text>
-        <Box color={textColorSecondary} fontSize="sm">
+        <Box color="darkgray.800" fontSize="sm">
           {body}
         </Box>
       </CardBody>

@@ -77,11 +77,7 @@ const ParticipantsTable = ({ data, userId }) => {
                   );
                 }
                 return (
-                  <Td
-                    {...cell.getCellProps()}
-                    key={index}
-                    borderColor="transparent"
-                  >
+                  <Td {...cell.getCellProps()} key={index}>
                     {data}
                   </Td>
                 );
