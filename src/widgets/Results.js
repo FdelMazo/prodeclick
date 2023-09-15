@@ -1,10 +1,21 @@
-import { Box, Card, CardBody, CardHeader, Flex, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Flex,
+  Select,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import React from "react";
 import { ProdeContext } from "../logic/ProdeContext";
 import useParty from "../logic/useParty";
 import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
+import { diff, sum } from "../logic";
 import PARTIDOS from "../logic/partidos";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -22,6 +33,14 @@ export default function Results() {
   const prode = React.useMemo(() => {
     return party?.users?.find((u) => u.id === selectedUser)?.prode;
   }, [selectedUser, user]);
+
+  const users = React.useMemo(() => {
+    const usersdif = party?.users?.map((u) => ({
+      dif: sum(diff(u.prode, simulatedResults)),
+      ...u,
+    }));
+    return usersdif?.sort((a, b) => a.dif - b.dif);
+  }, [party]);
 
   const chartOptions = {
     chart: {
@@ -164,20 +183,39 @@ export default function Results() {
             </Text>
           )}
         </Box>
-        {/* {isParty && <IconButton
-					borderRadius='lg'
-					bg='darkgray.300'
-					color='brand.500'
-					title={'Simular resultados'}
-					// isDisabled={isEdit && !validProde(editProde)}
-					icon={<Icon as={MdBarChart} boxSize={5} />}
-					onClick={isEdit ? () => {
-						// if (!validProde(editProde)) {
-						// 	return
-						// }
-						setIsEdit(false)
-					} : () => setIsEdit(true)}
-				/>} */}
+        {isParty && (
+          <Flex alignItems="center" gap={1}>
+            <Tooltip label="con estos resultados fede saldría #1">
+              <Badge colorScheme="green" fontSize="sm">
+                #{users.indexOf(users.find((u) => u.id === selectedUser)) + 1}
+              </Badge>
+            </Tooltip>
+            <Select
+              w="fit-content"
+              maxW="12ch"
+              color="brand.500"
+              bg="darkgray.300"
+              borderRadius="lg"
+              size="sm"
+              borderWidth={0}
+              textOverflow="ellipsis"
+              textAlign="center"
+              fontWeight={600}
+              _hover={{ bg: "brand.100" }}
+              onChange={(e) => setSelectedUser(e.target.value)}
+              value={selectedUser}
+            >
+              {users.map((us) => {
+                const user = users.find((u) => u.id === us.id);
+                return (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                );
+              })}
+            </Select>
+          </Flex>
+        )}
       </CardHeader>
       <CardBody
         display="flex"

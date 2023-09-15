@@ -41,6 +41,7 @@ export default function MiProde() {
             title={isEdit ? "Guardar predicciones" : "Editar predicciones"}
             isDisabled={isEdit && !validProde(prode)}
             icon={<Icon as={isEdit ? CheckIcon : EditIcon} boxSize={5} />}
+            _hover={{ bg: "brand.100" }}
             onClick={
               isEdit
                 ? async () => {
