@@ -1,4 +1,14 @@
-import { Box, Flex, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import React from "react";
 import { useTable } from "react-table";
 
@@ -81,9 +91,20 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
         </Tbody>
       </Table>
       {isEdit && (
-        <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
-          <Suma prode={prode} />
-        </Flex>
+        <>
+          <Text
+            color="darkgray.800"
+            fontSize="xs"
+            fontWeight="700"
+            w="100%"
+            textAlign="center"
+          >
+            En las elecciones generales no se contabilizan los votos en blanco!
+          </Text>
+          <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
+            <Suma prode={prode} />
+          </Flex>
+        </>
       )}
     </Box>
   );
