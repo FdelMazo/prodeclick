@@ -9,7 +9,7 @@ import {
 import React from "react";
 
 import { CheckIcon, EditIcon } from "@chakra-ui/icons";
-import { validProde } from "../logic";
+import { canBid, validProde } from "../logic";
 import { updateUserProde } from "../logic/api";
 import useParty from "../logic/useParty";
 import ProdeTable from "./ProdeTable";
@@ -18,6 +18,8 @@ export default function MiProde() {
   const { user, mutate, isParty } = useParty();
   const [isEdit, setIsEdit] = React.useState(false);
   const [prode, setProde] = React.useState(null);
+  const bid = React.useMemo(canBid, []);
+
   React.useEffect(() => {
     setProde(user?.prode);
   }, [user]);
@@ -33,7 +35,7 @@ export default function MiProde() {
         <Text color="darkgray.900" fontSize="xl" fontWeight="700">
           Mi Prode
         </Text>
-        {isParty && (
+        {isParty && bid && (
           <IconButton
             borderRadius="lg"
             bg="darkgray.300"

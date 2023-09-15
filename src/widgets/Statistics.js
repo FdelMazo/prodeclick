@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { MdOutlineCalendarMonth, MdPeopleAlt } from "react-icons/md";
-import { daysUntilElections } from "../logic";
+import { canBid, daysUntilElections } from "../logic";
 
 const MiniStat = ({
   startContent,
@@ -31,7 +31,11 @@ const MiniStat = ({
         <Stat>
           <StatLabel color={textColorSecondary}>{name}</StatLabel>
           <StatNumber>{value}</StatNumber>
-          <StatHelpText color={textColorSecondary} fontSize="xs">
+          <StatHelpText
+            color={textColorSecondary}
+            fontSize="xs"
+            fontWeight={500}
+          >
             {description}
           </StatHelpText>
         </Stat>
@@ -43,6 +47,7 @@ const MiniStat = ({
 export default function Statistics({ stats }) {
   const { parties, users } = stats;
   const days = React.useMemo(daysUntilElections, []);
+  const bid = React.useMemo(canBid, []);
   const iconBoxProps = {
     display: "flex",
     alignItems: "center",
@@ -83,9 +88,15 @@ export default function Statistics({ stats }) {
         name="Días hasta las elecciones"
         value={days}
         description={
-          <Text>
-            Se pueden cambiar las predicciones hasta el <b>sábado</b>{" "}
-            pre-elecciones
+          <Text color={!bid && "red.400"}>
+            {bid ? (
+              <>
+                Se pueden cambiar las predicciones hasta el <b>viernes</b>{" "}
+                pre-elecciones
+              </>
+            ) : (
+              "Ya no se pueden cambiar las predicciones"
+            )}
           </Text>
         }
         startContent={
