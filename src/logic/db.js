@@ -27,19 +27,19 @@ export const getParty = async (partyId) => {
     id: partyId,
     ...party,
     users,
-    admin: party?.admin ? await getUser(party.admin) : null,
+    admin: party?.admin ? users.find((u) => u.id === party.admin) : null,
   };
 };
 
 export const getUser = async (userId) => {
-  const keys = await kv.hkeys(`user:${userId}`);
   const user = { id: userId };
-  for (const key of keys) {
-    if (key === "password") {
-      continue;
-    }
-    user[key] = await kv.hget(`user:${userId}`, key);
-  }
+  const keys = await kv.hkeys(`user:${userId}`);
+  const keysToRetrieve = keys.filter((key) => key !== "password");
+  const userValues = await kv.hmget(`user:${userId}`, ...keysToRetrieve);
+
+  Object.entries(userValues).forEach(([key, value]) => {
+    user[key] = value;
+  });
   return user;
 };
 
