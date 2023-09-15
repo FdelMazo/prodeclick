@@ -13,14 +13,6 @@ import Participants from "../widgets/Participants";
 import PartyInfo from "../widgets/PartyInfo";
 import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
-/*
-TODO: FUTURO
-- Agregar prode de participacion electoral
-- Permitir que las partidas sean configurables
-  - Participacion si/no
-  - Agrupar partidos minoristas en otros si/no
-  - Ocultar/mostrar los prodes del resto
-*/
 
 function MainDashboard() {
   const { isLogged, party, isLoading } = useParty();
