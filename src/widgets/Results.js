@@ -40,11 +40,11 @@ export default function Results() {
       ...u,
     }));
     return usersdif?.sort((a, b) => a.dif - b.dif);
-  }, [party]);
+  }, [party, simulatedResults]);
 
   const selectedUser = React.useMemo(() => {
     return users?.find((u) => u.id === selectedUserId);
-  }, [selectedUserId]);
+  }, [users, selectedUserId]);
 
   const chartOptions = {
     chart: {
