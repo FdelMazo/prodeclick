@@ -11,7 +11,7 @@ export default function useParty() {
     data: party,
     isLoading,
     mutate,
-  } = useSWR(`/api/party/${partyId}`, GET);
+  } = useSWR(partyId ? `/api/party/${partyId}` : null, GET);
   const isParty = !!partyId;
   const needsAdmin = isParty && !party.admin;
 
