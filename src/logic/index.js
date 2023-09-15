@@ -1,6 +1,3 @@
-const msInDay = 24 * 60 * 60 * 1000;
-const days = (n) => n * msInDay;
-
 const ELECTIONS = new Date("2023-10-22T00:00:00.000-03:00");
 
 // Se puede apostar "hasta el viernes". O sea, hasta las 00:00 del sábado.
@@ -12,6 +9,7 @@ export const canBid = () => {
 };
 
 export const daysUntilElections = () => {
+  const msInDay = 24 * 60 * 60 * 1000;
   const today = new Date();
   const diffTime = ELECTIONS - today;
   return Math.ceil(diffTime / msInDay);
@@ -23,6 +21,10 @@ export const sum = (prode) => {
     .toFixed(1);
 };
 
+export const validProde = (prode) => {
+  return sum(prode) == 100.0;
+};
+
 export const diff = (prode, results) => {
   return Object.fromEntries(
     Object.entries(prode).map(([partidoId, porcentaje]) => {
@@ -30,8 +32,4 @@ export const diff = (prode, results) => {
       return [partidoId, diff];
     })
   );
-};
-
-export const validProde = (prode) => {
-  return sum(prode) == 100.0;
 };

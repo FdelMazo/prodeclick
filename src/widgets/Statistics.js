@@ -3,6 +3,7 @@ import {
   Card,
   CardBody,
   Icon,
+  Spinner,
   Stat,
   StatHelpText,
   StatLabel,
@@ -10,7 +11,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import { MdOutlineCalendarMonth, MdPeopleAlt } from "react-icons/md";
+import {
+  MdOutlineBallot,
+  MdOutlineCalendarMonth,
+  MdPeopleAlt,
+} from "react-icons/md";
 import { canBid, daysUntilElections } from "../logic";
 
 const MiniStat = ({
@@ -46,6 +51,10 @@ const MiniStat = ({
 
 export default function Statistics({ stats }) {
   const { parties, users } = stats;
+  // TODO: use the results!
+  // const { lastUpdate, isLoadingResults, tablesPercent } = useResults();
+  const { lastUpdate, isLoadingResults, tablesPercent } = {};
+
   const days = React.useMemo(daysUntilElections, []);
   const bid = React.useMemo(canBid, []);
   const iconBoxProps = {
@@ -84,27 +93,57 @@ export default function Statistics({ stats }) {
           </Box>
         }
       />
-      <MiniStat
-        name="Días hasta las elecciones"
-        value={days}
-        description={
-          <Text color={!bid && "red.400"}>
-            {bid ? (
-              <>
-                Se pueden cambiar las predicciones hasta el <b>viernes</b>{" "}
-                pre-elecciones
-              </>
+      {days <= 0 ? (
+        <MiniStat
+          name="Mesas escrutinadas"
+          value={
+            isLoadingResults ? (
+              <Spinner size="sm" />
             ) : (
-              "Ya no se pueden cambiar las predicciones"
-            )}
-          </Text>
-        }
-        startContent={
-          <Box {...iconBoxProps}>
-            <Icon {...iconProps} as={MdOutlineCalendarMonth} />
-          </Box>
-        }
-      />
+              (tablesPercent || 0).toFixed(2) + "%"
+            )
+          }
+          description={
+            isLoadingResults ? (
+              <br />
+            ) : lastUpdate ? (
+              <Text>
+                Última actualización:{" "}
+                <b>{lastUpdate.toLocaleTimeString("en-US")}</b>
+              </Text>
+            ) : (
+              <Text>Un poquito más de paciencia</Text>
+            )
+          }
+          startContent={
+            <Box {...iconBoxProps}>
+              <Icon {...iconProps} as={MdOutlineBallot} />
+            </Box>
+          }
+        />
+      ) : (
+        <MiniStat
+          name="Días hasta las elecciones"
+          value={days}
+          description={
+            <Text color={!bid && "red.400"}>
+              {bid ? (
+                <>
+                  Se pueden cambiar las predicciones hasta el <b>viernes</b>{" "}
+                  pre-elecciones
+                </>
+              ) : (
+                "Ya no se pueden cambiar las predicciones"
+              )}
+            </Text>
+          }
+          startContent={
+            <Box {...iconBoxProps}>
+              <Icon {...iconProps} as={MdOutlineCalendarMonth} />
+            </Box>
+          }
+        />
+      )}
     </>
   );
 }
