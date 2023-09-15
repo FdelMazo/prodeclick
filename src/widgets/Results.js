@@ -24,15 +24,15 @@ export default function Results() {
   const { simulatedResults, setSimulatedResults } =
     React.useContext(ProdeContext);
 
-  const [selectedUser, setSelectedUser] = React.useState("");
+  const [selectedUserId, setSelectedUserId] = React.useState("");
 
   React.useEffect(() => {
-    setSelectedUser(user?.id);
+    setSelectedUserId(user?.id);
   }, [user]);
 
   const prode = React.useMemo(() => {
-    return party?.users?.find((u) => u.id === selectedUser)?.prode;
-  }, [selectedUser, user]);
+    return party?.users?.find((u) => u.id === selectedUserId)?.prode;
+  }, [selectedUserId, user]);
 
   const users = React.useMemo(() => {
     const usersdif = party?.users?.map((u) => ({
@@ -41,6 +41,10 @@ export default function Results() {
     }));
     return usersdif?.sort((a, b) => a.dif - b.dif);
   }, [party]);
+
+  const selectedUser = React.useMemo(() => {
+    return users?.find((u) => u.id === selectedUserId);
+  }, [selectedUserId]);
 
   const chartOptions = {
     chart: {
@@ -185,9 +189,13 @@ export default function Results() {
         </Box>
         {isParty && (
           <Flex alignItems="center" gap={1}>
-            <Tooltip label="con estos resultados fede saldría #1">
+            <Tooltip
+              label={`con estos resultados ${selectedUser?.name} saldría #${
+                users.indexOf(selectedUser) + 1
+              }`}
+            >
               <Badge colorScheme="green" fontSize="sm">
-                #{users.indexOf(users.find((u) => u.id === selectedUser)) + 1}
+                #{users.indexOf(selectedUser) + 1}
               </Badge>
             </Tooltip>
             <Select
@@ -202,8 +210,8 @@ export default function Results() {
               textAlign="center"
               fontWeight={600}
               _hover={{ bg: "brand.100" }}
-              onChange={(e) => setSelectedUser(e.target.value)}
-              value={selectedUser}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              value={selectedUserId}
             >
               {users.map((us) => {
                 const user = users.find((u) => u.id === us.id);
