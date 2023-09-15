@@ -11,6 +11,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import React from "react";
 import { useTable } from "react-table";
 
 import useParty from "../logic/useParty";
@@ -25,7 +26,7 @@ const columns = [
   },
 ];
 
-const ParticipantsTable = ({ data }) => {
+const ParticipantsTable = ({ data, userId }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
@@ -55,7 +56,11 @@ const ParticipantsTable = ({ data }) => {
         {rows.map((row, index) => {
           prepareRow(row);
           return (
-            <Tr {...row.getRowProps()} key={index}>
+            <Tr
+              {...row.getRowProps()}
+              key={index}
+              bg={row.original.id === userId && "gray.100"}
+            >
               {row.cells.map((cell, index) => {
                 let data;
                 if (cell.column.Header === "NOMBRE") {
@@ -90,8 +95,17 @@ const ParticipantsTable = ({ data }) => {
 };
 
 export default function Participants() {
-  const { party } = useParty();
-  const data = party.users.map((u) => ({ name: u.name, prode: u.prode }));
+  const { party, user } = useParty();
+  const data = party.users.map((u) => ({
+    name: u.name,
+    prode: u.prode,
+    id: u.id,
+  }));
+
+  const [userId, setUserId] = React.useState(null);
+  React.useEffect(() => {
+    setUserId(user?.id);
+  }, [user]);
 
   return (
     <Card p={4}>
@@ -111,7 +125,7 @@ export default function Participants() {
         flexDirection="column"
         justifyContent="space-between"
       >
-        <ParticipantsTable data={data} />
+        <ParticipantsTable data={data} userId={userId} />
       </CardBody>
     </Card>
   );
