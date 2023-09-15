@@ -80,7 +80,11 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
           })}
         </Tbody>
       </Table>
-      {isEdit && <Suma prode={prode} />}
+      {isEdit && (
+        <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
+          <Suma prode={prode} />
+        </Flex>
+      )}
     </Box>
   );
 }

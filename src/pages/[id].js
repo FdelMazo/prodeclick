@@ -49,11 +49,11 @@ function MainDashboard() {
         <PartyInfo />
       </SimpleGrid>
 
-      <SimpleGrid w="100%" columns={{ base: 1, md: 4 }} gap={4}>
-        <GridItem colSpan={{ md: 2, "2xl": 3 }}>
+      <SimpleGrid w="100%" columns={{ base: 1, lg: 4 }} gap={4}>
+        <GridItem colSpan={{ lg: 2, "2xl": 3 }}>
           <MiProde />
         </GridItem>
-        <GridItem colSpan={{ md: 2, "2xl": 1 }}>
+        <GridItem colSpan={{ lg: 2, "2xl": 1 }}>
           <Results />
         </GridItem>
       </SimpleGrid>

@@ -1,11 +1,5 @@
-import { defineStyleConfig, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
-
-const SimpleGrid = defineStyleConfig({
-  defaultProps: {
-    columns: 3,
-  },
-});
 
 export default extendTheme({
   colors: {
@@ -62,8 +56,5 @@ export default extendTheme({
     xl: "1200px",
     "2xl": "1600px",
     "3xl": "1920px",
-  },
-  components: {
-    SimpleGrid,
   },
 });

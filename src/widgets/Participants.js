@@ -65,7 +65,11 @@ const ParticipantsTable = ({ data }) => {
                     </Text>
                   );
                 } else if (cell.column.Header === "PRODE") {
-                  data = <InlineProde prode={row.original.prode} />;
+                  data = (
+                    <Flex justifyContent="center" gap={1}>
+                      <InlineProde prode={row.original.prode} />
+                    </Flex>
+                  );
                 }
                 return (
                   <Td
@@ -90,8 +94,9 @@ export default function Participants() {
   const data = party.users.map((u) => ({ name: u.name, prode: u.prode }));
 
   return (
-    <Card>
+    <Card p={4}>
       <CardHeader
+        p={2}
         display="flex"
         justifyContent="space-between"
         alignItems="center"

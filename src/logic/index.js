@@ -16,6 +16,15 @@ export const sum = (prode) => {
     .toFixed(1);
 };
 
+export const diff = (prode, results) => {
+  return Object.fromEntries(
+    Object.entries(prode).map(([partidoId, porcentaje]) => {
+      const diff = Math.abs((porcentaje - results[partidoId]).toFixed(1));
+      return [partidoId, diff];
+    })
+  );
+};
+
 export const validProde = (prode) => {
   return sum(prode) == 100.0;
 };

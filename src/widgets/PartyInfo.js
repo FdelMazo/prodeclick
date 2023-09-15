@@ -16,7 +16,8 @@ export default function PartyInfo() {
         <>
           <Text fontSize="md" fontWeight={500}>
             Podés invitar a más gente pasándoles el código de partida{" "}
-            <Kbd>{party.id}</Kbd> o directamente un link a esta página
+            <Kbd fontSize="md">{party.id}</Kbd> o directamente un link a esta
+            página
           </Text>
           <Text fontSize="md" fontWeight={500}>
             Podés crear mas partidas en{" "}

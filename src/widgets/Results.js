@@ -1,38 +1,18 @@
-import { Box, Card, CardBody, CardHeader, Text } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { ProdeContext } from "../logic/ProdeContext";
 import useParty from "../logic/useParty";
-import { Diferencia, InlineProde } from "./ProdeComponents";
+import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
 import PARTIDOS from "../logic/partidos";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-class BarChart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      options: props.options,
-      series: props.series,
-    };
-  }
-
-  render() {
-    return (
-      <Chart
-        options={this.state.options}
-        series={this.state.series}
-        type="bar"
-      />
-    );
-  }
-}
-
 export default function Results() {
   const { isParty, user, party } = useParty();
-  const { simulatedResults } = React.useContext(ProdeContext);
+  const { simulatedResults, setSimulatedResults } =
+    React.useContext(ProdeContext);
 
-  const [isEdit, setIsEdit] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState("");
 
   React.useEffect(() => {
@@ -41,7 +21,7 @@ export default function Results() {
 
   const prode = React.useMemo(() => {
     return party?.users?.find((u) => u.id === selectedUser)?.prode;
-  }, [selectedUser]);
+  }, [selectedUser, user]);
 
   const chartOptions = {
     chart: {
@@ -167,11 +147,12 @@ export default function Results() {
   ];
 
   return (
-    <Card h="100%">
+    <Card h="100%" p={4}>
       <CardHeader
         display="flex"
         justifyContent="space-between"
         alignItems="center"
+        p={2}
       >
         <Box>
           <Text color="darkgray.900" fontSize="xl" fontWeight="700">
@@ -204,14 +185,36 @@ export default function Results() {
         justifyContent="space-between"
       >
         <Box fontSize="xl">
-          {isParty && <InlineProde prode={simulatedResults} />}
+          {isParty && (
+            <>
+              <Flex flexWrap="wrap" justifyContent="space-around" gap={1}>
+                <InlineProde
+                  prode={simulatedResults}
+                  setProde={setSimulatedResults}
+                  isEdit={true}
+                  w="7ch"
+                />
+              </Flex>
+              <Flex
+                flexDir="column"
+                w="100%"
+                alignItems="flex-end"
+                fontSize="sm"
+                my={1}
+              >
+                <Suma prode={simulatedResults} progressHeight={0} />
+              </Flex>
+            </>
+          )}
           {(!isParty || prode) && (
-            <BarChart series={chartSeries} options={chartOptions} />
+            <Chart series={chartSeries} options={chartOptions} type="bar" />
           )}
         </Box>
         {isParty && prode && (
-          <Card p={2} overflowX="scroll" fontSize="xl">
-            <Diferencia prode={prode} results={simulatedResults} />
+          <Card variant="outline">
+            <CardBody p={2}>
+              <Diferencia prode={prode} results={simulatedResults} />
+            </CardBody>
           </Card>
         )}
       </CardBody>

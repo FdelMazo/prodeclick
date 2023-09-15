@@ -208,7 +208,8 @@ export default function LoginModal({ isOpen, onClose }) {
           {needsAdmin && (
             <Text fontSize="sm" textAlign="right">
               Podés invitar a más gente pasándoles el código de partida{" "}
-              <Kbd>{party.id}</Kbd> o directamente un link a esta página
+              <Kbd fontSize="sm">{party.id}</Kbd> o directamente un link a esta
+              página
             </Text>
           )}
         </ModalFooter>

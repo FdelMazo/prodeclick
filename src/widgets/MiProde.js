@@ -9,9 +9,9 @@ import {
 import React from "react";
 
 import { CheckIcon, EditIcon } from "@chakra-ui/icons";
+import { validProde } from "../logic";
 import { updateUserProde } from "../logic/api";
 import useParty from "../logic/useParty";
-import { validProde } from "../logic";
 import ProdeTable from "./ProdeTable";
 
 export default function MiProde() {
@@ -23,11 +23,12 @@ export default function MiProde() {
   }, [user]);
 
   return (
-    <Card h="100%">
+    <Card h="100%" p={4}>
       <CardHeader
         display="flex"
         justifyContent="space-between"
         alignItems="center"
+        p={2}
       >
         <Text color="darkgray.900" fontSize="xl" fontWeight="700">
           Mi Prode

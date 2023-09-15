@@ -65,21 +65,6 @@ export default function Statistics({ stats }) {
   return (
     <>
       <MiniStat
-        name="Días hasta las elecciones"
-        value={days}
-        description={
-          <Text>
-            Se pueden cambiar las predicciones hasta el <b>sábado</b>{" "}
-            pre-elecciones
-          </Text>
-        }
-        startContent={
-          <Box {...iconBoxProps}>
-            <Icon {...iconProps} as={MdOutlineCalendarMonth} />
-          </Box>
-        }
-      />
-      <MiniStat
         name="Participantes"
         value={users}
         description={
@@ -92,6 +77,21 @@ export default function Statistics({ stats }) {
         startContent={
           <Box {...iconBoxProps}>
             <Icon {...iconProps} as={MdPeopleAlt} />
+          </Box>
+        }
+      />
+      <MiniStat
+        name="Días hasta las elecciones"
+        value={days}
+        description={
+          <Text>
+            Se pueden cambiar las predicciones hasta el <b>sábado</b>{" "}
+            pre-elecciones
+          </Text>
+        }
+        startContent={
+          <Box {...iconBoxProps}>
+            <Icon {...iconProps} as={MdOutlineCalendarMonth} />
           </Box>
         }
       />

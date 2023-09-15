@@ -11,15 +11,15 @@ import {
   Spinner,
   Stat,
   StatHelpText,
-  StatLabel,
   StatNumber,
   Text,
   Tooltip,
+  WrapItem,
 } from "@chakra-ui/react";
 import React from "react";
 
 import { MdPlayCircle } from "react-icons/md";
-import { sum } from "../logic";
+import { diff, sum } from "../logic";
 import PARTIDOS from "../logic/partidos";
 
 export const Porcentaje = ({
@@ -29,10 +29,13 @@ export const Porcentaje = ({
   isEdit,
   isLoading,
   isDummy,
+  fontWeight = 700,
+  tooltip,
 }) => {
   return isEdit ? (
     <NumberInput
-      w="10ch"
+      minW="7ch"
+      maxW="10ch"
       m="auto"
       min={0}
       max={100}
@@ -46,28 +49,34 @@ export const Porcentaje = ({
         });
       }}
     >
-      <NumberInputField
-        textAlign="center"
-        color={`${partido.color}.600`}
-        fontWeight={500}
-      />
+      <Tooltip label={tooltip}>
+        <NumberInputField
+          textAlign="center"
+          color={`${partido.color}.600`}
+          fontWeight={500}
+        />
+      </Tooltip>
       <NumberInputStepper>
         <NumberIncrementStepper />
         <NumberDecrementStepper />
       </NumberInputStepper>
     </NumberInput>
   ) : (
-    <Box color={`${partido.color}.600`} textAlign="center">
-      {isLoading ? (
-        <Spinner size="xs" />
-      ) : (
-        <Text fontWeight="700">{isDummy ? "??" : prode?.[partido.id]}%</Text>
-      )}
-    </Box>
+    <Tooltip label={tooltip}>
+      <Box color={`${partido.color}.600`} textAlign="center">
+        {isLoading ? (
+          <Spinner size="xs" />
+        ) : (
+          <Text fontWeight={fontWeight}>
+            {isDummy ? "??" : prode?.[partido.id]}%
+          </Text>
+        )}
+      </Box>
+    </Tooltip>
   );
 };
 
-export const Suma = ({ prode }) => {
+export const Suma = ({ prode, progressHeight = 3 }) => {
   if (!prode) return null;
   const suma = React.useMemo(() => {
     const n = sum(prode);
@@ -79,14 +88,14 @@ export const Suma = ({ prode }) => {
   }, [prode]);
 
   return (
-    <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
+    <>
       <Progress
         hasStripe
         bg="gray.300"
         colorScheme={suma.color}
         value={suma.n}
         w="100%"
-        h={3}
+        h={progressHeight}
         borderRadius={4}
       />
       <Box>
@@ -97,7 +106,7 @@ export const Suma = ({ prode }) => {
           {suma.n}%
         </Text>
       </Box>
-    </Flex>
+    </>
   );
 };
 
@@ -117,42 +126,37 @@ export const Partido = ({ partido }) => {
   );
 };
 
-export const InlineProde = ({ prode }) => {
-  return (
-    <Flex justifyContent="center" gap={2}>
-      {Object.entries(prode).map(([partidoId, porcentaje]) => {
-        const partido = PARTIDOS.find((p) => p.id === partidoId);
-        return (
-          <Tooltip label={partido.partido} key={partidoId}>
-            <Text color={`${partido.color}.600`} fontWeight={600}>
-              {porcentaje}%
-            </Text>
-          </Tooltip>
-        );
-      })}
-    </Flex>
-  );
+export const InlineProde = ({ prode, setProde, isEdit, ...rest }) => {
+  return Object.entries(prode).map(([partidoId, porcentaje]) => {
+    const partido = PARTIDOS.find((p) => p.id === partidoId);
+    return (
+      <WrapItem {...rest} key={partidoId}>
+        <Porcentaje
+          partido={partido}
+          prode={prode}
+          isEdit={isEdit}
+          setProde={setProde}
+          fontWeight={600}
+          tooltip={partido.partido}
+        />
+      </WrapItem>
+    );
+  });
 };
 
 export const Diferencia = ({ prode, results }) => {
   if (!prode || !results) return null;
 
   const diferencia = React.useMemo(() => {
-    return Object.fromEntries(
-      Object.entries(prode).map(([partidoId, porcentaje]) => {
-        const diff = Math.abs((porcentaje - results[partidoId]).toFixed(1));
-        return [partidoId, diff];
-      })
-    );
+    return diff(prode, results);
   }, [prode, results]);
 
   return (
     <Stat>
-      <StatLabel>Diferencia</StatLabel>
-      <StatNumber>
-        <Text>{sum(diferencia)} puntos</Text>
+      <StatNumber fontSize="xl">
+        <Text>Diferencia: {sum(diferencia)} puntos</Text>
       </StatNumber>
-      <StatHelpText>Mientras menos diferencia, mejor!</StatHelpText>
+      <StatHelpText>Mientras menos diferencia, mejor</StatHelpText>
     </Stat>
   );
 };
