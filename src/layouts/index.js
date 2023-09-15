@@ -41,6 +41,7 @@ function MainLayout(props) {
         px={2}
       >
         <Flex gap={4} alignItems="center">
+          {/* TODO: Abrir repo y descomentar esto */}
           {/* <FooterLink
             text="source code"
             link="https://github.com/fdelmazo/prode"

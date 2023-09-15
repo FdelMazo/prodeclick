@@ -11,9 +11,12 @@ import Statistics from "../widgets/Statistics";
 
 /*
 TODO: FUTURO
-- Agregar prode de participacion electoral
+- Hacer que funcione para mas de una eleccion
+  (ej: PASO, ballotage, legislativas), sin perder los datos anteriores!
+- Agregar prode de participacion electoral/
+  votos en blanco/ otras estadisticas que no influyen en el main prode
+  y hacerlo configurable por partida
 - Permitir que las partidas sean configurables
-  - Participacion si/no
   - Agrupar partidos minoristas en otros si/no
   - Ocultar/mostrar los prodes del resto
 */
