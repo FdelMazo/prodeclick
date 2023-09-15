@@ -1,13 +1,4 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  Image,
-  Link,
-  VStack,
-} from "@chakra-ui/react";
-import { BsGithub } from "react-icons/bs";
+import { Box, Flex, Heading, Image, Link, VStack } from "@chakra-ui/react";
 import { ProdeProvider } from "../logic/ProdeContext";
 
 const FooterLink = ({ link, text, left }) => {
@@ -35,12 +26,12 @@ function MainLayout(props) {
       </VStack>
 
       <Flex position="absolute" bottom={1} gap={4} alignItems="center">
-        <FooterLink
+        {/* <FooterLink
           text="source code"
           link="https://github.com/fdelmazo/prode"
           left={<Icon boxSize={6} as={BsGithub} />}
         />
-        •
+        • */}
         <FooterLink
           text="fede.dm"
           link="https://fede.dm"
