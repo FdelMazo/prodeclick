@@ -166,39 +166,44 @@ export default function LoginModal({ isOpen, onClose }) {
                 </Button>
               </>
             ) : (
-              <Button
-                size="lg"
-                colorScheme="brand"
-                isLoading={formStatus == "loading"}
-                onClick={async () => {
-                  setFormStatus("submitted");
-                  if (!name || !password) return;
+              <Flex align="center" flexDir="column" gap={1}>
+                <Text color="darkgray.800" fontSize="sm" fontWeight="600">
+                  si ya armaste tu prode, usá el mismo nombre y contraseña!
+                </Text>
+                <Button
+                  size="lg"
+                  colorScheme="brand"
+                  isLoading={formStatus == "loading"}
+                  onClick={async () => {
+                    setFormStatus("submitted");
+                    if (!name || !password) return;
 
-                  setFormStatus("loading");
-                  const { create, wrongPassword, userId } = await checkUser(
-                    party.id,
-                    name,
-                    password
-                  );
+                    setFormStatus("loading");
+                    const { create, wrongPassword, userId } = await checkUser(
+                      party.id,
+                      name,
+                      password
+                    );
 
-                  if (create) {
-                    setShowProde(true);
-                    setFormStatus("filled");
-                  } else if (wrongPassword) {
-                    setFormStatus("error");
-                  } else if (userId) {
-                    login(userId);
-                    mutate();
-                    setFormStatus("");
-                  }
+                    if (create) {
+                      setShowProde(true);
+                      setFormStatus("filled");
+                    } else if (wrongPassword) {
+                      setFormStatus("error");
+                    } else if (userId) {
+                      login(userId);
+                      mutate();
+                      setFormStatus("");
+                    }
 
-                  if (userId) {
-                    onClose();
-                  }
-                }}
-              >
-                continuar
-              </Button>
+                    if (userId) {
+                      onClose();
+                    }
+                  }}
+                >
+                  continuar
+                </Button>
+              </Flex>
             )}
           </VStack>
         </ModalBody>
