@@ -1,4 +1,10 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
   Card,
   CardBody,
   CardHeader,
@@ -111,9 +117,28 @@ export default function Participants() {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text color="darkgray.900" fontSize="xl" fontWeight="700">
-          Participantes
-        </Text>
+        <Box>
+          <Text color="darkgray.900" fontSize="xl" fontWeight="700">
+            Participantes
+          </Text>
+          <Accordion allowToggle={true}>
+            <AccordionItem border="none">
+              <AccordionButton p={0} textAlign={"left"}>
+                <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                  Gana el que tenga menos diferencia absoluta entre todas sus
+                  predicciones y los resultados reales.
+                </Text>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel p={0} textAlign={"left"}>
+                <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                  Frente a un candidato que saca 20%, tanto el que predijo 15%
+                  como el que predijo 25% está a 5 puntos de diferencia.
+                </Text>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Box>
       </CardHeader>
 
       <CardBody
