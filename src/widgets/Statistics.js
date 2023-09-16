@@ -52,8 +52,8 @@ const MiniStat = ({
 export default function Statistics({ stats }) {
   const { parties, users } = stats;
   // TODO: use the results!
-  // const { lastUpdate, isLoadingResults, tablesPercent } = useResults();
-  const { lastUpdate, isLoadingResults, tablesPercent } = {};
+  // const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
+  const { isLoadingResults, lastUpdate, tablesPercent } = {};
 
   const days = React.useMemo(daysUntilElections, []);
   const bid = React.useMemo(canBid, []);

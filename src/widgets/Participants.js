@@ -4,6 +4,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Badge,
   Box,
   Card,
   CardBody,
@@ -20,19 +21,11 @@ import {
 import React from "react";
 import { useTable } from "react-table";
 
+import { diff, sum } from "../logic";
 import useParty from "../logic/useParty";
 import { InlineProde } from "./ProdeComponents";
 
-const columns = [
-  {
-    Header: "NOMBRE",
-  },
-  {
-    Header: "PRODE",
-  },
-];
-
-const ParticipantsTable = ({ data, userId }) => {
+const ParticipantsTable = ({ data, columns, userId, results }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
@@ -59,21 +52,28 @@ const ParticipantsTable = ({ data, userId }) => {
         ))}
       </Thead>
       <Tbody {...getTableBodyProps()}>
-        {rows.map((row, index) => {
+        {rows.map((row, rowIndex) => {
           prepareRow(row);
           return (
             <Tr
               {...row.getRowProps()}
-              key={index}
+              key={rowIndex}
               bg={row.original.id === userId && "gray.100"}
             >
-              {row.cells.map((cell, index) => {
+              {row.cells.map((cell, cellIndex) => {
                 let data;
                 if (cell.column.Header === "NOMBRE") {
                   data = (
-                    <Text color="darkgray.900" fontSize="sm" fontWeight="700">
-                      {row.original.name}
-                    </Text>
+                    <Flex gap={2}>
+                      {results && (
+                        <Badge colorScheme="green" fontSize="sm">
+                          #{rowIndex + 1}
+                        </Badge>
+                      )}
+                      <Text color="darkgray.900" fontSize="sm" fontWeight="700">
+                        {row.original.name}
+                      </Text>
+                    </Flex>
                   );
                 } else if (cell.column.Header === "PRODE") {
                   data = (
@@ -81,9 +81,15 @@ const ParticipantsTable = ({ data, userId }) => {
                       <InlineProde prode={row.original.prode} />
                     </Flex>
                   );
+                } else if (cell.column.Header === "DIFERENCIA") {
+                  data = (
+                    <Text color="red.500" fontSize="sm" fontWeight="700">
+                      {row.original.dif} puntos
+                    </Text>
+                  );
                 }
                 return (
-                  <Td {...cell.getCellProps()} key={index}>
+                  <Td {...cell.getCellProps()} key={cellIndex}>
                     {data}
                   </Td>
                 );
@@ -98,16 +104,47 @@ const ParticipantsTable = ({ data, userId }) => {
 
 export default function Participants() {
   const { party, user } = useParty();
-  const data = party.users.map((u) => ({
-    name: u.name,
-    prode: u.prode,
-    id: u.id,
-  }));
+  // TODO: USE RESULTS!!!
+  const { results } = {};
+  // const { results } = useResults();
 
   const [userId, setUserId] = React.useState(null);
   React.useEffect(() => {
     setUserId(user?.id);
   }, [user]);
+
+  const columns = [
+    {
+      Header: "NOMBRE",
+    },
+    {
+      Header: "PRODE",
+    },
+    results
+      ? {
+          Header: "DIFERENCIA",
+        }
+      : undefined,
+  ].filter((c) => c);
+
+  const data = React.useMemo(() => {
+    return party.users
+      .map((u) => {
+        let user = {
+          name: u.name,
+          prode: u.prode,
+          id: u.id,
+        };
+        if (results) {
+          user["dif"] = sum(diff(u.prode, results));
+        }
+        return user;
+      })
+      .sort((a, b) => {
+        if (!results) return 0;
+        return a.dif - b.dif;
+      });
+  }, [party, results]);
 
   return (
     <Card p={4}>
@@ -146,7 +183,12 @@ export default function Participants() {
         flexDirection="column"
         justifyContent="space-between"
       >
-        <ParticipantsTable data={data} userId={userId} />
+        <ParticipantsTable
+          data={data}
+          columns={columns}
+          userId={userId}
+          results={results}
+        />
       </CardBody>
     </Card>
   );
