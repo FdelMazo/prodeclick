@@ -8,11 +8,9 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Kbd,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -204,15 +202,6 @@ export default function LoginModal({ isOpen, onClose }) {
             )}
           </VStack>
         </ModalBody>
-        <ModalFooter w="80%" alignSelf="flex-end">
-          {needsAdmin && (
-            <Text fontSize="sm" textAlign="right">
-              Podés invitar a más gente pasándoles el código de partida{" "}
-              <Kbd fontSize="sm">{party.id}</Kbd> o directamente un link a esta
-              página
-            </Text>
-          )}
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
