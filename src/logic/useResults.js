@@ -14,7 +14,7 @@ const TRANSFORM = async (url, options) => {
     results["FIT-U"] = parties["136"];
 
     return {
-      results,
+      realResults: results,
       lastUpdate: new Date(data.last_update),
       tablesPercent: data.tables_percent,
     };
@@ -30,10 +30,10 @@ export default function useResults() {
     TRANSFORM
   );
 
-  const { results, lastUpdate, tablesPercent } = data || {};
+  const { realResults, lastUpdate, tablesPercent } = data || {};
 
   return {
-    results,
+    realResults,
     lastUpdate,
     tablesPercent,
     isLoadingResults,

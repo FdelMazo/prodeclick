@@ -117,8 +117,8 @@ const ParticipantsTable = ({
 export default function Participants() {
   const { party, user } = useParty();
   // TODO: USE RESULTS!!!
-  const { results, tablesPercent } = {};
-  // const { results, tablesPercent } = useResults();
+  const { realResults, tablesPercent } = {};
+  // const { realResults, tablesPercent } = useResults();
 
   const canProclamateWinner = React.useMemo(() => {
     return tablesPercent >= 90;
@@ -136,7 +136,7 @@ export default function Participants() {
     {
       Header: "PRODE",
     },
-    results
+    realResults
       ? {
           Header: "DIFERENCIA",
         }
@@ -151,16 +151,16 @@ export default function Participants() {
           prode: u.prode,
           id: u.id,
         };
-        if (results) {
-          user["dif"] = sum(diff(u.prode, results));
+        if (realResults) {
+          user["dif"] = sum(diff(u.prode, realResults));
         }
         return user;
       })
       .sort((a, b) => {
-        if (!results) return 0;
+        if (!realResults) return 0;
         return a.dif - b.dif;
       });
-  }, [party, results]);
+  }, [party, realResults]);
 
   return (
     <Card p={4}>
@@ -203,7 +203,7 @@ export default function Participants() {
           data={data}
           columns={columns}
           userId={userId}
-          results={results}
+          results={realResults}
           canProclamateWinner={canProclamateWinner}
         />
       </CardBody>
