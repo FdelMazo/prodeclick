@@ -29,7 +29,9 @@ function MainLayout(props) {
   return (
     <>
       <Box p={6} minH="99vh">
-        <Heading>prode.click</Heading>
+        <Link href="/" _hover={{ textTransform: "none" }}>
+          <Heading>prode.click</Heading>
+        </Link>
         <Heading color="gray.600" fontSize="xl">
           {ELECCIONES.title}
         </Heading>
