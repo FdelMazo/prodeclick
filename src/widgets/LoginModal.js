@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Button,
   Flex,
   FormControl,
@@ -20,9 +25,9 @@ import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { validProde } from "../logic";
 import { checkUser, createUser, initParty } from "../logic/api";
+import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
 import ProdeTable from "./ProdeTable";
-import ELECCIONES_DATA from "../logic/elecciones";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
@@ -133,6 +138,24 @@ export default function LoginModal({ isOpen, onClose }) {
 
             {showProde ? (
               <>
+                <Accordion allowToggle={true}>
+                  <AccordionItem border="none" mx={8}>
+                    <AccordionButton p={0}>
+                      <Text color="darkgray.900" fontSize="sm" fontWeight="700">
+                        Gana el que tenga menor diferencia absoluta entre todas
+                        sus predicciones y los resultados reales
+                      </Text>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel p={0} textAlign="center">
+                      <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                        Frente a un candidato que saca 20%, tanto el que predijo
+                        15% como el que predijo 25% está a 5 puntos de
+                        diferencia
+                      </Text>
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
                 <ProdeTable prode={prode} setProde={setProde} isEdit={true} />
                 <Button
                   colorScheme="brand"
