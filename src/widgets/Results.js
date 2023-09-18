@@ -88,7 +88,7 @@ export default function Results() {
         const partido = PARTIDOS.find((p) => p.id === data.x);
         const title = `<div
           class="apexcharts-tooltip-title"
-          style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600;"
+          style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; min-width: 200px"
         >
           ${partido.partido}
         </div>`;
@@ -159,7 +159,7 @@ export default function Results() {
           fillColor: `var(--chakra-colors-${partido.color}-300)`,
           goals: isParty && [
             {
-              name: "tu prode",
+              name: `prode de ${selectedUser?.name}`,
               value: prode?.[partidoId],
               strokeColor: "dimgray",
             },
