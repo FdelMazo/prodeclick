@@ -7,11 +7,11 @@ const TRANSFORM = async (url, options) => {
       data.parties.map((p) => [p.party_id, p.votes_percent.toFixed(1)])
     );
     let results = {};
-    results["UxP"] = parties["134"];
-    results["LLA"] = parties["135"];
-    results["JxC"] = parties["132"];
-    results["HNP"] = parties["133"];
-    results["FIT-U"] = parties["136"];
+    results["UxP"] = parseFloat(parties["134"]);
+    results["LLA"] = parseFloat(parties["135"]);
+    results["JxC"] = parseFloat(parties["132"]);
+    results["HNP"] = parseFloat(parties["133"]);
+    results["FIT-U"] = parseFloat(parties["136"]);
 
     return {
       realResults: results,

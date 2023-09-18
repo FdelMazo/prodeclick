@@ -25,10 +25,21 @@ const PARTIDOS = ELECCIONES.partidos;
 
 export default function Results() {
   const { isParty, user, party } = useParty();
+  // TODO: use results!!!
+  // const { realResults, tablesPercent } = useResults();
+  const { realResults, tablesPercent } = {};
   const { simulatedResults, setSimulatedResults } =
     React.useContext(ProdeContext);
 
   const [selectedUserId, setSelectedUserId] = React.useState("");
+
+  const isSimulated = React.useMemo(() => {
+    return !realResults;
+  });
+
+  const results = React.useMemo(() => {
+    return realResults ? realResults : simulatedResults;
+  }, [realResults, simulatedResults]);
 
   React.useEffect(() => {
     setSelectedUserId(user?.id);
@@ -40,11 +51,11 @@ export default function Results() {
 
   const users = React.useMemo(() => {
     const usersdif = party?.users?.map((u) => ({
-      dif: sum(diff(u.prode, simulatedResults)),
+      dif: sum(diff(u.prode, results)),
       ...u,
     }));
     return usersdif?.sort((a, b) => a.dif - b.dif);
-  }, [party, simulatedResults]);
+  }, [party, results]);
 
   const selectedUser = React.useMemo(() => {
     return users?.find((u) => u.id === selectedUserId);
@@ -88,82 +99,83 @@ export default function Results() {
       enabled: false,
     },
     tooltip: {
-      enabled: !!isParty,
-      custom: function ({ seriesIndex, dataPointIndex, w }) {
-        const series = w.globals.initialSeries[seriesIndex];
-        const data = series.data[dataPointIndex];
-        const goal = data.goals?.[0];
-        const partido = PARTIDOS.find((p) => p.id === data.x);
-        const title = `<div
-          class="apexcharts-tooltip-title"
-          style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; min-width: 200px"
-        >
-          ${partido.partido}
-        </div>`;
+      enabled: isParty || realResults,
+      custom: isParty
+        ? function ({ seriesIndex, dataPointIndex, w }) {
+            const series = w.globals.initialSeries[seriesIndex];
+            const data = series.data[dataPointIndex];
+            const goal = data.goals?.[0];
+            const partido = PARTIDOS.find((p) => p.id === data.x);
+            const title = `<div
+              class="apexcharts-tooltip-title"
+              style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; min-width: 200px"
+            >
+              ${partido.partido}
+            </div>`;
 
-        const item = (
-          name,
-          value,
-          icon,
-          color
-        ) => `<div class="apexcharts-tooltip-goals-group" style="display: flex; justify-content: space-between" >
+            const item = (
+              name,
+              value,
+              icon,
+              color
+            ) => `<div class="apexcharts-tooltip-goals-group" style="display: flex; justify-content: space-between">
+              <div class="apexcharts-tooltip-text-goals-label">
+                <span
+                  class="apexcharts-tooltip-marker"
+                  style="color: ${color}; line-height: 0.9; font-size: 18px"
+                >${icon}</span>
+                <span>${name}</span>
+              </div>
+              <div class="apexcharts-tooltip-text-goals-value">
+                <div>${value}</div>
+              </div>
+            </div>`;
 
-          <div class="apexcharts-tooltip-text-goals-label">
-            <span
-              class="apexcharts-tooltip-marker"
-              style="color: ${color}; line-height: 0.9; font-size: 18px"
-            >${icon}</span>
-            <span>${name}</span>
-          </div>
-          <div class="apexcharts-tooltip-text-goals-value">
-            <div>${value}</div>
-          </div>
-        </div>`;
+            const result = item(
+              series.name,
+              `${data.y.toFixed(1)}%`,
+              "▬",
+              data.fillColor
+            );
+            const prode = item(
+              goal.name,
+              `${goal.value.toFixed(1)}%`,
+              "▭",
+              goal.strokeColor
+            );
+            const dif = item(
+              "diferencia",
+              `${Math.abs(goal.value - data.y).toFixed(1)} pts`,
+              goal.value == data.y ? "✔" : goal.value < data.y ? "▼" : "▲",
+              "lightsalmon"
+            );
 
-        const result = item(
-          series.name,
-          `${data.y.toFixed(1)}%`,
-          "▬",
-          data.fillColor
-        );
-        const prode = item(
-          goal.name,
-          `${goal.value.toFixed(1)}%`,
-          "▭",
-          goal.strokeColor
-        );
-        const dif = item(
-          "diferencia",
-          `${Math.abs(goal.value - data.y).toFixed(1)} pts`,
-          goal.value == data.y ? "✔" : goal.value < data.y ? "▼" : "▲",
-          "lightsalmon"
-        );
+            const body = `<div
+              class="apexcharts-tooltip-series-group apexcharts-active"
+              style="order: 1; display: flex;"
+            >
+              <div
+                class="apexcharts-tooltip-text"
+                style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; width: 100%;"
+              >
+                ${result + prode + dif}
+              </div>
+            </div>`;
 
-        const body = `<div
-          class="apexcharts-tooltip-series-group apexcharts-active"
-          style="order: 1; display: flex;"
-        >
-          <div
-            class="apexcharts-tooltip-text"
-            style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; width: 100%;"
-          >
-            ${result + prode + dif}
-          </div>
-        </div>`;
-
-        return title + body;
-      },
+            return title + body;
+          }
+        : undefined,
     },
   };
 
   const chartSeries = [
     {
       name: "resultados",
-      data: Object.entries(simulatedResults).map(([partidoId, porcentaje]) => {
+      data: Object.entries(results).map(([partidoId, porcentaje]) => {
         const partido = PARTIDOS.find((p) => p.id === partidoId);
         return {
           x: partido.id,
-          y: isParty ? porcentaje : Math.random() * 40 + 10,
+          y: isParty || realResults ? porcentaje : Math.random() * 40 + 10,
           fillColor: `var(--chakra-colors-${partido.color}-300)`,
           goals: isParty && [
             {
@@ -187,9 +199,9 @@ export default function Results() {
       >
         <Box>
           <Text color="darkgray.900" fontSize="xl" fontWeight="700">
-            {isParty && "Simular "} Resultados
+            {isParty && isSimulated && "Simular"} Resultados
           </Text>
-          {!isParty && (
+          {!isParty && !realResults && (
             <Text color="darkgray.800" fontSize="sm" fontWeight="700">
               Se actualizarán en vivo el día de las elecciones
             </Text>
@@ -239,32 +251,28 @@ export default function Results() {
           </Flex>
         )}
       </CardHeader>
-      <CardBody
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-      >
+      <CardBody display="flex" flexDirection="column" justifyContent="center">
         <Box fontSize="xl">
-          {isParty && (
-            <>
-              <Flex flexWrap="wrap" justifyContent="space-around" gap={1}>
-                <InlineProde
-                  prode={simulatedResults}
-                  setProde={setSimulatedResults}
-                  isEdit={true}
-                  w="7ch"
-                />
-              </Flex>
-              <Flex
-                flexDir="column"
-                w="100%"
-                alignItems="flex-end"
-                fontSize="sm"
-                my={1}
-              >
-                <Suma prode={simulatedResults} progressHeight={0} />
-              </Flex>
-            </>
+          {(isParty || realResults) && (
+            <Flex flexWrap="wrap" justifyContent="space-around" gap={1}>
+              <InlineProde
+                prode={results}
+                setProde={isSimulated && setSimulatedResults}
+                isEdit={isSimulated}
+                w={isSimulated ? "7ch" : "fit-content"}
+              />
+            </Flex>
+          )}
+          {isParty && isSimulated && (
+            <Flex
+              flexDir="column"
+              w="100%"
+              alignItems="flex-end"
+              fontSize="sm"
+              my={1}
+            >
+              <Suma prode={results} progressHeight={0} />
+            </Flex>
           )}
           {(!isParty || prode) && (
             <Chart series={chartSeries} options={chartOptions} type="bar" />
@@ -273,7 +281,7 @@ export default function Results() {
         {isParty && prode && (
           <Card variant="outline">
             <CardBody p={2}>
-              <Diferencia prode={prode} results={simulatedResults} />
+              <Diferencia prode={prode} results={results} />
             </CardBody>
           </Card>
         )}
