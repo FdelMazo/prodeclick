@@ -214,15 +214,13 @@ export default function Results() {
                 users.indexOf(selectedUser) + 1
               }`}
             >
-              <>
-                {canProclaimWinner && users.indexOf(selectedUser) === 0 ? (
-                  "🏆"
-                ) : (
-                  <Badge colorScheme="green" fontSize="sm">
-                    #{users.indexOf(selectedUser) + 1}
-                  </Badge>
-                )}
-              </>
+              {canProclaimWinner && users.indexOf(selectedUser) === 0 ? (
+                "🏆"
+              ) : (
+                <Badge colorScheme="green" fontSize="sm">
+                  #{users.indexOf(selectedUser) + 1}
+                </Badge>
+              )}
             </Tooltip>
             <Select
               w="fit-content"
