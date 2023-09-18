@@ -1,22 +1,26 @@
-import { Box, Flex, Heading, Image, Link, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Image,
+  Link,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
 import { ProdeProvider } from "../logic/ProdeContext";
 import ELECCIONES_DATA from "../logic/elecciones";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 
 const FooterLink = ({ link, text, left, title }) => {
   return (
-    <Link
-      href={link}
-      isExternal
-      display="flex"
-      alignItems="center"
-      title={title}
-    >
-      {left}
-      <Heading color="gray.600" fontSize="md" ml={2}>
-        {text}
-      </Heading>
-    </Link>
+    <Tooltip label={title} placement="top" hasArrow={true}>
+      <Link href={link} isExternal display="flex" alignItems="center">
+        {left}
+        <Heading color="gray.600" fontSize="md" ml={2}>
+          {text}
+        </Heading>
+      </Link>
+    </Tooltip>
   );
 };
 

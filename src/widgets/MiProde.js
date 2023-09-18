@@ -5,6 +5,7 @@ import {
   Icon,
   IconButton,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -36,24 +37,29 @@ export default function MiProde() {
           Mi Prode
         </Text>
         {isParty && bid && (
-          <IconButton
-            borderRadius="lg"
-            bg="darkgray.300"
-            color="brand.500"
-            title={isEdit ? "Guardar predicciones" : "Editar predicciones"}
-            isDisabled={isEdit && !validProde(prode)}
-            icon={<Icon as={isEdit ? CheckIcon : EditIcon} boxSize={5} />}
-            _hover={{ bg: "brand.100" }}
-            onClick={
-              isEdit
-                ? async () => {
-                    await updateUserProde(user?.id, prode);
-                    mutate();
-                    setIsEdit(false);
-                  }
-                : () => setIsEdit(true)
-            }
-          />
+          <Tooltip
+            label={isEdit ? "Guardar predicciones" : "Editar predicciones"}
+            placement="top"
+            hasArrow={true}
+          >
+            <IconButton
+              borderRadius="lg"
+              bg="darkgray.300"
+              color="brand.500"
+              isDisabled={isEdit && !validProde(prode)}
+              icon={<Icon as={isEdit ? CheckIcon : EditIcon} boxSize={5} />}
+              _hover={{ bg: "brand.100" }}
+              onClick={
+                isEdit
+                  ? async () => {
+                      await updateUserProde(user?.id, prode);
+                      mutate();
+                      setIsEdit(false);
+                    }
+                  : () => setIsEdit(true)
+              }
+            />
+          </Tooltip>
         )}
       </CardHeader>
       <CardBody
