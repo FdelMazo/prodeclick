@@ -25,7 +25,13 @@ import { diff, sum } from "../logic";
 import useParty from "../logic/useParty";
 import { InlineProde } from "./ProdeComponents";
 
-const ParticipantsTable = ({ data, columns, userId, results }) => {
+const ParticipantsTable = ({
+  data,
+  columns,
+  userId,
+  results,
+  canProclamateWinner,
+}) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
@@ -66,9 +72,15 @@ const ParticipantsTable = ({ data, columns, userId, results }) => {
                   data = (
                     <Flex gap={2}>
                       {results && (
-                        <Badge colorScheme="green" fontSize="sm">
-                          #{rowIndex + 1}
-                        </Badge>
+                        <>
+                          {canProclamateWinner && rowIndex === 0 ? (
+                            "🏆"
+                          ) : (
+                            <Badge colorScheme="green" fontSize="sm">
+                              #{rowIndex + 1}
+                            </Badge>
+                          )}
+                        </>
                       )}
                       <Text color="darkgray.900" fontSize="sm" fontWeight="700">
                         {row.original.name}
@@ -105,8 +117,12 @@ const ParticipantsTable = ({ data, columns, userId, results }) => {
 export default function Participants() {
   const { party, user } = useParty();
   // TODO: USE RESULTS!!!
-  const { results } = {};
-  // const { results } = useResults();
+  const { results, tablesPercent } = {};
+  // const { results, tablesPercent } = useResults();
+
+  const canProclamateWinner = React.useMemo(() => {
+    return tablesPercent >= 90;
+  }, [tablesPercent]);
 
   const [userId, setUserId] = React.useState(null);
   React.useEffect(() => {
@@ -188,6 +204,7 @@ export default function Participants() {
           columns={columns}
           userId={userId}
           results={results}
+          canProclamateWinner={canProclamateWinner}
         />
       </CardBody>
     </Card>
