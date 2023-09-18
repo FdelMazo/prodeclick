@@ -16,8 +16,12 @@ import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
 import { diff, sum } from "../logic";
-import PARTIDOS from "../logic/partidos";
+import ELECCIONES_DATA from "../logic/elecciones";
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 export default function Results() {
   const { isParty, user, party } = useParty();

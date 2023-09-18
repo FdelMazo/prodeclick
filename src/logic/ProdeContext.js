@@ -1,5 +1,8 @@
 import React from "react";
-import PARTIDOS from "./partidos";
+import ELECCIONES_DATA from "./elecciones";
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 export const ProdeContext = React.createContext();
 

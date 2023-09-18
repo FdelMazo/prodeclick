@@ -3,6 +3,8 @@ import { customAlphabet } from "nanoid";
 const id = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
 const crypto = require("crypto");
 
+import ELECCIONES_DATA from "../logic/elecciones";
+
 export const create = async (key, value) => {
   const newId = id();
   await kv.hset(`${key}:${newId}`, value);
@@ -82,7 +84,7 @@ export const checkUser = async (partyId, userName, userPassword) => {
 };
 
 export const createParty = async () => {
-  return create("party", { users: [] });
+  return create("party", { users: [], electionsId: ELECCIONES_DATA.current });
 };
 
 export const updateUserProde = async (userId, prode) => {

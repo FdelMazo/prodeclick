@@ -1,5 +1,7 @@
 import { Box, Flex, Heading, Image, Link, VStack } from "@chakra-ui/react";
 import { ProdeProvider } from "../logic/ProdeContext";
+import ELECCIONES_DATA from "../logic/elecciones";
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 
 const FooterLink = ({ link, text, left, title }) => {
   return (
@@ -25,7 +27,7 @@ function MainLayout(props) {
       <Box p={6} minH="99vh">
         <Heading>prode.click</Heading>
         <Heading color="gray.600" fontSize="xl">
-          Elecciones Generales 2023 🇦🇷
+          {ELECCIONES.title}
         </Heading>
 
         <VStack spacing={6} py={6}>

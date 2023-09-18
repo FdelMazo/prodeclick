@@ -12,9 +12,12 @@ import {
 import React from "react";
 import { useTable } from "react-table";
 
-import PARTIDOS from "../logic/partidos";
 import useParty from "../logic/useParty";
 import { Partido, Porcentaje, Suma } from "./ProdeComponents";
+import ELECCIONES_DATA from "../logic/elecciones";
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 const data = PARTIDOS;
 const columns = [

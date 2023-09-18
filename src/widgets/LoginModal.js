@@ -20,9 +20,12 @@ import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { validProde } from "../logic";
 import { checkUser, createUser, initParty } from "../logic/api";
-import PARTIDOS from "../logic/partidos";
 import useParty from "../logic/useParty";
 import ProdeTable from "./ProdeTable";
+import ELECCIONES_DATA from "../logic/elecciones";
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 export default function LoginModal({ isOpen, onClose }) {
   const { party, needsAdmin, mutate, login } = useParty();

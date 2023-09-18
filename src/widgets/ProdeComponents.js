@@ -20,7 +20,10 @@ import React from "react";
 
 import { MdPlayCircle } from "react-icons/md";
 import { diff, sum } from "../logic";
-import PARTIDOS from "../logic/partidos";
+import ELECCIONES_DATA from "../logic/elecciones";
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 export const Porcentaje = ({
   partido,

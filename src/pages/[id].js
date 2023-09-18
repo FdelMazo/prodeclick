@@ -15,6 +15,9 @@ import PartyInfo from "../widgets/PartyInfo";
 import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
 
+// TODO: Use the party.electionsId attr, instead of having it always be the
+// current one
+
 function MainDashboard() {
   const { isLogged, party, isLoading } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
