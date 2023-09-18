@@ -30,7 +30,7 @@ const ParticipantsTable = ({
   columns,
   userId,
   results,
-  canProclamateWinner,
+  canProclaimWinner,
 }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
@@ -73,7 +73,7 @@ const ParticipantsTable = ({
                     <Flex gap={2}>
                       {results && (
                         <>
-                          {canProclamateWinner && rowIndex === 0 ? (
+                          {canProclaimWinner && rowIndex === 0 ? (
                             "🏆"
                           ) : (
                             <Badge colorScheme="green" fontSize="sm">
@@ -120,7 +120,7 @@ export default function Participants() {
   const { realResults, tablesPercent } = {};
   // const { realResults, tablesPercent } = useResults();
 
-  const canProclamateWinner = React.useMemo(() => {
+  const canProclaimWinner = React.useMemo(() => {
     return tablesPercent >= 90;
   }, [tablesPercent]);
 
@@ -204,7 +204,7 @@ export default function Participants() {
           columns={columns}
           userId={userId}
           results={realResults}
-          canProclamateWinner={canProclamateWinner}
+          canProclaimWinner={canProclaimWinner}
         />
       </CardBody>
     </Card>

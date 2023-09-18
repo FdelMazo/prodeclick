@@ -50,6 +50,10 @@ export default function Results() {
     return users?.find((u) => u.id === selectedUserId);
   }, [users, selectedUserId]);
 
+  const canProclaimWinner = React.useMemo(() => {
+    return tablesPercent >= 90;
+  }, [tablesPercent]);
+
   const chartOptions = {
     chart: {
       toolbar: {
@@ -198,9 +202,15 @@ export default function Results() {
                 users.indexOf(selectedUser) + 1
               }`}
             >
-              <Badge colorScheme="green" fontSize="sm">
-                #{users.indexOf(selectedUser) + 1}
-              </Badge>
+              <>
+                {canProclaimWinner && users.indexOf(selectedUser) === 0 ? (
+                  "🏆"
+                ) : (
+                  <Badge colorScheme="green" fontSize="sm">
+                    #{users.indexOf(selectedUser) + 1}
+                  </Badge>
+                )}
+              </>
             </Tooltip>
             <Select
               w="fit-content"
