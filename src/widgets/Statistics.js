@@ -16,7 +16,7 @@ import {
   MdOutlineCalendarMonth,
   MdPeopleAlt,
 } from "react-icons/md";
-import { canBid, daysUntilElections } from "../logic";
+import { canBid, daysUntilElections, isElectionsDay } from "../logic";
 
 const MiniStat = ({
   startContent,
@@ -55,6 +55,7 @@ export default function Statistics({ stats }) {
   // const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
   const { isLoadingResults, lastUpdate, tablesPercent } = {};
 
+  const electionsDay = React.useMemo(isElectionsDay, []);
   const days = React.useMemo(daysUntilElections, []);
   const bid = React.useMemo(canBid, []);
   const iconBoxProps = {
@@ -93,7 +94,7 @@ export default function Statistics({ stats }) {
           </Box>
         }
       />
-      {days <= 0 ? (
+      {electionsDay ? (
         <MiniStat
           name="Mesas escrutinadas"
           value={

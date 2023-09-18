@@ -5,6 +5,7 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
+import { isElectionsDay } from "../logic";
 import { getAll, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
 import LoginModal from "../widgets/LoginModal";
@@ -17,6 +18,8 @@ import Statistics from "../widgets/Statistics";
 function MainDashboard() {
   const { isLogged, party, isLoading } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const electionsDay = React.useMemo(isElectionsDay, []);
+
   React.useEffect(() => {
     if (isLoading) return;
     if (!isLogged) {
@@ -48,10 +51,9 @@ function MainDashboard() {
         <GridItem colSpan={{ lg: 2, "2xl": 1 }}>
           <Results />
         </GridItem>
-      </SimpleGrid>
-
-      <SimpleGrid w="100%" columns={{ base: 1 }} gap={4}>
-        <Participants />
+        <GridItem colSpan={{ base: 1, lg: 4 }} order={electionsDay && "-1"}>
+          <Participants />
+        </GridItem>
       </SimpleGrid>
     </MainLayout>
   );

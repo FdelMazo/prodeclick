@@ -15,6 +15,10 @@ export const daysUntilElections = () => {
   return Math.ceil(diffTime / msInDay);
 };
 
+export const isElectionsDay = () => {
+  return new Date() >= ELECTIONS;
+};
+
 export const sum = (prode) => {
   return Object.values(prode)
     .reduce((a, b) => (a || 0) + (b || 0), 0)
