@@ -81,7 +81,7 @@ export const checkUser = async (partyId, userName, userPassword) => {
   return { userId: user.id };
 };
 
-export const createParty = async (partyId, values) => {
+export const createParty = async () => {
   return create("party", { users: [] });
 };
 
