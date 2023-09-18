@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { GET } from "./api";
 
-const TRANSFORM = (url, options) => {
+const TRANSFORM = async (url, options) => {
   return GET(url, options).then((data) => {
     const parties = Object.fromEntries(
       data.parties.map((p) => [p.party_id, p.votes_percent.toFixed(1)])
