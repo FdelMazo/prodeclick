@@ -162,7 +162,7 @@ export default function Participants() {
             <AccordionItem border="none">
               <AccordionButton p={0} textAlign={"left"}>
                 <Text color="darkgray.800" fontSize="sm" fontWeight="700">
-                  Gana el que tenga menos diferencia absoluta entre todas sus
+                  Gana el que tenga menor diferencia absoluta entre todas sus
                   predicciones y los resultados reales.
                 </Text>
                 <AccordionIcon />
