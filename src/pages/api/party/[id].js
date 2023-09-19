@@ -4,6 +4,9 @@ export default async function handler(request, response) {
   if (request.method === "GET") {
     const { id } = request.query;
     const party = await getParty(id);
+    if (!party) {
+      return response.status(404).json({ error: "Party not found" });
+    }
     return response.status(200).json(party);
   } else if (request.method === "PUT") {
     const { id } = request.query;

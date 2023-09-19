@@ -3,7 +3,7 @@ import React from "react";
 import { GridItem, SimpleGrid, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
-import { getAll, getN } from "../logic/db";
+import { getN } from "../logic/db";
 import ControlPanel from "../widgets/ControlPanel";
 import MiProde from "../widgets/MiProde";
 import Results from "../widgets/Results";
@@ -22,7 +22,7 @@ TODO: FUTURO
 - Encontrar alternativa gratarola a vercel/kv
 */
 
-export default function MainDashboard({ stats, partyIds }) {
+export default function MainDashboard({ stats }) {
   const router = useRouter();
   const toast = useToast();
   const toastId = "error";
@@ -46,7 +46,7 @@ export default function MainDashboard({ stats, partyIds }) {
       </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
-        <ControlPanel partyIds={partyIds} />
+        <ControlPanel />
       </SimpleGrid>
 
       <SimpleGrid w="100%" columns={{ base: 1, lg: 4 }} gap={4}>
@@ -62,18 +62,14 @@ export default function MainDashboard({ stats, partyIds }) {
 }
 
 export async function getStaticProps() {
-  const partyIds = await getAll("party").then((parties) =>
-    parties.map((id) => id.split(":")[1])
-  );
   const stats = {
-    parties: partyIds.length,
+    parties: await getN("party"),
     users: await getN("user"),
   };
 
   return {
     props: {
       stats,
-      partyIds,
     },
   };
 }

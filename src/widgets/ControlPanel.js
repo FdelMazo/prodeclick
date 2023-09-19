@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt } from "react-icons/md";
-import { createParty } from "../logic/api";
+import { createParty, getParty } from "../logic/api";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -42,7 +42,7 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-export default function ControlPanel({ partyIds }) {
+export default function ControlPanel() {
   const [loadingCreate, setLoadingCreate] = React.useState(false);
   const [loadingJoin, setLoadingJoin] = React.useState(false);
   const [joinError, setJoinError] = React.useState(false);
@@ -102,11 +102,12 @@ export default function ControlPanel({ partyIds }) {
                 : "Pedile el código a quien la armó!"}
             </Text>
             <form
-              onSubmit={(t) => {
+              onSubmit={async (t) => {
                 t.preventDefault();
                 const partyId = t.target.partyId.value.trim();
                 if (!partyId) return;
-                if (!partyIds.includes(partyId)) {
+                const { error } = await getParty(partyId);
+                if (error) {
                   setJoinError(true);
                   return;
                 }

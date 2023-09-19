@@ -21,6 +21,9 @@ export const getN = async (key) => {
 
 export const getParty = async (partyId) => {
   const party = await kv.hgetall(`party:${partyId}`);
+  if (!party) {
+    return null;
+  }
   const users =
     party?.users?.length > 0
       ? await Promise.all(party.users.map((u) => u.split(":")[1]).map(getUser))

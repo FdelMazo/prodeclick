@@ -11,6 +11,10 @@ export const createParty = async () => {
   return POST("/api/party");
 };
 
+export const getParty = async (partyId) => {
+  return GET(`/api/party/${partyId}`);
+};
+
 export const initParty = async (partyId, name, adminUserId) => {
   return PUT(`/api/party/${partyId}`, {
     body: JSON.stringify({
