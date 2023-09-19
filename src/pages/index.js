@@ -19,6 +19,7 @@ TODO: FUTURO
 - Permitir que las partidas sean configurables
   - Agrupar partidos minoristas en otros si/no
   - Ocultar/mostrar los prodes del resto
+- Encontrar alternativa gratarola a vercel/kv
 */
 
 export default function MainDashboard({ stats, partyIds }) {
