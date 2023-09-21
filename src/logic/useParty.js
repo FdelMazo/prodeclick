@@ -15,6 +15,7 @@ export default function useParty() {
   const isParty = !!partyId;
   const needsAdmin = isParty && !party.admin;
 
+  // TODO: guardar lista de partys/usuarios, no solo un par
   const [userId, setUserId] = useLocalStorage("userId", null);
   const login = (id) => {
     setUserId(id);

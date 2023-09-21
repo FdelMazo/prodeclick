@@ -32,6 +32,7 @@ import ProdeTable from "./ProdeTable";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
 
+// TODO: PERMITIR VER EL PRODE SIN ESTAR LOGUEADO ("solo quiero ver")
 export default function LoginModal({ isOpen, onClose }) {
   const { party, needsAdmin, mutate, login } = useParty();
 

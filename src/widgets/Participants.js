@@ -57,6 +57,8 @@ const ParticipantsTable = ({
           </Tr>
         ))}
       </Thead>
+      {/* TODO: permitir borrar tu propio prode y salir de la partida,
+      y permitir solamente cerrar sesion!! */}
       <Tbody {...getTableBodyProps()}>
         {rows.map((row, rowIndex) => {
           prepareRow(row);
