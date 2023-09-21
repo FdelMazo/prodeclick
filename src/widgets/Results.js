@@ -276,6 +276,7 @@ export default function Results() {
             <Chart series={chartSeries} options={chartOptions} type="bar" />
           )}
         </Box>
+
         {isParty && prode && (
           <Card variant="outline">
             <CardBody p={2}>

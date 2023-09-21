@@ -14,7 +14,13 @@ const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const FooterLink = ({ link, text, left, title }) => {
   return (
     <Tooltip label={title} placement="top" hasArrow={true}>
-      <Link href={link} isExternal display="flex" alignItems="center">
+      <Link
+        href={link}
+        isExternal
+        display="flex"
+        alignItems="center"
+        _hover={{ textTransform: "none" }}
+      >
         {left}
         <Heading color="gray.600" fontSize="md" ml={2}>
           {text}
@@ -24,8 +30,7 @@ const FooterLink = ({ link, text, left, title }) => {
   );
 };
 
-function MainLayout(props) {
-  const { children } = props;
+function MainLayout({ children }) {
   return (
     <>
       <Box p={6} minH="99vh">
@@ -40,6 +45,7 @@ function MainLayout(props) {
           {children}
         </VStack>
       </Box>
+
       <Flex
         position="absolute"
         bottom={0}

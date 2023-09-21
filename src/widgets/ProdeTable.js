@@ -93,6 +93,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
           })}
         </Tbody>
       </Table>
+
       {isEdit && (
         <>
           <Text

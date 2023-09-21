@@ -18,14 +18,7 @@ import {
 } from "react-icons/md";
 import { canBid, daysUntilElections, isElectionsDay } from "../logic";
 
-const MiniStat = ({
-  startContent,
-  bottomContent,
-  topContent,
-  name,
-  description,
-  value,
-}) => {
+const MiniStat = ({ startContent, name, description, value }) => {
   const textColorSecondary = "darkgray.800";
 
   return (
