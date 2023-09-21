@@ -14,8 +14,9 @@ export default function useParty() {
   } = useSWR(partyId ? `/api/party/${partyId}` : null, GET);
 
   const [savedUsers, setSavedUsers] = useLocalStorage("prodeusers", {});
-  const userId = React.useMemo(() => {
-    return savedUsers?.[partyId];
+  const [userId, setUserId] = React.useState(null);
+  React.useEffect(() => {
+    setUserId(savedUsers?.[partyId]);
   }, [partyId, savedUsers]);
 
   const login = (id) => {

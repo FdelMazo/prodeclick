@@ -16,7 +16,7 @@ import {
   MdOutlineCalendarMonth,
   MdPeopleAlt,
 } from "react-icons/md";
-import { canBid, daysUntilElections, isElectionsDay } from "../logic";
+import { canBid, daysUntilElections, isElectionsDay } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
   const textColorSecondary = "darkgray.800";

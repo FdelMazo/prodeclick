@@ -5,9 +5,9 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
-import { isElectionsDay } from "../logic";
 import { getAll, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
+import { isElectionsDay } from "../logic/utils";
 import LoginModal from "../widgets/LoginModal";
 import MiProde from "../widgets/MiProde";
 import Participants from "../widgets/Participants";
@@ -28,7 +28,7 @@ function MainDashboard() {
     if (!isLogged) {
       onOpen();
     }
-  }, [isLoading, isLogged]);
+  }, [isLoading]);
 
   return (
     <MainLayout>
@@ -55,7 +55,7 @@ function MainDashboard() {
           <Results />
         </GridItem>
         <GridItem colSpan={{ base: 1, lg: 4 }} order={electionsDay && "-1"}>
-          <Participants />
+          <Participants onOpen={onOpen} />
         </GridItem>
       </SimpleGrid>
     </MainLayout>

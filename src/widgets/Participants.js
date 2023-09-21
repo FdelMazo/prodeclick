@@ -24,9 +24,10 @@ import {
 import React from "react";
 import { useTable } from "react-table";
 
-import { MdLogout } from "react-icons/md";
-import { diff, sum } from "../logic";
+import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
+import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
+import { canBid, diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
 const ParticipantsTable = ({
@@ -61,7 +62,7 @@ const ParticipantsTable = ({
           </Tr>
         ))}
       </Thead>
-      {/* TODO: permitir borrar tu propio prode y salir de la partida */}
+
       <Tbody {...getTableBodyProps()}>
         {rows.map((row, rowIndex) => {
           prepareRow(row);
@@ -119,20 +120,17 @@ const ParticipantsTable = ({
   );
 };
 
-export default function Participants() {
-  const { party, user, logout } = useParty();
+export default function Participants({ onOpen }) {
+  const { party, user, logout, mutate, isAdmin, isLogged } = useParty();
   // TODO: USE RESULTS!!!
   const { realResults, tablesPercent } = {};
   // const { realResults, tablesPercent } = useResults();
 
+  const bid = React.useMemo(canBid, []);
+
   const canProclaimWinner = React.useMemo(() => {
     return tablesPercent >= 90;
   }, [tablesPercent]);
-
-  const [userId, setUserId] = React.useState(null);
-  React.useEffect(() => {
-    setUserId(user?.id);
-  }, [user]);
 
   const columns = [
     {
@@ -197,16 +195,53 @@ export default function Participants() {
             </AccordionItem>
           </Accordion>
         </Box>
-        <Tooltip label={"Cerrar sesión"} placement="top" hasArrow={true}>
-          <IconButton
-            borderRadius="lg"
-            bg="darkgray.300"
-            color="brand.500"
-            icon={<Icon as={MdLogout} boxSize={5} />}
-            _hover={{ bg: "brand.100" }}
-            onClick={logout}
-          />
-        </Tooltip>
+        <Flex gap={1}>
+          {isLogged ? (
+            <>
+              <Tooltip label={"Cerrar sesión"} placement="top" hasArrow={true}>
+                <IconButton
+                  borderRadius="lg"
+                  bg="darkgray.300"
+                  color="brand.500"
+                  icon={<Icon as={MdLogout} boxSize={5} />}
+                  _hover={{ bg: "brand.100" }}
+                  onClick={logout}
+                />
+              </Tooltip>
+              {!isAdmin && bid && (
+                <Tooltip label={"Borrar prode"} placement="top" hasArrow={true}>
+                  <IconButton
+                    borderRadius="lg"
+                    bg="red.400"
+                    color="white"
+                    icon={<Icon as={MdDeleteOutline} boxSize={5} />}
+                    _hover={{ bg: "red.500" }}
+                    onClick={async () => {
+                      await deleteUser(party.id, user.id)
+                        .then(logout)
+                        .then(mutate);
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </>
+          ) : (
+            <Tooltip
+              label={"Sumarme a la partida"}
+              placement="top"
+              hasArrow={true}
+            >
+              <IconButton
+                borderRadius="lg"
+                bg="darkgray.300"
+                color="brand.500"
+                icon={<Icon as={MdLogin} boxSize={5} />}
+                _hover={{ bg: "brand.100" }}
+                onClick={onOpen}
+              />
+            </Tooltip>
+          )}
+        </Flex>
       </CardHeader>
 
       <CardBody
@@ -217,7 +252,7 @@ export default function Participants() {
         <ParticipantsTable
           data={data}
           columns={columns}
-          userId={userId}
+          userId={user?.id}
           results={realResults}
           canProclaimWinner={canProclaimWinner}
         />

@@ -1,5 +1,6 @@
 import ELECCIONES_DATA from "./elecciones";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const crypto = require("crypto");
 
 export const canBid = () => {
   const today = new Date();
@@ -35,4 +36,10 @@ export const diff = (prode, results) => {
       return [partidoId, diff];
     })
   );
+};
+
+export const hash = (pw) => {
+  const h = crypto.createHash("sha256");
+  h.update(pw);
+  return h.digest("hex");
 };

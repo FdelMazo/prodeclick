@@ -10,13 +10,13 @@ import {
 import React from "react";
 
 import { CheckIcon, EditIcon } from "@chakra-ui/icons";
-import { canBid, validProde } from "../logic";
-import { updateUserProde } from "../logic/api";
+import { updateUser } from "../logic/api";
 import useParty from "../logic/useParty";
+import { canBid, validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 export default function MiProde() {
-  const { user, mutate, isParty } = useParty();
+  const { user, mutate, isParty, isLogged } = useParty();
   const [isEdit, setIsEdit] = React.useState(false);
   const [prode, setProde] = React.useState(null);
   const bid = React.useMemo(canBid, []);
@@ -36,7 +36,7 @@ export default function MiProde() {
         <Text color="darkgray.900" fontSize="xl" fontWeight="700">
           Mi Prode
         </Text>
-        {isParty && bid && (
+        {isParty && isLogged && bid && (
           <Tooltip
             label={isEdit ? "Guardar predicciones" : "Editar predicciones"}
             placement="top"
@@ -52,7 +52,7 @@ export default function MiProde() {
               onClick={
                 isEdit
                   ? async () => {
-                      await updateUserProde(user?.id, prode);
+                      await updateUser(user?.id, { prode });
                       mutate();
                       setIsEdit(false);
                     }

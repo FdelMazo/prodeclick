@@ -15,8 +15,8 @@ import useParty from "../logic/useParty";
 import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
-import { diff, sum } from "../logic";
 import ELECCIONES_DATA from "../logic/elecciones";
+import { diff, sum } from "../logic/utils";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -42,8 +42,8 @@ export default function Results() {
   }, [realResults, simulatedResults]);
 
   React.useEffect(() => {
-    setSelectedUserId(user?.id);
-  }, [user]);
+    setSelectedUserId(user?.id || party?.users[0]?.id);
+  }, [party, user]);
 
   const prode = React.useMemo(() => {
     return party?.users?.find((u) => u.id === selectedUserId)?.prode;

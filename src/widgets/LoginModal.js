@@ -23,16 +23,15 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { validProde } from "../logic";
-import { checkUser, createUser, initParty } from "../logic/api";
+import { checkUser, createUser, updateParty } from "../logic/api";
 import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
+import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
 
-// TODO: PERMITIR VER EL PRODE SIN ESTAR LOGUEADO ("solo quiero ver")
 export default function LoginModal({ isOpen, onClose }) {
   const { party, needsAdmin, mutate, login } = useParty();
 
@@ -54,6 +53,18 @@ export default function LoginModal({ isOpen, onClose }) {
       size="2xl"
       closeOnOverlayClick={false}
       closeOnEsc={false}
+      onCloseComplete={() => {
+        setPartyName("");
+        setName("");
+        setPassword("");
+        setFormStatus("");
+        setShowProde(false);
+        setShowPassword(false);
+        setProde(
+          Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
+        );
+        mutate();
+      }}
     >
       <ModalOverlay />
       <ModalContent m={4} p={4}>
@@ -173,19 +184,20 @@ export default function LoginModal({ isOpen, onClose }) {
                       return;
 
                     setFormStatus("loading");
-                    const { userId } = await createUser(
-                      party.id,
+                    const { userId } = await createUser({
+                      partyId: party.id,
                       name,
                       password,
-                      prode
-                    );
+                      prode,
+                    });
 
                     login(userId);
                     if (needsAdmin) {
-                      await initParty(party.id, partyName, userId);
+                      await updateParty(party.id, {
+                        name: partyName,
+                        admin: userId,
+                      });
                     }
-                    mutate();
-                    setFormStatus("");
                     onClose();
                   }}
                 >
@@ -193,7 +205,7 @@ export default function LoginModal({ isOpen, onClose }) {
                 </Button>
               </>
             ) : (
-              <Flex align="center" flexDir="column" gap={1}>
+              <Flex align="center" flexDir="column" gap={2}>
                 <Text color="darkgray.800" fontSize="sm" fontWeight="600">
                   si ya armaste tu prode, usá el mismo nombre y contraseña!
                 </Text>
@@ -219,8 +231,6 @@ export default function LoginModal({ isOpen, onClose }) {
                       setFormStatus("error");
                     } else if (userId) {
                       login(userId);
-                      mutate();
-                      setFormStatus("");
                     }
 
                     if (userId) {
@@ -229,6 +239,9 @@ export default function LoginModal({ isOpen, onClose }) {
                   }}
                 >
                   continuar
+                </Button>
+                <Button color="brand.500" variant="link" onClick={onClose}>
+                  solo quiero ver
                 </Button>
               </Flex>
             )}

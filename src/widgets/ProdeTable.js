@@ -12,9 +12,9 @@ import {
 import React from "react";
 import { useTable } from "react-table";
 
+import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
 import { Partido, Porcentaje, Suma } from "./ProdeComponents";
-import ELECCIONES_DATA from "../logic/elecciones";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
@@ -33,7 +33,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
-  const { isParty, isLoading } = useParty();
+  const { isParty, isLoading, isLogged } = useParty();
   return (
     <Box w="100%" key={isLoading}>
       <Table {...getTableProps()}>
@@ -74,7 +74,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
                         setProde={setProde}
                         isEdit={isEdit}
                         isLoading={isParty && isLoading}
-                        isDummy={!isParty}
+                        isDummy={!isParty || !isLogged}
                       />
                     );
                   }

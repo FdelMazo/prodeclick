@@ -19,8 +19,8 @@ import {
 import React from "react";
 
 import { MdPlayCircle } from "react-icons/md";
-import { diff, sum } from "../logic";
 import ELECCIONES_DATA from "../logic/elecciones";
+import { diff, sum } from "../logic/utils";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;

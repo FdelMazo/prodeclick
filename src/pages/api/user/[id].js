@@ -1,15 +1,15 @@
-import { getUser, updateUserProde } from "../../../logic/db";
+import { deleteUser, updateUser } from "../../../logic/db";
 
 export default async function handler(request, response) {
-  if (request.method === "GET") {
-    const { id } = request.query;
-    const user = await getUser(id);
-    return response.status(200).json(user);
-  } else if (request.method === "PUT") {
+  if (request.method === "PUT") {
     const { id } = request.query;
     const body = JSON.parse(request.body);
-    const { prode } = body;
-    const user = await updateUserProde(id, prode);
+    const user = await updateUser(id, body);
     return response.status(200).json(user);
+  } else if (request.method === "DELETE") {
+    const { id } = request.query;
+    const { partyId } = JSON.parse(request.body);
+    await deleteUser(partyId, id);
+    return response.status(200).json({ ok: true });
   }
 }
