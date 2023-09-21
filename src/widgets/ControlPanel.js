@@ -116,6 +116,7 @@ export default function ControlPanel() {
                 router.push(`/${partyId}`);
               }}
             >
+              {/* TODO: en base a lo que tiene en el localstorage, poner badges con cruces (delete) para joinear partidas en las que ya estuviste */}
               <InputGroup w="20ch">
                 <Input
                   name="partyId"

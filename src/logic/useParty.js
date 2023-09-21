@@ -12,37 +12,30 @@ export default function useParty() {
     isLoading,
     mutate,
   } = useSWR(partyId ? `/api/party/${partyId}` : null, GET);
-  const isParty = !!partyId;
-  const needsAdmin = isParty && !party.admin;
 
-  // TODO: guardar lista de partys/usuarios, no solo un par
-  const [userId, setUserId] = useLocalStorage("userId", null);
+  const [savedUsers, setSavedUsers] = useLocalStorage("prodeusers", {});
+  const userId = React.useMemo(() => {
+    return savedUsers?.[partyId];
+  }, [partyId, savedUsers]);
+
   const login = (id) => {
-    setUserId(id);
-    window.localStorage.setItem("partyId", party.id);
+    setSavedUsers({ ...savedUsers, [party.id]: id });
   };
 
-  const user = React.useMemo(() => {
-    return party?.users?.find((u) => u.id === userId);
-  }, [party, userId]);
-
-  const isAdmin = React.useMemo(() => {
-    return party?.admin?.id === userId;
-  }, [party, userId]);
-
-  const isLogged = React.useMemo(() => {
-    return userId && window.localStorage.partyId === partyId;
-  }, [party, userId]);
+  const logout = () => {
+    setSavedUsers({ ...savedUsers, [party.id]: null });
+  };
 
   return {
-    user,
     party,
+    isLoading,
     mutate,
     login,
-    isLoading,
-    isParty,
-    needsAdmin,
-    isAdmin,
-    isLogged,
+    logout,
+    user: party?.users?.find((u) => u.id === userId),
+    isAdmin: party?.admin?.id === userId,
+    needsAdmin: !!partyId && !party.admin,
+    isParty: !!partyId,
+    isLogged: !!userId,
   };
 }

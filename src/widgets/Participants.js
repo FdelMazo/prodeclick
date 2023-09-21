@@ -10,17 +10,21 @@ import {
   CardBody,
   CardHeader,
   Flex,
+  Icon,
+  IconButton,
   Table,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import React from "react";
 import { useTable } from "react-table";
 
+import { MdLogout } from "react-icons/md";
 import { diff, sum } from "../logic";
 import useParty from "../logic/useParty";
 import { InlineProde } from "./ProdeComponents";
@@ -57,8 +61,7 @@ const ParticipantsTable = ({
           </Tr>
         ))}
       </Thead>
-      {/* TODO: permitir borrar tu propio prode y salir de la partida,
-      y permitir solamente cerrar sesion!! */}
+      {/* TODO: permitir borrar tu propio prode y salir de la partida */}
       <Tbody {...getTableBodyProps()}>
         {rows.map((row, rowIndex) => {
           prepareRow(row);
@@ -117,7 +120,7 @@ const ParticipantsTable = ({
 };
 
 export default function Participants() {
-  const { party, user } = useParty();
+  const { party, user, logout } = useParty();
   // TODO: USE RESULTS!!!
   const { realResults, tablesPercent } = {};
   // const { realResults, tablesPercent } = useResults();
@@ -194,6 +197,16 @@ export default function Participants() {
             </AccordionItem>
           </Accordion>
         </Box>
+        <Tooltip label={"Cerrar sesión"} placement="top" hasArrow={true}>
+          <IconButton
+            borderRadius="lg"
+            bg="darkgray.300"
+            color="brand.500"
+            icon={<Icon as={MdLogout} boxSize={5} />}
+            _hover={{ bg: "brand.100" }}
+            onClick={logout}
+          />
+        </Tooltip>
       </CardHeader>
 
       <CardBody
