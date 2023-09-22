@@ -156,7 +156,7 @@ export default function Participants({ onOpen }) {
   }, [party, realResults]);
 
   const winners = React.useMemo(() => {
-    if (tablesPercent < 90) return [];
+    if (!tablesPercent || tablesPercent < 90) return [];
     return data?.filter((u) => u.dif === data[0].dif).map((u) => u.id);
   }, [data, tablesPercent]);
 

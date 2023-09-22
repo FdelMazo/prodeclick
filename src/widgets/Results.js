@@ -62,7 +62,7 @@ export default function Results() {
   }, [users, selectedUserId]);
 
   const winners = React.useMemo(() => {
-    if (tablesPercent < 90) return [];
+    if (!tablesPercent || tablesPercent < 90) return [];
     return users?.filter((u) => u.dif === users[0].dif).map((u) => u.id);
   }, [users, tablesPercent]);
 
@@ -211,8 +211,10 @@ export default function Results() {
         {isParty && (
           <Flex alignItems="center" gap={1}>
             <Tooltip
-              label={`con estos resultados ${selectedUser?.name} saldría #${
-                users.indexOf(selectedUser) + 1
+              label={`con estos resultados ${selectedUser?.name} saldría ${
+                winners.includes(selectedUserId)
+                  ? "ganador/a"
+                  : `#${users.indexOf(selectedUser) + 1}`
               }`}
             >
               {winners.includes(selectedUserId) ? (
