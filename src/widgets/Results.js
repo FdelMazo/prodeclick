@@ -61,9 +61,10 @@ export default function Results() {
     return users?.find((u) => u.id === selectedUserId);
   }, [users, selectedUserId]);
 
-  const canProclaimWinner = React.useMemo(() => {
-    return tablesPercent >= 90;
-  }, [tablesPercent]);
+  const winners = React.useMemo(() => {
+    if (tablesPercent < 90) return [];
+    return users?.filter((u) => u.dif === users[0].dif).map((u) => u.id);
+  }, [users, tablesPercent]);
 
   const chartOptions = {
     chart: {
@@ -214,7 +215,7 @@ export default function Results() {
                 users.indexOf(selectedUser) + 1
               }`}
             >
-              {canProclaimWinner && users.indexOf(selectedUser) === 0 ? (
+              {winners.includes(selectedUserId) ? (
                 "🏆"
               ) : (
                 <Badge colorScheme="green" fontSize="sm">

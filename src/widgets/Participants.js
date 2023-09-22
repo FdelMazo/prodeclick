@@ -30,13 +30,7 @@ import useParty from "../logic/useParty";
 import { canBid, diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
-const ParticipantsTable = ({
-  data,
-  columns,
-  userId,
-  results,
-  canProclaimWinner,
-}) => {
+const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
@@ -79,7 +73,7 @@ const ParticipantsTable = ({
                     <Flex gap={2}>
                       {results && (
                         <>
-                          {canProclaimWinner && rowIndex === 0 ? (
+                          {winners.includes(row.original.id) ? (
                             "🏆"
                           ) : (
                             <Badge colorScheme="green" fontSize="sm">
@@ -128,10 +122,6 @@ export default function Participants({ onOpen }) {
 
   const bid = React.useMemo(canBid, []);
 
-  const canProclaimWinner = React.useMemo(() => {
-    return tablesPercent >= 90;
-  }, [tablesPercent]);
-
   const columns = [
     {
       Header: "NOMBRE",
@@ -164,6 +154,11 @@ export default function Participants({ onOpen }) {
         return a.dif - b.dif;
       });
   }, [party, realResults]);
+
+  const winners = React.useMemo(() => {
+    if (tablesPercent < 90) return [];
+    return data?.filter((u) => u.dif === data[0].dif).map((u) => u.id);
+  }, [data, tablesPercent]);
 
   return (
     <Card p={4}>
@@ -262,7 +257,7 @@ export default function Participants({ onOpen }) {
           columns={columns}
           userId={user?.id}
           results={realResults}
-          canProclaimWinner={canProclaimWinner}
+          winners={winners}
         />
       </CardBody>
     </Card>
