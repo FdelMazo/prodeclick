@@ -19,16 +19,16 @@ import Statistics from "../widgets/Statistics";
 // current one
 
 function PartyDashboard() {
-  const { isLogged, party, isLoading } = useParty();
+  const { savedUsers, party, isLoading } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const electionsDay = React.useMemo(isElectionsDay, []);
 
   React.useEffect(() => {
     if (isLoading) return;
-    if (!isLogged) {
+    if (!Object.keys(savedUsers).includes(party.id)) {
       onOpen();
     }
-  }, [isLoading]);
+  }, [isLoading, savedUsers]);
 
   return (
     <MainLayout>

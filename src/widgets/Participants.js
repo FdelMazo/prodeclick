@@ -213,7 +213,11 @@ export default function Participants({ onOpen }) {
                 />
               </Tooltip>
               {!isAdmin && bid && (
-                <Tooltip label={"Borrar prode"} placement="top" hasArrow={true}>
+                <Tooltip
+                  label={"Borrarme de la partida"}
+                  placement="top"
+                  hasArrow={true}
+                >
                   <IconButton
                     borderRadius="lg"
                     bg="red.400"
