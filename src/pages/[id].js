@@ -18,7 +18,7 @@ import Statistics from "../widgets/Statistics";
 // TODO: Use the party.electionsId attr, instead of having it always be the
 // current one
 
-function MainDashboard() {
+function PartyDashboard() {
   const { isLogged, party, isLoading } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const electionsDay = React.useMemo(isElectionsDay, []);
@@ -65,7 +65,7 @@ function MainDashboard() {
 export default function Index({ fallback }) {
   return (
     <SWRConfig value={{ fallback }}>
-      <MainDashboard />
+      <PartyDashboard />
     </SWRConfig>
   );
 }

@@ -198,7 +198,11 @@ export default function Participants({ onOpen }) {
         <Flex gap={1}>
           {isLogged ? (
             <>
-              <Tooltip label={"Cerrar sesión"} placement="top" hasArrow={true}>
+              <Tooltip
+                label={"Salir de la partida"}
+                placement="top"
+                hasArrow={true}
+              >
                 <IconButton
                   borderRadius="lg"
                   bg="darkgray.300"
