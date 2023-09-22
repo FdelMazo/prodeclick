@@ -112,11 +112,13 @@ export default function ControlPanel({ partyNames }) {
                   router.push(`/${e.target.value}`);
                 }}
               >
-                {Object.keys(savedUsers).map((u) => (
-                  <option key={u} value={u}>
-                    {partyNames[u] || u}
-                  </option>
-                ))}
+                {Object.keys(savedUsers)
+                  .filter((u) => partyNames[u])
+                  .map((u) => (
+                    <option key={u} value={u}>
+                      {partyNames[u] || u}
+                    </option>
+                  ))}
               </Select>
             </Box>
           }
