@@ -172,16 +172,18 @@ export default function Results() {
   const chartSeries = [
     {
       name: "resultados",
-      data: Object.entries(results).map(([partidoId, porcentaje]) => {
-        const partido = PARTIDOS.find((p) => p.id === partidoId);
+      data: PARTIDOS.map((partido) => {
         return {
           x: partido.id,
-          y: isParty || realResults ? porcentaje : Math.random() * 40 + 10,
+          y:
+            isParty || realResults
+              ? results[partido.id]
+              : Math.random() * 40 + 10,
           fillColor: `var(--chakra-colors-${partido.color}-300)`,
           goals: isParty && [
             {
               name: `prode de ${selectedUser?.name}`,
-              value: prode?.[partidoId],
+              value: prode?.[partido.id],
               strokeColor: "dimgray",
             },
           ],

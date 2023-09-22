@@ -131,10 +131,9 @@ export const Partido = ({ partido }) => {
 
 export const InlineProde = ({ prode, setProde, isEdit, ...rest }) => {
   if (!prode) return null;
-  return Object.entries(prode).map(([partidoId, porcentaje]) => {
-    const partido = PARTIDOS.find((p) => p.id === partidoId);
+  return PARTIDOS.map((partido) => {
     return (
-      <WrapItem key={partidoId} justifyContent="center" {...rest}>
+      <WrapItem key={partido.id} justifyContent="center" {...rest}>
         <Porcentaje
           partido={partido}
           prode={prode}
