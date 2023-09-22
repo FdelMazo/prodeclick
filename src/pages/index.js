@@ -3,7 +3,8 @@ import React from "react";
 import { GridItem, SimpleGrid, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
-import { getN } from "../logic/db";
+import { getAll, getN, getParty } from "../logic/db";
+import useParty from "../logic/useParty";
 import ControlPanel from "../widgets/ControlPanel";
 import MiProde from "../widgets/MiProde";
 import Results from "../widgets/Results";
@@ -22,7 +23,8 @@ TODO: FUTURO
 - Encontrar alternativa gratarola a vercel/kv
 */
 
-export default function MainDashboard({ stats }) {
+export default function MainDashboard({ stats, partyNames }) {
+  const { hasParties } = useParty();
   const router = useRouter();
   const toast = useToast();
   const toastId = "error";
@@ -45,8 +47,14 @@ export default function MainDashboard({ stats }) {
         <Statistics stats={stats} />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
-        <ControlPanel />
+      <SimpleGrid
+        columns={{
+          base: 1,
+          lg: hasParties ? 3 : 2,
+        }}
+        gap={4}
+      >
+        <ControlPanel partyNames={partyNames} />
       </SimpleGrid>
 
       <SimpleGrid w="100%" columns={{ base: 1, lg: 4 }} gap={4}>
@@ -62,14 +70,20 @@ export default function MainDashboard({ stats }) {
 }
 
 export async function getStaticProps() {
+  const parties = await Promise.all(
+    (await getAll("party")).map((p) => getParty(p.split(":")[1]))
+  );
+  const partyNames = Object.fromEntries(parties.map((p) => [p.id, p.name]));
+
   const stats = {
-    parties: await getN("party"),
+    parties: parties.length,
     users: await getN("user"),
   };
 
   return {
     props: {
       stats,
+      partyNames,
     },
   };
 }

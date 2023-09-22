@@ -10,12 +10,14 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Select,
   Spinner,
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { MdLibraryAdd, MdPeopleAlt } from "react-icons/md";
+import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { createParty, getParty } from "../logic/api";
+import useParty from "../logic/useParty";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -42,9 +44,11 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-export default function ControlPanel() {
+export default function ControlPanel({ partyNames }) {
+  const { hasParties, savedUsers } = useParty();
   const [loadingCreate, setLoadingCreate] = React.useState(false);
   const [loadingJoin, setLoadingJoin] = React.useState(false);
+  const [loadingJoinExisting, setLoadingJoinExisting] = React.useState(false);
   const [joinError, setJoinError] = React.useState(false);
   const router = useRouter();
 
@@ -88,6 +92,44 @@ export default function ControlPanel() {
           </Box>
         }
       />
+      {hasParties && (
+        <Control
+          title="Tus partidas"
+          _hover={{
+            bg: "brand.50",
+            transition: "all 0.2s ease-in-out",
+          }}
+          body={
+            <Box ml={1}>
+              <Select
+                w="20ch"
+                borderColor="darkgray.800"
+                variant="flushed"
+                placeholder="Seleccionar partida"
+                color="darkgray.900"
+                onChange={(e) => {
+                  setLoadingJoinExisting(true);
+                  router.push(`/${e.target.value}`);
+                }}
+              >
+                {Object.keys(savedUsers).map((u) => (
+                  <option key={u} value={u}>
+                    {partyNames[u] || u}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+          }
+          startContent={
+            <Box {...iconBoxProps}>
+              <Icon
+                {...iconProps}
+                as={loadingJoinExisting ? Spinner : MdPeopleAlt}
+              />
+            </Box>
+          }
+        />
+      )}
       <Control
         title="Sumate a una partida"
         _hover={{
@@ -116,7 +158,6 @@ export default function ControlPanel() {
                 router.push(`/${partyId}`);
               }}
             >
-              {/* TODO: en base a lo que tiene en el localstorage, poner badges con cruces (delete) para joinear partidas en las que ya estuviste */}
               <InputGroup w="20ch">
                 <Input
                   name="partyId"
@@ -148,7 +189,7 @@ export default function ControlPanel() {
         }
         startContent={
           <Box {...iconBoxProps}>
-            <Icon {...iconProps} as={loadingJoin ? Spinner : MdPeopleAlt} />
+            <Icon {...iconProps} as={loadingJoin ? Spinner : MdPersonSearch} />
           </Box>
         }
       />
