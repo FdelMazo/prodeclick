@@ -25,6 +25,10 @@ export const updateParty = async (partyId, data) => {
   });
 };
 
+export const deleteParty = async (partyId) => {
+  return DELETE(`/api/party/${partyId}`);
+};
+
 // USER CRUD
 
 export const createUser = async (data) => {

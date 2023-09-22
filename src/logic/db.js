@@ -9,7 +9,8 @@ import { hash } from "./utils";
 
 export const create = async (key, value) => {
   const newId = id();
-  await kv.hset(`${key}:${newId}`, value);
+  const creation = new Date().toISOString();
+  await kv.hset(`${key}:${newId}`, { ...value, creation });
   return newId;
 };
 
@@ -42,7 +43,7 @@ export const getParty = async (partyId) => {
     id: partyId,
     ...party,
     users,
-    admin: party.admin ? users.find((u) => u.id === party.admin) : null,
+    admin: users.find((u) => u.id === party.admin) ?? null,
   };
 };
 
@@ -52,6 +53,14 @@ export const updateParty = async (partyId, body) => {
     name: name.trim(),
     admin,
   });
+};
+
+export const deleteParty = async (partyId) => {
+  const users = await kv.hget(`party:${partyId}`, "users");
+  for (const user of users) {
+    await kv.del(user);
+  }
+  return kv.del(`party:${partyId}`);
 };
 
 // USER CRUD
