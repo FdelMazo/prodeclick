@@ -74,7 +74,7 @@ export default function ControlPanel({ partyNames }) {
     <>
       <Control
         title="Creá una partida"
-        body="Jugá con tus amigos, familia, o con quien quieras!"
+        body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
         cursor="pointer"
         onClick={async () => {
           setLoadingCreate(true);
