@@ -56,7 +56,6 @@ function MainLayout({ children }) {
       >
         <Flex gap={4} alignItems="center">
           {/* TODO: Abrir repo y descomentar esto */}
-          {/* TODO: Agregar readme lindo y subirlo a fede.dm */}
           {/* <FooterLink
             text="source code"
             link="https://github.com/fdelmazo/prode"

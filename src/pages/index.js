@@ -14,6 +14,9 @@ import Statistics from "../widgets/Statistics";
 TODO: FUTURO
 - Hacer que funcione para mas de una eleccion
   (ej: PASO, ballotage, legislativas), sin perder los datos anteriores!
+- Usar party.electionsId en varios lugares en vez de defaultear a "current"
+- Poner un dropdown en el header para elegir la eleccion
+- Subir como proyecto a fede.dm
 - Agregar prode de participacion electoral/
   votos en blanco/ otras estadisticas que no influyen en el main prode
   y hacerlo configurable por partida
