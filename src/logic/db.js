@@ -60,6 +60,18 @@ export const deleteParty = async (partyId) => {
   if (env !== "development") {
     return;
   }
+
+  // Delete every empty party in case of an overdose...
+  // for (const key of await getAll("party")) {
+  //   const p = await getParty(key.split(":")[1]);
+  //   if (!p.name) {
+  //     console.log("deleting", key);
+  //     await kv.del(key);
+  //   }
+  // }
+  // console.log("finish");
+  // return;
+
   const users = await kv.hget(`party:${partyId}`, "users");
   for (const user of users) {
     await kv.del(user);
