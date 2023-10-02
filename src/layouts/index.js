@@ -2,11 +2,13 @@ import {
   Box,
   Flex,
   Heading,
+  Icon,
   Image,
   Link,
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
+import { BsGithub } from "react-icons/bs";
 import { ProdeProvider } from "../logic/ProdeContext";
 import ELECCIONES_DATA from "../logic/elecciones";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
@@ -55,13 +57,12 @@ function MainLayout({ children }) {
         px={2}
       >
         <Flex gap={4} alignItems="center">
-          {/* TODO: Abrir repo y descomentar esto */}
-          {/* <FooterLink
+          <FooterLink
             text="source code"
             link="https://github.com/fdelmazo/prode"
             left={<Icon boxSize={6} as={BsGithub} />}
           />
-          • */}
+          •
           <FooterLink
             text="fede.dm"
             link="https://fede.dm"
