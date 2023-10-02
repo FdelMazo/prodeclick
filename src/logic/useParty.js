@@ -16,6 +16,9 @@ export default function useParty() {
   const [savedUsers, setSavedUsers] = useLocalStorage("prodeusers", {});
   const [hasParties, setHasParties] = React.useState(false);
   const [userId, setUserId] = React.useState(null);
+  
+  // TODO: esto se deberia setear solo una vez y mandar por context
+  // (hay una race condition que a veces salta)
   React.useEffect(() => {
     setUserId(savedUsers?.[partyId]);
     setHasParties(Object.keys(savedUsers).length > 0);

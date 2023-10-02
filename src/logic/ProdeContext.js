@@ -14,6 +14,8 @@ export const ProdeProvider = ({ children }) => {
 };
 
 const Prode = () => {
+  // TODO: poner aca las elecciones elegidas y usar eso toda la app
+
   const [simulatedResults, setSimulatedResults] = React.useState(
     Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
   );
