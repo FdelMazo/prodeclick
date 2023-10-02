@@ -85,7 +85,7 @@ export async function getStaticProps({ params }) {
         [url]: party,
       },
     },
-    revalidate: 60,
+    revalidate: 10,
   };
 }
 

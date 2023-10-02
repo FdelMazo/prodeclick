@@ -93,5 +93,6 @@ export async function getStaticProps() {
       stats,
       partyNames,
     },
+    revalidate: 10,
   };
 }
