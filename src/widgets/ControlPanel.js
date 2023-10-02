@@ -92,46 +92,47 @@ export default function ControlPanel({ partyNames }) {
           </Box>
         }
       />
-      {hasParties && (
-        <Control
-          title="Tus partidas"
-          _hover={{
-            bg: "brand.50",
-            transition: "all 0.2s ease-in-out",
-          }}
-          body={
-            <Box ml={1}>
-              <Select
-                w="20ch"
-                borderColor="darkgray.800"
-                variant="flushed"
-                placeholder="Seleccionar partida"
-                color="darkgray.900"
-                onChange={(e) => {
-                  setLoadingJoinExisting(true);
-                  router.push(`/${e.target.value}`);
-                }}
-              >
-                {Object.keys(savedUsers)
-                  .filter((u) => partyNames[u])
-                  .map((u) => (
-                    <option key={u} value={u}>
-                      {partyNames[u] || u}
-                    </option>
-                  ))}
-              </Select>
-            </Box>
-          }
-          startContent={
-            <Box {...iconBoxProps}>
-              <Icon
-                {...iconProps}
-                as={loadingJoinExisting ? Spinner : MdPeopleAlt}
-              />
-            </Box>
-          }
-        />
-      )}
+      {hasParties &&
+        !!Object.keys(savedUsers).filter((u) => partyNames[u]).length && (
+          <Control
+            title="Tus partidas"
+            _hover={{
+              bg: "brand.50",
+              transition: "all 0.2s ease-in-out",
+            }}
+            body={
+              <Box ml={1}>
+                <Select
+                  w="20ch"
+                  borderColor="darkgray.800"
+                  variant="flushed"
+                  placeholder="Seleccionar partida"
+                  color="darkgray.900"
+                  onChange={(e) => {
+                    setLoadingJoinExisting(true);
+                    router.push(`/${e.target.value}`);
+                  }}
+                >
+                  {Object.keys(savedUsers)
+                    .filter((u) => partyNames[u])
+                    .map((u) => (
+                      <option key={u} value={u}>
+                        {partyNames[u] || u}
+                      </option>
+                    ))}
+                </Select>
+              </Box>
+            }
+            startContent={
+              <Box {...iconBoxProps}>
+                <Icon
+                  {...iconProps}
+                  as={loadingJoinExisting ? Spinner : MdPeopleAlt}
+                />
+              </Box>
+            }
+          />
+        )}
       <Control
         title="Sumate a una partida"
         _hover={{

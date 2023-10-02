@@ -26,7 +26,7 @@ TODO: FUTURO
 */
 
 export default function MainDashboard({ stats, partyNames }) {
-  const { hasParties } = useParty();
+  const { hasParties, savedUsers } = useParty();
   const router = useRouter();
   const toast = useToast();
   const toastId = "error";
@@ -52,7 +52,11 @@ export default function MainDashboard({ stats, partyNames }) {
       <SimpleGrid
         columns={{
           base: 1,
-          lg: hasParties ? 3 : 2,
+          lg:
+            hasParties &&
+            !!Object.keys(savedUsers).filter((u) => partyNames[u]).length
+              ? 3
+              : 2,
         }}
         gap={4}
       >
