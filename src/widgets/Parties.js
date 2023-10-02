@@ -52,6 +52,7 @@ const PartiesTable = ({ data, columns }) => {
                 if (cell.column.Header === "CREACIÓN") {
                   data = (
                     <Text color="darkgray.900" fontSize="xs" fontWeight={700}>
+                      {/* TODO: fix poner GMT-3 */}
                       {row.original.creation}
                     </Text>
                   );
