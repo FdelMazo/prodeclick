@@ -75,7 +75,9 @@ export async function getStaticProps() {
   const parties = await Promise.all(
     (await getAll("party")).map((p) => getParty(p.split(":")[1]))
   );
-  const partyNames = Object.fromEntries(parties.map((p) => [p.id, p.name]));
+  const partyNames = Object.fromEntries(
+    parties.map((p) => [p.id, p.name || null])
+  );
 
   const stats = {
     parties: parties.length,
