@@ -32,6 +32,10 @@ import ProdeTable from "./ProdeTable";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
 
+// TODO: desdoblar modal en una de crear partida y uno de armar tu prode
+// asi el boton de "crear partida" no tarda mucho, y es simplemente abrir el modal,
+// y recien el de continuar es el que tarda
+
 export default function LoginModal({ isOpen, onClose }) {
   const { party, needsAdmin, mutate, login } = useParty();
 
@@ -42,6 +46,8 @@ export default function LoginModal({ isOpen, onClose }) {
   const [formStatus, setFormStatus] = React.useState("");
   const [showProde, setShowProde] = React.useState(needsAdmin);
   const [showPassword, setShowPassword] = React.useState(false);
+  // TODO: Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
+  // sea el default en la proxima partida que armas
   const [prode, setProde] = React.useState(
     Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
   );
