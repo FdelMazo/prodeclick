@@ -56,6 +56,10 @@ export const updateParty = async (partyId, body) => {
 };
 
 export const deleteParty = async (partyId) => {
+  const env = process.env.NODE_ENV;
+  if (env !== "development") {
+    return;
+  }
   const users = await kv.hget(`party:${partyId}`, "users");
   for (const user of users) {
     await kv.del(user);
