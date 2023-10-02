@@ -80,7 +80,7 @@ export async function getStaticProps() {
   );
 
   const stats = {
-    parties: parties.length,
+    parties: Object.values(partyNames).filter((n) => n).length,
     users: await getN("user"),
   };
 
