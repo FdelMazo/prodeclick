@@ -159,7 +159,7 @@ export default function LoginModal({ isOpen, onClose }) {
                         <Text
                           color="darkgray.900"
                           fontSize="sm"
-                          fontWeight="700"
+                          fontWeight={700}
                         >
                           Gana el que tenga menor diferencia absoluta entre
                           todas sus predicciones y los resultados reales
@@ -170,7 +170,7 @@ export default function LoginModal({ isOpen, onClose }) {
                         <Text
                           color="darkgray.800"
                           fontSize="sm"
-                          fontWeight="700"
+                          fontWeight={700}
                         >
                           Frente a un candidato que saca 20%, tanto el que
                           predijo 15% como el que predijo 25% está a 5 puntos de
@@ -218,7 +218,7 @@ export default function LoginModal({ isOpen, onClose }) {
                 </>
               ) : (
                 <Flex align="center" flexDir="column" gap={2}>
-                  <Text color="darkgray.800" fontSize="sm" fontWeight="600">
+                  <Text color="darkgray.800" fontSize="sm" fontWeight={600}>
                     si ya armaste tu prode, usá el mismo nombre y contraseña!
                   </Text>
                   <Button

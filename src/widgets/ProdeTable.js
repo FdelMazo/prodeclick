@@ -99,7 +99,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
           <Text
             color="darkgray.800"
             fontSize="sm"
-            fontWeight="600"
+            fontWeight={700}
             w="100%"
             textAlign="center"
           >

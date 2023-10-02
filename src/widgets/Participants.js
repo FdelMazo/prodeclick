@@ -82,7 +82,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                           )}
                         </>
                       )}
-                      <Text color="darkgray.900" fontSize="sm" fontWeight="700">
+                      <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
                         {row.original.name}
                       </Text>
                     </Flex>
@@ -95,7 +95,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                   );
                 } else if (cell.column.Header === "DIFERENCIA") {
                   data = (
-                    <Text color="red.500" fontSize="sm" fontWeight="700">
+                    <Text color="red.500" fontSize="sm" fontWeight={700}>
                       {row.original.dif} puntos
                     </Text>
                   );
@@ -169,20 +169,20 @@ export default function Participants({ onOpen }) {
         alignItems="center"
       >
         <Box>
-          <Text color="darkgray.900" fontSize="xl" fontWeight="700">
+          <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
             Participantes
           </Text>
           <Accordion allowToggle={true}>
             <AccordionItem border="none">
               <AccordionButton p={0} textAlign={"left"}>
-                <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
                   Gana el que tenga menor diferencia absoluta entre todas sus
                   predicciones y los resultados reales.
                 </Text>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel p={0} textAlign={"left"}>
-                <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
                   Frente a un candidato que saca 20%, tanto el que predijo 15%
                   como el que predijo 25% está a 5 puntos de diferencia.
                 </Text>

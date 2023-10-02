@@ -33,7 +33,7 @@ export default function MiProde() {
         alignItems="center"
         p={2}
       >
-        <Text color="darkgray.900" fontSize="xl" fontWeight="700">
+        <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
           Mi Prode
         </Text>
         {isParty && isLogged && bid && (

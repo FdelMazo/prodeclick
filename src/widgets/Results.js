@@ -201,11 +201,11 @@ export default function Results() {
         p={2}
       >
         <Box>
-          <Text color="darkgray.900" fontSize="xl" fontWeight="700">
+          <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
             {isParty && isSimulated && "Simular"} Resultados
           </Text>
           {!isParty && !realResults && (
-            <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+            <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
               Se actualizarán en vivo el día de las elecciones
             </Text>
           )}

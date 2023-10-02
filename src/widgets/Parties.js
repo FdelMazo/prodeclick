@@ -51,33 +51,33 @@ const PartiesTable = ({ data, columns }) => {
                 let data;
                 if (cell.column.Header === "CREACIÓN") {
                   data = (
-                    <Text color="darkgray.900" fontSize="xs" fontWeight="700">
+                    <Text color="darkgray.900" fontSize="xs" fontWeight={700}>
                       {row.original.creation}
                     </Text>
                   );
                 } else if (cell.column.Header === "ID") {
                   data = (
                     <Link href={`/${row.original.id}`} isExternal>
-                      <Text color="darkgray.900" fontSize="xs" fontWeight="700">
+                      <Text color="darkgray.900" fontSize="xs" fontWeight={700}>
                         {row.original.id}
                       </Text>
                     </Link>
                   );
                 } else if (cell.column.Header === "NOMBRE") {
                   data = (
-                    <Text color="darkgray.900" fontSize="sm" fontWeight="700">
+                    <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
                       {row.original.name}
                     </Text>
                   );
                 } else if (cell.column.Header === "ELECCIONES") {
                   data = (
-                    <Text color="darkgray.800" fontSize="sm" fontWeight="700">
+                    <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
                       {row.original.electionsId}
                     </Text>
                   );
                 } else if (cell.column.Header === "USUARIOS") {
                   data = (
-                    <Text color="darkgray.900" fontSize="sm" fontWeight="700">
+                    <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
                       {row.original.users.map((u) => u.name).join(", ")}
                     </Text>
                   );
@@ -146,7 +146,7 @@ export default function Parties({ parties }) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text color="darkgray.900" fontSize="xl" fontWeight="700">
+        <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
           Partidas
         </Text>
       </CardHeader>

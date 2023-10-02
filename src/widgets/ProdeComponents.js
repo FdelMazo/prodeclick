@@ -117,7 +117,7 @@ export const Partido = ({ partido }) => {
   return (
     <Flex alignItems="center" gap={3}>
       <Icon as={MdPlayCircle} boxSize={6} color={`${partido.color}.600`} />
-      <Box fontWeight="700">
+      <Box fontWeight={700}>
         <Text color="darkgray.900" fontSize="lg">
           {partido.partido}
         </Text>
