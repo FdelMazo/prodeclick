@@ -9,6 +9,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/dm-sans": "5.0.12",
+    "@upstash/ratelimit": "^0.4.4",
     "@vercel/kv": "^0.2.2",
     "apexcharts": "^3.35.2",
     "framer-motion": "^6.5.1",
