@@ -38,7 +38,7 @@ export default function PartyInfo() {
             página
           </Text>
           <Text fontSize="md" fontWeight={500}>
-            Podés crear mas partidas en{" "}
+            Creá más partidas en{" "}
             <Link href="/" color="gray.700">
               la página principal
             </Link>
