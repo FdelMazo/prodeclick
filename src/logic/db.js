@@ -123,6 +123,7 @@ export const deleteUser = async (partyId, userId) => {
 
 export const checkUser = async (partyId, userName, userPassword) => {
   const party = await getParty(partyId);
+  // TODO: arreglar estooo, encontre una partida con dos usuarios con el mismo nombre!
   const user = party.users.find(
     (u) => u.name.trim().toLowerCase() === userName.trim().toLowerCase()
   );
