@@ -26,8 +26,10 @@ export async function getStaticProps() {
   const partiesIds = await getAll("party");
   const parties = (
     await Promise.all(partiesIds.map((p) => p.split(":")[1]).map(getParty))
-  ).sort((a, b) => b.creation?.localeCompare(a.creation));
-  // TODO: sort por cantidad de participantes mejor...
+  ).sort(
+    (a, b) =>
+      b.users.length - a.users.length || b.creation?.localeCompare(a.creation)
+  );
 
   return {
     props: {
