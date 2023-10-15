@@ -9,8 +9,6 @@ import "@fontsource/dm-sans/500.css";
 import "@fontsource/dm-sans/600.css";
 import "@fontsource/dm-sans/700.css";
 
-// TODO: Agregar MAINTENANCE mode que pone una pagina estatica
-// y no deja actuar ni sobre la api ni sobre la db
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>

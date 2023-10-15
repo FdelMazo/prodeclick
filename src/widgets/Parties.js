@@ -151,8 +151,6 @@ export default function Parties({ parties }) {
           Partidas
         </Text>
       </CardHeader>
-      {/* TODO: poner stat de partidas vacias y partidas con gente,
-       (hay forma de agrupar en react-table?) */}
       <CardBody
         display="flex"
         flexDirection="column"
