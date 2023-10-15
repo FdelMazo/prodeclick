@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }) {
             name="og: description"
           />
 
-          <title>prode.click</title>
+          <title>prode.click · Predecí las elecciones argentinas!</title>
         </Head>
         <React.StrictMode>
           <Component {...pageProps} />
