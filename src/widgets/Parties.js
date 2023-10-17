@@ -19,6 +19,11 @@ import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useTable } from "react-table";
 import { deleteParty } from "../logic/api";
+import ELECCIONES_DATA from "../logic/elecciones";
+import { InlineProde } from "./ProdeComponents";
+
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+const PARTIDOS = ELECCIONES.partidos;
 
 const PartiesTable = ({ data, columns }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -138,6 +143,19 @@ export default function Parties({ parties }) {
     },
   ];
 
+  const prodePromedio = React.useMemo(() => {
+    const allProdes = parties.flatMap((p) => p.users).map((u) => u.prode);
+
+    return Object.fromEntries(
+      PARTIDOS.map((p) => [
+        p.id,
+        (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
+          2
+        ),
+      ])
+    );
+  }, [parties]);
+
   return (
     <Card p={4}>
       <CardHeader
@@ -149,6 +167,20 @@ export default function Parties({ parties }) {
         <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
           Partidas
         </Text>
+        <Card variant="outline">
+          <CardBody
+            color="darkgray.900"
+            fontSize="lg"
+            fontWeight={700}
+            p={2}
+            textAlign="center"
+          >
+            Prode Promedio
+            <Flex gap={2}>
+              <InlineProde prode={prodePromedio} />
+            </Flex>
+          </CardBody>
+        </Card>
       </CardHeader>
       <CardBody
         display="flex"
