@@ -36,6 +36,7 @@ export const Porcentaje = ({
   tooltip,
 }) => {
   return isEdit ? (
+    // TODO: hacer andar la coma como punto, para los iphones
     <NumberInput
       minW="7ch"
       maxW="10ch"
