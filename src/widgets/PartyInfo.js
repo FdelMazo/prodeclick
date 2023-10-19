@@ -4,6 +4,8 @@ import { Button, Icon, Kbd, Link, Text } from "@chakra-ui/react";
 import useParty from "../logic/useParty";
 
 import { MdWhatsapp } from "react-icons/md";
+import { SiGoogleforms } from "react-icons/si";
+import { postElectionsDay } from "../logic/utils";
 import { Control } from "./ControlPanel";
 
 export default function PartyInfo() {
@@ -11,7 +13,35 @@ export default function PartyInfo() {
 
   const link = `https://prode.click/${party.id}`;
 
-  return (
+  const postElections = React.useMemo(postElectionsDay, []);
+
+  return postElections ? (
+    <Control
+      w="100%"
+      textAlign="center"
+      title={`¿Qué te pareció?`}
+      body={
+        <>
+          <Link
+            href={`https://docs.google.com/forms/d/e/1FAIpQLSdnOhWlS2au9T4RLs1m2ve-hsGGN_hbomJ2xaFJ0qSNdcYV5Q/viewform?usp=pp_url&entry.1604575804=prode.click`}
+            isExternal
+          >
+            <Button
+              colorScheme="purple"
+              leftIcon={<Icon as={SiGoogleforms} boxSize={7} />}
+              my={1}
+            >
+              Feedback
+            </Button>
+          </Link>
+
+          <Text fontSize="md" fontWeight={500}>
+            Si tenés alguna sugerencia, me encantaría escucharla!
+          </Text>
+        </>
+      }
+    />
+  ) : (
     <Control
       w="100%"
       textAlign="center"

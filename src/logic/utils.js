@@ -20,6 +20,10 @@ export const daysUntilElections = () => {
   return Math.ceil(diffTime / msInDay);
 };
 
+export const postElectionsDay = () => {
+  return daysUntilElections() < 0;
+};
+
 export const isElectionsDay = () => {
   return new Date() >= new Date(ELECCIONES.date);
 };
