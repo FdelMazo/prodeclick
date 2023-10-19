@@ -7,6 +7,11 @@ export const canBid = () => {
   return today < new Date(ELECCIONES.bidding);
 };
 
+// TODO: unificar esta logica en solamente calcular la cantidad de dias desde/hasta las elecciones
+// isElectionsDay -> return days = 0
+// isPastElectionsDay -> return days < 0
+// canBid -> return days > 1
+// etc
 export const daysUntilElections = () => {
   const elections = new Date(ELECCIONES.date);
   const msInDay = 24 * 60 * 60 * 1000;
