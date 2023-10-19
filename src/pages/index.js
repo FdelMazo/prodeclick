@@ -3,7 +3,7 @@ import React from "react";
 import { GridItem, SimpleGrid, Wrap, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
-import { getAll, getN, getParty } from "../logic/db";
+import { getAll, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
 import ControlPanel from "../widgets/ControlPanel";
 import MiProde from "../widgets/MiProde";
@@ -75,7 +75,7 @@ export async function getStaticProps() {
 
   const stats = {
     parties: Object.values(partyNames).filter((n) => n).length,
-    users: await getN("user"),
+    users: parties.flatMap((p) => p.users).length,
   };
 
   return {

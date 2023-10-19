@@ -15,6 +15,7 @@ export const create = async (key, value) => {
 };
 
 export const getAll = async (key) => {
+  // TODO: investigate that this has a 1000 limit!!!
   return (await kv.scan(0, { match: `${key}:*`, count: 10000 }))[1];
 };
 
