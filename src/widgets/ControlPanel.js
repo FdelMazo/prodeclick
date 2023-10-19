@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { createParty, getParty } from "../logic/api";
 import useParty from "../logic/useParty";
+import { canBid } from "../logic/utils";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -29,6 +30,7 @@ export const Control = ({ startContent, body, title, ...rest }) => {
       alignItems="center"
       gap={4}
       p={2}
+      w="400px"
       {...rest}
     >
       {startContent}
@@ -52,6 +54,8 @@ export default function ControlPanel({ partyNames }) {
   const [joinError, setJoinError] = React.useState(false);
   const router = useRouter();
 
+  const bid = React.useMemo(canBid, []);
+
   const iconBoxProps = {
     display: "flex",
     alignItems: "center",
@@ -72,26 +76,31 @@ export default function ControlPanel({ partyNames }) {
 
   return (
     <>
-      <Control
-        title="Creá una partida"
-        body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
-        cursor="pointer"
-        onClick={async () => {
-          setLoadingCreate(true);
-          await createParty().then(({ partyId }) => {
-            router.push(`/${partyId}`);
-          });
-        }}
-        _hover={{
-          bg: "brand.50",
-          transition: "all 0.2s ease-in-out",
-        }}
-        startContent={
-          <Box {...iconBoxProps}>
-            <Icon {...iconProps} as={loadingCreate ? Spinner : MdLibraryAdd} />
-          </Box>
-        }
-      />
+      {bid && (
+        <Control
+          title="Creá una partida"
+          body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
+          cursor="pointer"
+          onClick={async () => {
+            setLoadingCreate(true);
+            await createParty().then(({ partyId }) => {
+              router.push(`/${partyId}`);
+            });
+          }}
+          _hover={{
+            bg: "brand.50",
+            transition: "all 0.2s ease-in-out",
+          }}
+          startContent={
+            <Box {...iconBoxProps}>
+              <Icon
+                {...iconProps}
+                as={loadingCreate ? Spinner : MdLibraryAdd}
+              />
+            </Box>
+          }
+        />
+      )}
       {hasParties &&
         !!Object.keys(savedUsers).filter((u) => partyNames[u]).length && (
           <Control

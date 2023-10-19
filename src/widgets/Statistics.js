@@ -16,6 +16,7 @@ import {
   MdOutlineCalendarMonth,
   MdPeopleAlt,
 } from "react-icons/md";
+import useParty from "../logic/useParty";
 import { canBid, daysUntilElections, isElectionsDay } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
@@ -43,6 +44,7 @@ const MiniStat = ({ startContent, name, description, value }) => {
 };
 
 export default function Statistics({ stats }) {
+  const { isParty } = useParty();
   const { parties, users } = stats;
   // TODO: use the results!
   // const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
@@ -127,7 +129,11 @@ export default function Statistics({ stats }) {
                   pre-elecciones
                 </>
               ) : (
-                "Ya no se pueden cambiar las predicciones"
+                <>
+                  {isParty
+                    ? "Ya no se pueden cambiar las predicciones"
+                    : "No se pueden crear nuevas partidas tan cerca de las elecciones!"}
+                </>
               )}
             </Text>
           }

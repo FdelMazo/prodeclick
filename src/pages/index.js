@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GridItem, SimpleGrid, useToast } from "@chakra-ui/react";
+import { GridItem, SimpleGrid, Wrap, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
 import { getAll, getN, getParty } from "../logic/db";
@@ -49,19 +49,9 @@ export default function MainDashboard({ stats, partyNames }) {
         <Statistics stats={stats} />
       </SimpleGrid>
 
-      <SimpleGrid
-        columns={{
-          base: 1,
-          lg:
-            hasParties &&
-            !!Object.keys(savedUsers).filter((u) => partyNames[u]).length
-              ? 3
-              : 2,
-        }}
-        gap={4}
-      >
+      <Wrap justify="center" spacing={4}>
         <ControlPanel partyNames={partyNames} />
-      </SimpleGrid>
+      </Wrap>
 
       <SimpleGrid w="100%" columns={{ base: 1, lg: 4 }} gap={4}>
         <GridItem colSpan={{ lg: 2, "2xl": 3 }}>

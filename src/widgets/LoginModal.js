@@ -26,7 +26,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { checkUser, createUser, updateParty } from "../logic/api";
 import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
-import { validProde } from "../logic/utils";
+import { canBid, validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
@@ -51,6 +51,8 @@ export default function LoginModal({ isOpen, onClose }) {
   const [prode, setProde] = React.useState(
     Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
   );
+
+  const bid = React.useMemo(canBid, []);
 
   return (
     <Modal
@@ -155,6 +157,12 @@ export default function LoginModal({ isOpen, onClose }) {
                     El nombre ya esta en uso o la contraseña es incorrecta
                   </Text>
                 )}
+                {formStatus == "no-new-users" && (
+                  <Text color="red.400">
+                    No se pueden sumar nuevas personas tan cerca de las
+                    elecciones!
+                  </Text>
+                )}
               </VStack>
 
               {showProde ? (
@@ -244,8 +252,12 @@ export default function LoginModal({ isOpen, onClose }) {
                       );
 
                       if (create) {
-                        setShowProde(true);
-                        setFormStatus("filled");
+                        if (!bid) {
+                          setFormStatus("no-new-users");
+                        } else {
+                          setShowProde(true);
+                          setFormStatus("filled");
+                        }
                       } else if (wrongPassword) {
                         setFormStatus("error");
                       } else if (userId) {

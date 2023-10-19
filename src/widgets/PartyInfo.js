@@ -13,6 +13,7 @@ export default function PartyInfo() {
 
   return (
     <Control
+      w="100%"
       textAlign="center"
       title={`Estás en la partida ${party.name || "de prode.click"}`}
       body={
