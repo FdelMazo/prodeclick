@@ -35,6 +35,8 @@ export const Porcentaje = ({
   fontWeight = 700,
   tooltip,
 }) => {
+  // TODO: dar siempre un `.0` asi los numeros tienen el mismo width
+  // (o incluso, dar siempre el mismo width a manopla)
   return isEdit ? (
     // TODO: hacer andar la coma como punto, para los iphones
     <NumberInput

@@ -85,6 +85,7 @@ export async function getStaticProps({ params }) {
         [url]: party,
       },
     },
+    // TODO: Sacar todos los revalidate y usar fallback de SWR en todos los llamados
     revalidate: 10,
   };
 }
