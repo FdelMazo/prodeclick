@@ -27,6 +27,7 @@ const PARTIDOS = ELECCIONES.partidos;
 
 const PartiesTable = ({ data, columns }) => {
   // TODO: hacer las columnas sorteables
+  // TODO: pagination
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
