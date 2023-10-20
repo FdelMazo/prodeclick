@@ -36,7 +36,8 @@ export default function PartyInfo() {
           </Link>
 
           <Text fontSize="md" fontWeight={500}>
-            Si tenés alguna sugerencia, me encantaría escucharla!
+            Si tenés alguna sugerencia, me encantaría escucharla! <br />
+            y por último... ¿usarías la app en el ballotage?
           </Text>
         </>
       }
