@@ -108,7 +108,7 @@ export default function Statistics({ stats }) {
                 <b>{lastUpdate.toLocaleTimeString("en-US")}</b>
               </Text>
             ) : (
-              <Text>Un poquito más de paciencia</Text>
+              <Text>Se actualizan en vivo, un poquito más de paciencia!</Text>
             )
           }
           startContent={
