@@ -125,14 +125,13 @@ export default function Statistics({ stats }) {
             <Text color={!bid && "red.400"}>
               {bid ? (
                 <>
-                  Se pueden cambiar las predicciones hasta el <b>viernes</b>{" "}
-                  pre-elecciones
+                  Se pueden cambiar las predicciones hasta el día de las elecciones
                 </>
               ) : (
                 <>
                   {isParty
                     ? "Ya no se pueden cambiar las predicciones"
-                    : "No se pueden crear nuevas partidas tan cerca de las elecciones!"}
+                    : "No se pueden crear nuevas partidas el día de las elecciones!"}
                 </>
               )}
             </Text>

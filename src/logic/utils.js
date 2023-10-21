@@ -10,7 +10,8 @@ export const canBid = () => {
 // TODO: unificar esta logica en solamente calcular la cantidad de dias desde/hasta las elecciones
 // isElectionsDay -> return days = 0
 // isPastElectionsDay -> return days < 0
-// canBid -> return days > 1
+// canBid -> return days > 0 -> tal vez llamarlo pre elections day
+// Simplificar toda la app ahora que no hay un estado intermedio entre no biddear y elections day
 // etc
 export const daysUntilElections = () => {
   const elections = new Date(ELECCIONES.date);

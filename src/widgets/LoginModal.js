@@ -159,7 +159,7 @@ export default function LoginModal({ isOpen, onClose }) {
                 )}
                 {formStatus == "no-new-users" && (
                   <Text color="red.400">
-                    No se pueden sumar nuevas personas tan cerca de las
+                    No se pueden sumar nuevas personas el día de las
                     elecciones!
                   </Text>
                 )}
