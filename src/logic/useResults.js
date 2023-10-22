@@ -23,6 +23,7 @@ const TRANSFORM = async (url, options) => {
 
 export default function useResults() {
   // TODO: UPDATE THIS LINK!!!
+  // TODO: poner fallback el lunes post elecciones
   // https://elecciones.arn.digital/2023/argentina/provinciales/json/gobernadorCHA.json
   // https://elecciones2023paso.lanacion.com.ar/jsons/provinciales/anexo_chaco_general_automatico.json
   const { data, isLoading: isLoadingResults } = useSWR(

@@ -125,6 +125,7 @@ export default function Statistics({ stats }) {
             <Text color={!bid && "red.400"}>
               {bid ? (
                 <>
+                  {/* TODO: en home, poner "se puede sumar gente hasta el dia de..." */}
                   Se pueden cambiar las predicciones hasta el día de las elecciones
                 </>
               ) : (

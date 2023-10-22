@@ -73,6 +73,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                     <Flex gap={2}>
                       {results && (
                         <>
+                          {/* TODO: Hacer al ganador font mas grande? o ponerlo en algun otro lado */}
                           {winners.includes(row.original.id) ? (
                             "🏆"
                           ) : (
@@ -136,6 +137,7 @@ export default function Participants({ onOpen }) {
       : undefined,
   ].filter((c) => c);
 
+  // TODO: pasar esto al context para poder manejar a los ganadores en otros lados
   const data = React.useMemo(() => {
     return party.users
       .map((u) => {

@@ -12,6 +12,7 @@ export const canBid = () => {
 // isPastElectionsDay -> return days < 0
 // canBid -> return days > 0 -> tal vez llamarlo pre elections day
 // Simplificar toda la app ahora que no hay un estado intermedio entre no biddear y elections day
+// TODO: hacer un electionsStatus que devuelva un string (enum) que sea PRE | DAY | POST
 // etc
 export const daysUntilElections = () => {
   const elections = new Date(ELECCIONES.date);
