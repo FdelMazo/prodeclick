@@ -91,7 +91,7 @@ export default function Statistics({ stats }) {
       />
       {electionsDay ? (
         <MiniStat
-          name="Mesas escrutinadas"
+          name="Mesas escrutadas"
           value={
             isLoadingResults ? (
               <Spinner size="sm" />
@@ -108,7 +108,7 @@ export default function Statistics({ stats }) {
                 <b>{lastUpdate.toLocaleTimeString("en-US")}</b>
               </Text>
             ) : (
-              <Text>Se actualizan en vivo, un poquito más de paciencia!</Text>
+              <Text>Se actualizan en vivo, un poquito más de paciencia</Text>
             )
           }
           startContent={
