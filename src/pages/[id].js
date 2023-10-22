@@ -51,7 +51,8 @@ function PartyDashboard() {
         <GridItem colSpan={{ lg: 2, "2xl": 1 }}>
           <Results />
         </GridItem>
-        <GridItem colSpan={{ base: 1, lg: 4 }} order={electionsDay && "-1"}>
+        <GridItem colSpan={{ base: 1, lg: 4 }}>
+          {/* TODO: Poner en la POST elecciones y con paginado order={electionsDay && "-1"}> */}
           <Participants onOpen={onOpen} />
         </GridItem>
       </SimpleGrid>
