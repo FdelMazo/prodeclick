@@ -8,7 +8,7 @@ import Parties from "../widgets/Parties";
 export default function AdminDashboard({ parties }) {
   return (
     <MainLayout>
-      <SimpleGrid columns={{ base: 1 }} gap={4}>
+      <SimpleGrid columns={{ base: 1 }} gap={4} w="100%">
         {/* TODO: add lista de prodes aca */}
         <Parties parties={parties} />
       </SimpleGrid>
@@ -24,14 +24,11 @@ export async function getStaticProps() {
     };
   }
 
+  // TODO: evitar el 'getParty' para no traer tantos datos que la pagina esta pesada
   const partiesIds = await getAll("party");
   const parties = (
     await Promise.all(partiesIds.map((p) => p.split(":")[1]).map(getParty))
-  ).sort(
-    (a, b) =>
-      b.users.length - a.users.length || b.creation?.localeCompare(a.creation)
-  );
-
+  )
   return {
     props: {
       parties,

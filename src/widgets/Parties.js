@@ -1,4 +1,10 @@
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  TriangleDownIcon,
+  TriangleUpIcon,
+} from "@chakra-ui/icons";
+import {
   Box,
   Card,
   CardBody,
@@ -18,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
-import { useTable } from "react-table";
+import { usePagination, useSortBy, useTable } from "react-table";
 import { deleteParty } from "../logic/api";
 import ELECCIONES_DATA from "../logic/elecciones";
 import { InlineProde } from "./ProdeComponents";
@@ -27,10 +33,33 @@ const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const PARTIDOS = ELECCIONES.partidos;
 
 const PartiesTable = ({ data, columns }) => {
-  // TODO: hacer las columnas sorteables
-  // TODO: pagination
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    nextPage,
+    previousPage,
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        pageSize: 50,
+        sortBy: [
+          {
+            id: "users",
+            desc: true,
+          },
+        ],
+      },
+    },
+    useSortBy,
+    usePagination
+  );
 
   return (
     <Box overflowX="auto">
@@ -40,11 +69,21 @@ const PartiesTable = ({ data, columns }) => {
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
-                  {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={index}
                   borderColor="gray.200"
+                  justifyContent={column.Header === "ADMINISTRAR" && "center"}
                 >
-                  <Flex color="darkgray">{column.render("Header")}</Flex>
+                  <Flex color="darkgray">
+                    {column.render("Header")}
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <TriangleDownIcon mx={1} />
+                      ) : (
+                        <TriangleUpIcon mx={1} />
+                      )
+                    ) : null}
+                  </Flex>
                 </Th>
               ))}
             </Tr>
@@ -52,7 +91,7 @@ const PartiesTable = ({ data, columns }) => {
         </Thead>
 
         <Tbody {...getTableBodyProps()}>
-          {rows.map((row, rowIndex) => {
+          {page.map((row, rowIndex) => {
             prepareRow(row);
             return (
               <Tr {...row.getRowProps()} key={rowIndex}>
@@ -98,22 +137,24 @@ const PartiesTable = ({ data, columns }) => {
                     );
                   } else if (cell.column.Header === "ADMINISTRAR") {
                     data = (
-                      <Tooltip
-                        label={"Borrar partida"}
-                        placement="top"
-                        hasArrow={true}
-                      >
-                        <IconButton
-                          borderRadius="lg"
-                          bg="red.400"
-                          color="white"
-                          icon={<Icon as={MdDeleteOutline} boxSize={5} />}
-                          _hover={{ bg: "red.500" }}
-                          onClick={async () => {
-                            await deleteParty(row.original.id);
-                          }}
-                        />
-                      </Tooltip>
+                      <Flex justifyContent="center">
+                        <Tooltip
+                          label={"Borrar partida"}
+                          placement="top"
+                          hasArrow={true}
+                        >
+                          <IconButton
+                            borderRadius="lg"
+                            bg="red.400"
+                            color="white"
+                            icon={<Icon as={MdDeleteOutline} boxSize={5} />}
+                            _hover={{ bg: "red.500" }}
+                            onClick={async () => {
+                              await deleteParty(row.original.id);
+                            }}
+                          />
+                        </Tooltip>
+                      </Flex>
                     );
                   }
 
@@ -128,6 +169,26 @@ const PartiesTable = ({ data, columns }) => {
           })}
         </Tbody>
       </Table>
+      {(canPreviousPage || canNextPage) && (
+        <Flex justifyContent="flex-end" my={2} gap={2}>
+          <Tooltip label="Página anterior">
+            <IconButton
+              size="sm"
+              onClick={previousPage}
+              isDisabled={!canPreviousPage}
+              icon={<ChevronLeftIcon boxSize={5} />}
+            />
+          </Tooltip>
+          <Tooltip label="Página siguiente">
+            <IconButton
+              size="sm"
+              onClick={nextPage}
+              isDisabled={!canNextPage}
+              icon={<ChevronRightIcon boxSize={5} />}
+            />
+          </Tooltip>
+        </Flex>
+      )}
     </Box>
   );
 };
@@ -136,6 +197,7 @@ export default function Parties({ parties }) {
   const columns = [
     {
       Header: "CREACIÓN",
+      accessor: "creation",
     },
     {
       Header: "ID",
@@ -145,9 +207,14 @@ export default function Parties({ parties }) {
     },
     {
       Header: "ELECCIONES",
+      accessor: "electionsId",
     },
     {
       Header: "USUARIOS",
+      accessor: "users",
+      sortType: (rowA, rowB) => {
+        return rowA.original.users.length - rowB.original.users.length;
+      },
     },
     {
       Header: "ADMINISTRAR",
