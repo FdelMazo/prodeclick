@@ -1,14 +1,17 @@
 import { kv } from "@vercel/kv";
 import ELECCIONES_DATA from "../logic/elecciones";
-import { hash, id } from "./utils";
+import { hash, createid } from "./utils";
 
 // DB UTILS
 
-export const create = async (key, value) => {
-  const newId = id();
+export const create = async (key, value, id = null) => {
+  if (!id) {
+    id = createid();
+  }
+
   const creation = new Date().toISOString();
-  await kv.hset(`${key}:${newId}`, { ...value, creation });
-  return newId;
+  await kv.hset(`${key}:${id}`, { ...value, creation });
+  return id;
 };
 
 export const getKeys = async (key) => {
@@ -16,10 +19,13 @@ export const getKeys = async (key) => {
   return (await kv.scan(0, { match: `${key}:*`, count: 1000 }))[1];
 };
 
+export const exists = async (key) => {
+  return (await kv.exists(key)) === 1;
+};
+
 // PARTY CRUD
 
 export const createParty = async () => {
-  // TODO: pegarle a current aca mismo me hace ruido, repensarlo?
   return create("party", { users: [], electionsId: ELECCIONES_DATA.current });
 };
 

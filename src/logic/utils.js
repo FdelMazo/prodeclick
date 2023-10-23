@@ -26,4 +26,7 @@ export const hash = (pw) => {
   return h.digest("hex");
 };
 
-export const id = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
+export const createid = customAlphabet(
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  8
+);

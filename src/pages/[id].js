@@ -5,7 +5,7 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
-import { getKeys, getParty } from "../logic/db";
+import { getKeys, exists, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
 import LoginModal from "../widgets/LoginModal";
 import MiProde from "../widgets/MiProde";
@@ -68,8 +68,7 @@ export default function Index({ fallback }) {
 export async function getStaticProps({ params }) {
   const partyId = params.id;
 
-  const parties = await getKeys("party");
-  if (!parties.includes(`party:${partyId}`)) {
+  if (!(await exists(`party:${partyId}`))) {
     return {
       notFound: true,
     };
