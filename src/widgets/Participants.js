@@ -97,7 +97,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                     );
                   } else if (cell.column.Header === "PRODE") {
                     data = (
-                      <Flex justifyContent="center" gap={1} flexWrap="wrap">
+                      <Flex justifyContent="center" gap={2} flexWrap="wrap">
                         <InlineProde prode={row.original.prode} />
                       </Flex>
                     );

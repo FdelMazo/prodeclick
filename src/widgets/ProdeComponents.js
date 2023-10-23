@@ -35,8 +35,6 @@ export const Porcentaje = ({
   fontWeight = 700,
   tooltip,
 }) => {
-  // TODO: dar siempre un `.0` asi los numeros tienen el mismo width
-  // (o incluso, dar siempre el mismo width a manopla)
   return isEdit ? (
     // TODO: hacer andar la coma como punto, para los iphones
     // TODO: pedir screenshtos de como anda en todo safari, para ver si se me escapo algo
@@ -75,7 +73,7 @@ export const Porcentaje = ({
           <Spinner size="xs" />
         ) : (
           <Text fontWeight={fontWeight}>
-            {isDummy ? "??" : prode?.[partido.id]}%
+            {isDummy ? "??" : prode?.[partido.id].toFixed(1)}%
           </Text>
         )}
       </Box>
