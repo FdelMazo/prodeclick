@@ -14,14 +14,12 @@ export default function useParty() {
   } = useSWR(partyId ? `/api/party/${partyId}` : null, GET);
 
   const [savedUsers, setSavedUsers] = useLocalStorage("prodeusers", {});
-  const [hasParties, setHasParties] = React.useState(false);
   const [userId, setUserId] = React.useState(null);
-  
+
   // TODO: esto se deberia setear solo una vez y mandar por context
   // (hay una race condition que a veces salta)
   React.useEffect(() => {
     setUserId(savedUsers?.[partyId]);
-    setHasParties(Object.keys(savedUsers).length > 0);
   }, [partyId, savedUsers]);
 
   const login = (id) => {
@@ -39,7 +37,6 @@ export default function useParty() {
     login,
     logout,
     savedUsers,
-    hasParties,
     user: party?.users?.find((u) => u.id === userId),
     isAdmin: party?.admin?.id === userId,
     needsAdmin: !!partyId && !party.admin,

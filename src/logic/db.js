@@ -11,15 +11,9 @@ export const create = async (key, value) => {
   return newId;
 };
 
-export const getAll = async (key) => {
-  // TODO: investigate that this has a 1000 limit!!!
-  // TODO: stop using scan, use an `elections-generales2023`
-  // and that contains an array of party ids
-  return (await kv.scan(0, { match: `${key}:*`, count: 10000 }))[1];
-};
-
-export const getN = async (key) => {
-  return (await getAll(key)).length;
+export const getKeys = async (key) => {
+  // Beware that this has a 1000 limit!
+  return (await kv.scan(0, { match: `${key}:*`, count: 1000 }))[1];
 };
 
 // PARTY CRUD
@@ -29,10 +23,17 @@ export const createParty = async () => {
   return create("party", { users: [], electionsId: ELECCIONES_DATA.current });
 };
 
-export const getParty = async (partyId) => {
+export const getParty = async (partyId, full = false) => {
   const party = await kv.hgetall(`party:${partyId}`);
   if (!party) {
     return null;
+  }
+
+  if (!full) {
+    return {
+      id: partyId,
+      ...party,
+    };
   }
 
   const users =
@@ -63,7 +64,7 @@ export const deleteParty = async (partyId) => {
   }
 
   // Delete every empty party in case of an overdose...
-  // for (const key of await getAll("party")) {
+  // for (const key of await getKeys("party")) {
   //   const p = await getParty(key.split(":")[1]);
   //   if (!p.name) {
   //     console.log("deleting", key);
@@ -123,7 +124,7 @@ export const deleteUser = async (partyId, userId) => {
 // LOGIN
 
 export const checkUser = async (partyId, userName, userPassword) => {
-  const party = await getParty(partyId);
+  const party = await getParty(partyId, true);
   const user = party.users.find(
     (u) => u.name.trim().toLowerCase() === userName.trim().toLowerCase()
   );

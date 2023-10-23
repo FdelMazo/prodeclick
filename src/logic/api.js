@@ -15,8 +15,8 @@ export const createParty = async () => {
   return POST("/api/party");
 };
 
-export const getParty = async (partyId) => {
-  return GET(`/api/party/${partyId}`);
+export const getParty = async (partyId, notfull = false) => {
+  return GET(`/api/party/${partyId}` + (notfull ? "?notfull=true" : ""));
 };
 
 export const updateParty = async (partyId, data) => {

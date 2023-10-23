@@ -27,7 +27,6 @@ import { MdDeleteOutline } from "react-icons/md";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { deleteParty } from "../logic/api";
 import { InlineProde } from "./ProdeComponents";
-import { ProdeContext } from "../logic/ProdeContext";
 
 const PartiesTable = ({ data, columns }) => {
   const {
@@ -48,7 +47,7 @@ const PartiesTable = ({ data, columns }) => {
         pageSize: 50,
         sortBy: [
           {
-            id: "users",
+            id: "nusers",
             desc: true,
           },
         ],
@@ -96,7 +95,7 @@ const PartiesTable = ({ data, columns }) => {
                   let data;
                   if (cell.column.Header === "CREACIÓN") {
                     data = (
-                      <Text color="darkgray.900" fontSize="xs" fontWeight={700}>
+                      <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
                         {new Date(row.original.creation)?.toLocaleString(
                           "es-AR"
                         )}
@@ -107,7 +106,7 @@ const PartiesTable = ({ data, columns }) => {
                       <Link href={`/${row.original.id}`} isExternal>
                         <Text
                           color="darkgray.900"
-                          fontSize="xs"
+                          fontSize="sm"
                           fontWeight={700}
                         >
                           {row.original.id}
@@ -117,19 +116,13 @@ const PartiesTable = ({ data, columns }) => {
                   } else if (cell.column.Header === "NOMBRE") {
                     data = (
                       <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
-                        {row.original.name}
+                        {row.original.name} ({row.original.nusers})
                       </Text>
                     );
                   } else if (cell.column.Header === "ELECCIONES") {
                     data = (
                       <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
                         {row.original.electionsId}
-                      </Text>
-                    );
-                  } else if (cell.column.Header === "USUARIOS") {
-                    data = (
-                      <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
-                        {row.original.users.map((u) => u.name).join(", ")}
                       </Text>
                     );
                   } else if (cell.column.Header === "ADMINISTRAR") {
@@ -191,8 +184,6 @@ const PartiesTable = ({ data, columns }) => {
 };
 
 export default function Parties({ parties }) {
-  const { ELECCIONES } = React.useContext(ProdeContext)
-
   const columns = [
     {
       Header: "CREACIÓN",
@@ -203,35 +194,38 @@ export default function Parties({ parties }) {
     },
     {
       Header: "NOMBRE",
+      accessor: "nusers",
+      sortType: (rowA, rowB) => {
+        return rowA.original.nusers - rowB.original.nusers;
+      },
     },
     {
       Header: "ELECCIONES",
       accessor: "electionsId",
     },
     {
-      Header: "USUARIOS",
-      accessor: "users",
-      sortType: (rowA, rowB) => {
-        return rowA.original.users.length - rowB.original.users.length;
-      },
-    },
-    {
       Header: "ADMINISTRAR",
     },
   ];
 
-  const prodePromedio = React.useMemo(() => {
-    const allProdes = parties.flatMap((p) => p.users).map((u) => u.prode);
+  // Traer todos los usuarios y todos los prodes es muuuy pesado, así que esto
+  // se habilita y deshabilita a manopla.
+  // Para ver el prode promedio, cambiar el `getParty` que popula esta tabla
+  // por un `getParty` full con usuarios incluidos, y traer el array de usuarios
+  // en vez de solo el numero.
+  const prodePromedio = null;
+  // const prodePromedio = React.useMemo(() => {
+  //   const allProdes = parties.flatMap((p) => p.users).map((u) => u.prode);
 
-    return Object.fromEntries(
-      ELECCIONES.partidos.map((p) => [
-        p.id,
-        (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
-          2
-        ),
-      ])
-    );
-  }, [parties]);
+  //   return Object.fromEntries(
+  //     ELECCIONES.partidos.map((p) => [
+  //       p.id,
+  //       (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
+  //         2
+  //       ),
+  //     ])
+  //   );
+  // }, [parties]);
 
   return (
     <Card p={4}>
@@ -244,20 +238,22 @@ export default function Parties({ parties }) {
         <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
           Partidas
         </Text>
-        <Card variant="outline">
-          <CardBody
-            color="darkgray.900"
-            fontSize="lg"
-            fontWeight={700}
-            p={2}
-            textAlign="center"
-          >
-            Prode Promedio
-            <Flex gap={2}>
-              <InlineProde prode={prodePromedio} />
-            </Flex>
-          </CardBody>
-        </Card>
+        {prodePromedio && (
+          <Card variant="outline">
+            <CardBody
+              color="darkgray.900"
+              fontSize="lg"
+              fontWeight={700}
+              p={2}
+              textAlign="center"
+            >
+              Prode Promedio
+              <Flex gap={2}>
+                <InlineProde prode={prodePromedio} />
+              </Flex>
+            </CardBody>
+          </Card>
+        )}
       </CardHeader>
       <CardBody
         display="flex"

@@ -16,9 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
+import { ProdeContext } from "../logic/ProdeContext";
 import { createParty, getParty } from "../logic/api";
 import useParty from "../logic/useParty";
-import { ProdeContext } from "../logic/ProdeContext";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -46,15 +46,29 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-export default function ControlPanel({ partyNames }) {
-  const { hasParties, savedUsers } = useParty();
-  const [loadingCreate, setLoadingCreate] = React.useState(false);
-  const [loadingJoin, setLoadingJoin] = React.useState(false);
-  const [loadingJoinExisting, setLoadingJoinExisting] = React.useState(false);
-  const [joinError, setJoinError] = React.useState(false);
+export default function ControlPanel() {
   const router = useRouter();
-
+  const { isParty, savedUsers } = useParty();
   const { electionStatus } = React.useContext(ProdeContext);
+
+  const [loading, setLoading] = React.useState("");
+  const [joinError, setJoinError] = React.useState(false);
+
+  const [savedParties, setSavedParties] = React.useState({});
+  React.useEffect(() => {
+    if (isParty) return;
+    const fetchSavedParties = async () => {
+      const savedParties = Object.fromEntries(
+        (
+          await Promise.all(
+            Object.keys(savedUsers).map((u) => getParty(u, true))
+          )
+        ).map((p) => [p.id, p.name])
+      );
+      setSavedParties(savedParties);
+    };
+    fetchSavedParties();
+  }, [isParty, savedUsers]);
 
   const iconBoxProps = {
     display: "flex",
@@ -82,7 +96,7 @@ export default function ControlPanel({ partyNames }) {
           body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
           cursor="pointer"
           onClick={async () => {
-            setLoadingCreate(true);
+            setLoading("new");
             await createParty().then(({ partyId }) => {
               router.push(`/${partyId}`);
             });
@@ -95,53 +109,50 @@ export default function ControlPanel({ partyNames }) {
             <Box {...iconBoxProps}>
               <Icon
                 {...iconProps}
-                as={loadingCreate ? Spinner : MdLibraryAdd}
+                as={loading === "new" ? Spinner : MdLibraryAdd}
               />
             </Box>
           }
         />
       )}
-      {hasParties &&
-        !!Object.keys(savedUsers).filter((u) => partyNames[u]).length && (
-          <Control
-            title="Tus partidas"
-            _hover={{
-              bg: "brand.50",
-              transition: "all 0.2s ease-in-out",
-            }}
-            body={
-              <Box ml={1}>
-                <Select
-                  w="20ch"
-                  borderColor="darkgray.800"
-                  variant="flushed"
-                  placeholder="Seleccionar partida"
-                  color="darkgray.900"
-                  onChange={(e) => {
-                    setLoadingJoinExisting(true);
-                    router.push(`/${e.target.value}`);
-                  }}
-                >
-                  {Object.keys(savedUsers)
-                    .filter((u) => partyNames[u])
-                    .map((u) => (
-                      <option key={u} value={u}>
-                        {partyNames[u] || u}
-                      </option>
-                    ))}
-                </Select>
-              </Box>
-            }
-            startContent={
-              <Box {...iconBoxProps}>
-                <Icon
-                  {...iconProps}
-                  as={loadingJoinExisting ? Spinner : MdPeopleAlt}
-                />
-              </Box>
-            }
-          />
-        )}
+      {!!Object.keys(savedParties).length && (
+        <Control
+          title="Tus partidas"
+          _hover={{
+            bg: "brand.50",
+            transition: "all 0.2s ease-in-out",
+          }}
+          body={
+            <Box ml={1}>
+              <Select
+                w="20ch"
+                borderColor="darkgray.800"
+                variant="flushed"
+                placeholder="Seleccionar partida"
+                color="darkgray.900"
+                onChange={(e) => {
+                  setLoading("existing");
+                  router.push(`/${e.target.value}`);
+                }}
+              >
+                {Object.entries(savedParties).map(([pid, pname]) => (
+                  <option key={pid} value={pid}>
+                    {pname}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+          }
+          startContent={
+            <Box {...iconBoxProps}>
+              <Icon
+                {...iconProps}
+                as={loading === "existing" ? Spinner : MdPeopleAlt}
+              />
+            </Box>
+          }
+        />
+      )}
       <Control
         title="Sumate a una partida"
         _hover={{
@@ -166,7 +177,7 @@ export default function ControlPanel({ partyNames }) {
                   return;
                 }
 
-                setLoadingJoin(true);
+                setLoading("join");
                 router.push(`/${partyId}`);
               }}
             >
@@ -201,7 +212,10 @@ export default function ControlPanel({ partyNames }) {
         }
         startContent={
           <Box {...iconBoxProps}>
-            <Icon {...iconProps} as={loadingJoin ? Spinner : MdPersonSearch} />
+            <Icon
+              {...iconProps}
+              as={loading === "join" ? Spinner : MdPersonSearch}
+            />
           </Box>
         }
       />
