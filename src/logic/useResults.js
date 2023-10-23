@@ -24,6 +24,7 @@ const TRANSFORM = async (url, options) => {
 export default function useResults() {
   // TODO: poner fallback el lunes post elecciones
   // TODO: hacer que el refresh interval sea cada 10 segundos pero solo en electionsday
+  // TODO: meter el link en el json de elecciones
   const { data, isLoading: isLoadingResults } = useSWR(
     "https://data-ecp.clarin.com/clarin.com/2023/argentina/general/AR_president.json",
     TRANSFORM,

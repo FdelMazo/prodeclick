@@ -39,6 +39,7 @@ export const Porcentaje = ({
   // (o incluso, dar siempre el mismo width a manopla)
   return isEdit ? (
     // TODO: hacer andar la coma como punto, para los iphones
+    // TODO: pedir screenshtos de como anda en todo safari, para ver si se me escapo algo
     <NumberInput
       minW="7ch"
       maxW="10ch"

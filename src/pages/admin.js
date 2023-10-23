@@ -9,6 +9,7 @@ export default function AdminDashboard({ parties }) {
   return (
     <MainLayout>
       <SimpleGrid columns={{ base: 1 }} gap={4}>
+        {/* TODO: add lista de prodes aca */}
         <Parties parties={parties} />
       </SimpleGrid>
     </MainLayout>

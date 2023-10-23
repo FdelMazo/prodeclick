@@ -70,6 +70,7 @@ export default function Statistics({ stats }) {
     color: "brand.500",
   };
 
+  // TODO: mostrar resultados de las elecciones anteriores
   return (
     <>
       <MiniStat

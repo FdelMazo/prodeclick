@@ -15,7 +15,7 @@ export const ProdeProvider = ({ children }) => {
 
 const Prode = () => {
   // TODO: poner aca las elecciones elegidas y usar eso toda la app
-
+  // TODO: calcular aca la lista de ganadores y usar aca el criterio de que terminan las elecciones (>95% mesas)
   const [simulatedResults, setSimulatedResults] = React.useState(
     Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
   );
