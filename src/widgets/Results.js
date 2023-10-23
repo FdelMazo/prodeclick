@@ -21,9 +21,9 @@ import { diff, sum } from "../logic/utils";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Results() {
-  const { isParty, user, party } = useParty();
+  const { isParty, party } = useParty();
   const { realResults, tablesPercent } = useResults();
-  const { ELECCIONES } = React.useContext(ProdeContext);
+  const { ELECCIONES, user } = React.useContext(ProdeContext);
 
   const [simulatedResults, setSimulatedResults] = React.useState(
     Object.fromEntries(

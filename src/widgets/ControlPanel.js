@@ -18,7 +18,6 @@ import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { ProdeContext } from "../logic/ProdeContext";
 import { createParty, getParty } from "../logic/api";
-import useParty from "../logic/useParty";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -48,27 +47,10 @@ export const Control = ({ startContent, body, title, ...rest }) => {
 
 export default function ControlPanel() {
   const router = useRouter();
-  const { isParty, savedUsers } = useParty();
-  const { electionStatus } = React.useContext(ProdeContext);
+  const { electionStatus, savedParties } = React.useContext(ProdeContext);
 
   const [loading, setLoading] = React.useState("");
   const [joinError, setJoinError] = React.useState(false);
-
-  const [savedParties, setSavedParties] = React.useState({});
-  React.useEffect(() => {
-    if (isParty) return;
-    const fetchSavedParties = async () => {
-      const savedParties = Object.fromEntries(
-        (
-          await Promise.all(
-            Object.keys(savedUsers).map((u) => getParty(u, true))
-          )
-        ).map((p) => [p.id, p.name])
-      );
-      setSavedParties(savedParties);
-    };
-    fetchSavedParties();
-  }, [isParty, savedUsers]);
 
   const iconBoxProps = {
     display: "flex",

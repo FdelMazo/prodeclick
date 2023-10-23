@@ -33,16 +33,17 @@ import ProdeTable from "./ProdeTable";
 // asi el boton de "crear partida" no tarda mucho, y es simplemente abrir el modal,
 // y recien el de continuar es el que tarda
 
-export default function LoginModal({ isOpen, onClose }) {
-  const { ELECCIONES, electionStatus } = React.useContext(ProdeContext);
-  const { party, needsAdmin, mutate, login } = useParty();
+export default function LoginModal({ isOpen, onClose, onOpen }) {
+  const { ELECCIONES, electionStatus, login, isLogged } =
+    React.useContext(ProdeContext);
+  const { party, mutate, isLoading } = useParty();
 
   const [partyName, setPartyName] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const [formStatus, setFormStatus] = React.useState("");
-  const [showProde, setShowProde] = React.useState(needsAdmin);
+  const [showProde, setShowProde] = React.useState(!party.admin);
   const [showPassword, setShowPassword] = React.useState(false);
   // TODO: Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
   // sea el default en la proxima partida que armas
@@ -51,6 +52,13 @@ export default function LoginModal({ isOpen, onClose }) {
       ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])
     )
   );
+
+  React.useEffect(() => {
+    if (isLoading) return;
+    if (!isLogged) {
+      onOpen();
+    }
+  }, [isLoading, isLogged]);
 
   return (
     <Modal
@@ -77,7 +85,7 @@ export default function LoginModal({ isOpen, onClose }) {
       <ModalOverlay />
       <ModalContent m={4} p={4}>
         <ModalHeader>
-          {needsAdmin ? (
+          {!party.admin ? (
             <>
               <Text>Bienvenido a prode.click</Text>
               <Text fontSize="md" color="darkgray.800">
@@ -93,7 +101,7 @@ export default function LoginModal({ isOpen, onClose }) {
         <ModalBody>
           <form onSubmit={(e) => e.preventDefault()}>
             <VStack spacing={6}>
-              {needsAdmin && (
+              {!party.admin && (
                 <FormControl
                   isInvalid={formStatus == "submitted" && !partyName.trim()}
                 >
@@ -207,7 +215,7 @@ export default function LoginModal({ isOpen, onClose }) {
                       if (
                         !name.trim() ||
                         !password ||
-                        (needsAdmin && !partyName.trim())
+                        (!party.admin && !partyName.trim())
                       )
                         return;
 
@@ -220,7 +228,7 @@ export default function LoginModal({ isOpen, onClose }) {
                       });
 
                       login(userId);
-                      if (needsAdmin) {
+                      if (!party.admin) {
                         await updateParty(party.id, {
                           name: partyName,
                           admin: userId,

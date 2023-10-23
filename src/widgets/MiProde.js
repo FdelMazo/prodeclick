@@ -17,11 +17,11 @@ import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 export default function MiProde() {
-  const { user, mutate, isParty, isLogged } = useParty();
+  const { mutate, isParty } = useParty();
   const [isEdit, setIsEdit] = React.useState(false);
   const [prode, setProde] = React.useState(null);
 
-  const { electionStatus } = React.useContext(ProdeContext);
+  const { electionStatus, user, isLogged } = React.useContext(ProdeContext);
 
   React.useEffect(() => {
     setProde(user?.prode);

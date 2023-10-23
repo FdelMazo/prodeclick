@@ -26,13 +26,13 @@ const columns = [
 ];
 
 export default function ProdeTable({ prode, setProde, isEdit }) {
-  const {ELECCIONES} = React.useContext(ProdeContext)
+  const { ELECCIONES, isLogged } = React.useContext(ProdeContext);
   const data = ELECCIONES.partidos;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
-  const { isParty, isLoading, isLogged } = useParty();
+  const { isParty, isLoading } = useParty();
   return (
     <Box w="100%" key={isLoading} overflowX="auto">
       <Table {...getTableProps()}>

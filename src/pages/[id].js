@@ -5,7 +5,7 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
-import { getKeys, exists, getParty } from "../logic/db";
+import { exists, getKeys, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
 import LoginModal from "../widgets/LoginModal";
 import MiProde from "../widgets/MiProde";
@@ -15,15 +15,8 @@ import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
 
 function PartyDashboard() {
-  const { isLogged, party, isLoading } = useParty();
+  const { party } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  React.useEffect(() => {
-    if (isLoading) return;
-    if (!isLogged) {
-      onOpen();
-    }
-  }, [isLoading, isLogged]);
 
   return (
     <MainLayout>
@@ -33,7 +26,7 @@ function PartyDashboard() {
         </Head>
       )}
 
-      <LoginModal isOpen={isOpen} onClose={onClose} />
+      <LoginModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
       <SimpleGrid columns={{ base: 2 }} gap={4}>
         <Statistics stats={{ users: party.users.length }} />
       </SimpleGrid>

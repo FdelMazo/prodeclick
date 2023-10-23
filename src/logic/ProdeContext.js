@@ -1,4 +1,6 @@
 import React from "react";
+import { useLocalStorage } from "usehooks-ts";
+import { getParty } from "./api";
 import ELECCIONES_DATA from "./elecciones";
 import useParty from "./useParty";
 
@@ -39,9 +41,41 @@ const Prode = () => {
     }
   }, [daysUntilElections]);
 
+  const [userId, setUserId] = React.useState(null);
+  const [prodeusers, setProdeusers] = useLocalStorage("prodeusers", {});
+  const [savedParties, setSavedParties] = React.useState({});
+  React.useEffect(() => {
+    setUserId(prodeusers?.[party?.id]);
+    const fetchSavedParties = async () => {
+      if (isParty) return;
+      const savedParties = Object.fromEntries(
+        (
+          await Promise.all(
+            Object.keys(prodeusers).map((u) => getParty(u, true))
+          )
+        ).map((p) => [p.id, p.name])
+      );
+      setSavedParties(savedParties);
+    };
+    fetchSavedParties();
+  }, [isParty, party, prodeusers]);
+
+  const login = (id) => {
+    setProdeusers({ ...prodeusers, [party.id]: id });
+  };
+
+  const logout = () => {
+    setProdeusers({ ...prodeusers, [party.id]: null });
+  };
+
   return {
     ELECCIONES,
     daysUntilElections,
     electionStatus,
+    savedParties,
+    login,
+    logout,
+    isLogged: !!userId,
+    user: party?.users?.find((u) => u.id === userId),
   };
 };

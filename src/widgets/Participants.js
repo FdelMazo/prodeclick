@@ -26,12 +26,12 @@ import { usePagination, useTable } from "react-table";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
+import { ProdeContext } from "../logic/ProdeContext";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
 import { diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
-import { ProdeContext } from "../logic/ProdeContext";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
   const {
@@ -161,10 +161,11 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
 };
 
 export default function Participants({ onOpen }) {
-  const { party, user, logout, mutate, isAdmin, isLogged } = useParty();
+  const { party, mutate } = useParty();
   const { realResults, tablesPercent } = useResults();
 
-  const { electionStatus } = React.useContext(ProdeContext);
+  const { electionStatus, isLogged, user, logout } =
+    React.useContext(ProdeContext);
 
   // TODO: hacer que "DIFERENCIA" sea una hidden column de react-table
   const columns = [
@@ -254,7 +255,7 @@ export default function Participants({ onOpen }) {
                   onClick={logout}
                 />
               </Tooltip>
-              {!isAdmin && electionStatus === "PRE" && (
+              {party?.admin?.id !== user?.id && electionStatus === "PRE" && (
                 <Tooltip
                   label={"Borrarme de la partida"}
                   placement="top"
