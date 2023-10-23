@@ -97,7 +97,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                               <Badge colorScheme="green" fontSize="sm">
                                 {/* TODO: agregar atributo "rank" y hacer
                                 que react-table ordene por eso */}
-                                {pageIndex * pageSize + rowIndex + 1}
+                                #{pageIndex * pageSize + rowIndex + 1}
                               </Badge>
                             )}
                           </>
