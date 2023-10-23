@@ -47,7 +47,8 @@ export const Control = ({ startContent, body, title, ...rest }) => {
 
 export default function ControlPanel() {
   const router = useRouter();
-  const { electionStatus, savedParties } = React.useContext(ProdeContext);
+  const { electionStatus, ELECCIONES, savedParties } =
+    React.useContext(ProdeContext);
 
   const [loading, setLoading] = React.useState("");
   const [joinError, setJoinError] = React.useState(false);
@@ -97,7 +98,8 @@ export default function ControlPanel() {
           }
         />
       )}
-      {!!Object.keys(savedParties).length && (
+      {!!savedParties.filter((p) => p.electionsId === ELECCIONES.current)
+        .length && (
         <Control
           title="Tus partidas"
           _hover={{
@@ -117,11 +119,13 @@ export default function ControlPanel() {
                   router.push(`/${e.target.value}`);
                 }}
               >
-                {Object.entries(savedParties).map(([pid, pname]) => (
-                  <option key={pid} value={pid}>
-                    {pname}
-                  </option>
-                ))}
+                {savedParties
+                  .filter((p) => p.electionsId === ELECCIONES.current)
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
               </Select>
             </Box>
           }
