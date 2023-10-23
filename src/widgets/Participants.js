@@ -71,12 +71,13 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                 let data;
                 if (cell.column.Header === "NOMBRE") {
                   data = (
-                    <Flex gap={2}>
+                    <Flex gap={2} alignItems="center">
                       {results && (
                         <>
-                          {/* TODO: Hacer al ganador font mas grande? o ponerlo en algun otro lado */}
                           {winners.includes(row.original.id) ? (
-                            "🏆"
+                            <Text fontSize="xl" w="2ch" textAlign="center">
+                              🏆
+                            </Text>
                           ) : (
                             <Badge colorScheme="green" fontSize="sm">
                               #{rowIndex + 1}
