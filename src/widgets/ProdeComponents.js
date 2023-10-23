@@ -48,7 +48,7 @@ export const Porcentaje = ({
       onChange={(value) => {
         setProde({
           ...prode,
-          [partido.id]: parseFloat(value),
+          [partido.id]: parseFloat(value || 0),
         });
       }}
       onKeyDown={(e) => {
@@ -82,7 +82,7 @@ export const Porcentaje = ({
           <Spinner size="xs" />
         ) : (
           <Text fontWeight={fontWeight}>
-            {isDummy ? "??" : prode?.[partido.id].toFixed(1)}%
+            {isDummy ? "??" : parseFloat(prode?.[partido.id])?.toFixed(1)}%
           </Text>
         )}
       </Box>
