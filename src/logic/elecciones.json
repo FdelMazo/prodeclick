@@ -4,6 +4,18 @@
     "generales2023": {
       "title": "Elecciones Generales 2023 🇦🇷",
       "date": "2023-10-22T00:00:00.000-03:00",
+      "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/general/AR_president.json",
+      "fallback": {
+        "realResults": {
+          "UxP": 36.7,
+          "LLA": 30,
+          "JxC": 23.8,
+          "HNP": 6.8,
+          "FIT-U": 2.7
+        },
+        "lastUpdate": "2023-10-23T05:33:35.000Z",
+        "tablesPercent": 98.51
+      },
       "partidos": [
         {
           "id": "LLA",

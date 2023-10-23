@@ -104,8 +104,7 @@ export default function Statistics({ stats }) {
               <br />
             ) : lastUpdate ? (
               <Text>
-                Última actualización:{" "}
-                <b>{lastUpdate.toLocaleTimeString("en-US")}</b>
+                Última actualización: <b>{lastUpdate}</b>
               </Text>
             ) : (
               <Text>Se actualizan en vivo, un poquito más de paciencia</Text>

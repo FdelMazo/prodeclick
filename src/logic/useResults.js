@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { GET } from "./api";
+const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 
 const TRANSFORM = async (url, options) => {
   return GET(url, options).then((data) => {
@@ -15,20 +16,22 @@ const TRANSFORM = async (url, options) => {
 
     return {
       realResults: results,
-      lastUpdate: new Date(data.last_update),
+      lastUpdate: new Date(data.last_update).toLocaleTimeString("en-US"),
       tablesPercent: data.tables_percent,
     };
   });
 };
 
 export default function useResults() {
-  // TODO: poner fallback el lunes post elecciones
-  // TODO: hacer que el refresh interval sea cada 10 segundos pero solo en electionsday
-  // TODO: meter el link en el json de elecciones
   const { data, isLoading: isLoadingResults } = useSWR(
-    "https://data-ecp.clarin.com/clarin.com/2023/argentina/general/AR_president.json",
+    ELECCIONES.url,
     TRANSFORM,
-    { refreshInterval: 10000 }
+    {
+      refreshInterval: 10000,
+      fallback: {
+        [ELECCIONES.url]: ELECCIONES.fallback,
+      },
+    }
   );
 
   const { realResults, lastUpdate, tablesPercent } = data || {};
