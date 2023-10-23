@@ -17,6 +17,7 @@ import {
   MdPeopleAlt,
 } from "react-icons/md";
 import useParty from "../logic/useParty";
+import useResults from "../logic/useResults";
 import { canBid, daysUntilElections, isElectionsDay } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
@@ -46,9 +47,7 @@ const MiniStat = ({ startContent, name, description, value }) => {
 export default function Statistics({ stats }) {
   const { isParty } = useParty();
   const { parties, users } = stats;
-  // TODO: use the results!
-  // const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
-  const { isLoadingResults, lastUpdate, tablesPercent } = {};
+  const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
 
   const electionsDay = React.useMemo(isElectionsDay, []);
   const days = React.useMemo(daysUntilElections, []);

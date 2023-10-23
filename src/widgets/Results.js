@@ -17,6 +17,7 @@ import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 import dynamic from "next/dist/shared/lib/dynamic";
 import ELECCIONES_DATA from "../logic/elecciones";
 import { diff, sum } from "../logic/utils";
+import useResults from "../logic/useResults";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -25,9 +26,7 @@ const PARTIDOS = ELECCIONES.partidos;
 
 export default function Results() {
   const { isParty, user, party } = useParty();
-  // TODO: use results!!!
-  // const { realResults, tablesPercent } = useResults();
-  const { realResults, tablesPercent } = {};
+  const { realResults, tablesPercent } = useResults();
   const { simulatedResults, setSimulatedResults } =
     React.useContext(ProdeContext);
 

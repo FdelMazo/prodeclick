@@ -29,6 +29,7 @@ import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import { canBid, diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
+import useResults from "../logic/useResults";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -117,9 +118,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
 
 export default function Participants({ onOpen }) {
   const { party, user, logout, mutate, isAdmin, isLogged } = useParty();
-  // TODO: USE RESULTS!!!
-  const { realResults, tablesPercent } = {};
-  // const { realResults, tablesPercent } = useResults();
+  const { realResults, tablesPercent } = useResults();
 
   const bid = React.useMemo(canBid, []);
 
