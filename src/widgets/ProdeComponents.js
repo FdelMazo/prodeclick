@@ -36,8 +36,6 @@ export const Porcentaje = ({
   tooltip,
 }) => {
   return isEdit ? (
-    // TODO: hacer andar la coma como punto, para los iphones
-    // TODO: pedir screenshtos de como anda en todo safari, para ver si se me escapo algo
     <NumberInput
       minW="7ch"
       maxW="10ch"
@@ -52,6 +50,17 @@ export const Porcentaje = ({
           ...prode,
           [partido.id]: parseFloat(value),
         });
+      }}
+      onKeyDown={(e) => {
+        // Replace the comma for a dot
+        if (e.code === "Comma") {
+          e.preventDefault();
+          const ch = e.target.selectionStart;
+          e.target.value =
+            e.target.value.slice(0, ch) + "." + e.target.value.slice(ch);
+          e.target.selectionStart = ch + 1;
+          e.target.selectionEnd = ch + 1;
+        }
       }}
     >
       <Tooltip label={tooltip}>
