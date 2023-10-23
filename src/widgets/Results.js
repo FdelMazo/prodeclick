@@ -61,7 +61,7 @@ export default function Results() {
   }, [users, selectedUserId]);
 
   const winners = React.useMemo(() => {
-    if (!tablesPercent || tablesPercent < 90) return [];
+    if (!tablesPercent || tablesPercent < 95) return [];
     return users?.filter((u) => u.dif === users[0].dif).map((u) => u.id);
   }, [users, tablesPercent]);
 
