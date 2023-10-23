@@ -29,7 +29,7 @@ import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
-import { canBid, diff, sum } from "../logic/utils";
+import { diff, getElectionStatus, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
@@ -163,7 +163,7 @@ export default function Participants({ onOpen }) {
   const { party, user, logout, mutate, isAdmin, isLogged } = useParty();
   const { realResults, tablesPercent } = useResults();
 
-  const bid = React.useMemo(canBid, []);
+  const electionStatus = React.useMemo(getElectionStatus, []);
 
   // TODO: hacer que "DIFERENCIA" sea una hidden column de react-table
   const columns = [
@@ -253,7 +253,7 @@ export default function Participants({ onOpen }) {
                   onClick={logout}
                 />
               </Tooltip>
-              {!isAdmin && bid && (
+              {!isAdmin && electionStatus === "PRE" && (
                 <Tooltip
                   label={"Borrarme de la partida"}
                   placement="top"

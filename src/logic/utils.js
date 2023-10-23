@@ -2,18 +2,6 @@ import ELECCIONES_DATA from "./elecciones";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 const crypto = require("crypto");
 
-export const canBid = () => {
-  const today = new Date();
-  return today < new Date(ELECCIONES.bidding);
-};
-
-// TODO: unificar esta logica en solamente calcular la cantidad de dias desde/hasta las elecciones
-// isElectionsDay -> return days = 0
-// isPastElectionsDay -> return days < 0
-// canBid -> return days > 0 -> tal vez llamarlo pre elections day
-// Simplificar toda la app ahora que no hay un estado intermedio entre no biddear y elections day
-// TODO: hacer un electionsStatus que devuelva un string (enum) que sea PRE | DAY | POST
-// etc
 export const daysUntilElections = () => {
   const elections = new Date(ELECCIONES.date);
   const msInDay = 24 * 60 * 60 * 1000;
@@ -22,12 +10,15 @@ export const daysUntilElections = () => {
   return Math.ceil(diffTime / msInDay);
 };
 
-export const postElectionsDay = () => {
-  return daysUntilElections() < 0;
-};
-
-export const isElectionsDay = () => {
-  return new Date() >= new Date(ELECCIONES.date);
+export const getElectionStatus = () => {
+  const days = daysUntilElections();
+  if (days < 0) {
+    return "POST";
+  } else if (days == 0) {
+    return "DAY";
+  } else {
+    return "PRE";
+  }
 };
 
 export const sum = (prode) => {

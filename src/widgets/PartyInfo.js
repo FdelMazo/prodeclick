@@ -5,7 +5,7 @@ import useParty from "../logic/useParty";
 
 import { MdWhatsapp } from "react-icons/md";
 import { SiGoogleforms } from "react-icons/si";
-import { postElectionsDay } from "../logic/utils";
+import { getElectionStatus } from "../logic/utils";
 import { Control } from "./ControlPanel";
 
 export default function PartyInfo() {
@@ -13,9 +13,9 @@ export default function PartyInfo() {
 
   const link = `https://prode.click/${party.id}`;
 
-  const postElections = React.useMemo(postElectionsDay, []);
+  const electionStatus = React.useMemo(getElectionStatus, []);
 
-  return postElections ? (
+  return electionStatus === "POST" ? (
     <Control
       w="100%"
       textAlign="center"
@@ -36,8 +36,8 @@ export default function PartyInfo() {
           </Link>
 
           <Text fontSize="md" fontWeight={500}>
-            Si tenés alguna sugerencia, me encantaría escucharla! <br />
-            y por último... ¿usarías la app en el ballotage?
+            Si tenés alguna sugerencia, me encantaría escucharla! <br />y por
+            último... ¿usarías la app en el ballotage?
           </Text>
         </>
       }

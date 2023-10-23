@@ -7,7 +7,6 @@ import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
 import { getAll, getParty } from "../logic/db";
 import useParty from "../logic/useParty";
-import { isElectionsDay } from "../logic/utils";
 import LoginModal from "../widgets/LoginModal";
 import MiProde from "../widgets/MiProde";
 import Participants from "../widgets/Participants";
@@ -18,7 +17,6 @@ import Statistics from "../widgets/Statistics";
 function PartyDashboard() {
   const { isLogged, party, isLoading } = useParty();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const electionsDay = React.useMemo(isElectionsDay, []);
 
   React.useEffect(() => {
     if (isLoading) return;
@@ -52,7 +50,6 @@ function PartyDashboard() {
           <Results />
         </GridItem>
         <GridItem colSpan={{ base: 1, lg: 4 }}>
-          {/* TODO: Poner en la POST elecciones y con paginado order={electionsDay && "-1"}> */}
           <Participants onOpen={onOpen} />
         </GridItem>
       </SimpleGrid>

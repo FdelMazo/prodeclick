@@ -26,7 +26,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { checkUser, createUser, updateParty } from "../logic/api";
 import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
-import { canBid, validProde } from "../logic/utils";
+import { getElectionStatus, validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
@@ -52,7 +52,7 @@ export default function LoginModal({ isOpen, onClose }) {
     Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
   );
 
-  const bid = React.useMemo(canBid, []);
+  const electionStatus = React.useMemo(getElectionStatus, []);
 
   return (
     <Modal
@@ -159,8 +159,10 @@ export default function LoginModal({ isOpen, onClose }) {
                 )}
                 {formStatus == "no-new-users" && (
                   <Text color="red.400">
-                    No se pueden sumar nuevas personas el día de las
-                    elecciones!
+                    No se pueden sumar nuevas personas{" "}
+                    {electionStatus === "DAY"
+                      ? "el día de las elecciones!"
+                      : "después de las elecciones!"}
                   </Text>
                 )}
               </VStack>
@@ -252,7 +254,10 @@ export default function LoginModal({ isOpen, onClose }) {
                       );
 
                       if (create) {
-                        if (!bid) {
+                        if (
+                          electionStatus === "DAY" ||
+                          electionStatus === "POST"
+                        ) {
                           setFormStatus("no-new-users");
                         } else {
                           setShowProde(true);

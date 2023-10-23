@@ -18,7 +18,7 @@ import {
 } from "react-icons/md";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
-import { canBid, daysUntilElections, isElectionsDay } from "../logic/utils";
+import { daysUntilElections, getElectionStatus } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
   const textColorSecondary = "darkgray.800";
@@ -49,9 +49,9 @@ export default function Statistics({ stats }) {
   const { parties, users } = stats;
   const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
 
-  const electionsDay = React.useMemo(isElectionsDay, []);
   const days = React.useMemo(daysUntilElections, []);
-  const bid = React.useMemo(canBid, []);
+  const electionStatus = React.useMemo(getElectionStatus, []);
+
   const iconBoxProps = {
     display: "flex",
     alignItems: "center",
@@ -89,7 +89,7 @@ export default function Statistics({ stats }) {
           </Box>
         }
       />
-      {electionsDay ? (
+      {electionStatus === "DAY" || electionStatus === "POST" ? (
         <MiniStat
           name="Mesas escrutadas"
           value={
@@ -122,20 +122,11 @@ export default function Statistics({ stats }) {
           name="Días hasta las elecciones"
           value={days}
           description={
-            <Text color={!bid && "red.400"}>
-              {bid ? (
-                <>
-                  {/* TODO: en home, poner "se puede sumar gente hasta el dia de..." */}
-                  Se pueden cambiar las predicciones hasta el día de las elecciones
-                </>
-              ) : (
-                <>
-                  {isParty
-                    ? "Ya no se pueden cambiar las predicciones"
-                    : "No se pueden crear nuevas partidas el día de las elecciones!"}
-                </>
-              )}
-            </Text>
+            <>
+              {isParty
+                ? "Se pueden cambiar las predicciones hasta el día de las elecciones"
+                : "Se puede sumar gente hasta el día de las elecciones"}
+            </>
           }
           startContent={
             <Box {...iconBoxProps}>

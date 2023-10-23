@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { createParty, getParty } from "../logic/api";
 import useParty from "../logic/useParty";
-import { canBid } from "../logic/utils";
+import { getElectionStatus } from "../logic/utils";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -54,7 +54,7 @@ export default function ControlPanel({ partyNames }) {
   const [joinError, setJoinError] = React.useState(false);
   const router = useRouter();
 
-  const bid = React.useMemo(canBid, []);
+  const electionStatus = React.useMemo(getElectionStatus, []);
 
   const iconBoxProps = {
     display: "flex",
@@ -76,7 +76,7 @@ export default function ControlPanel({ partyNames }) {
 
   return (
     <>
-      {bid && (
+      {electionStatus === "PRE" && (
         <Control
           title="Creá una partida"
           body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
