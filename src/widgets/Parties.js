@@ -26,11 +26,8 @@ import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { deleteParty } from "../logic/api";
-import ELECCIONES_DATA from "../logic/elecciones";
 import { InlineProde } from "./ProdeComponents";
-
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
+import { ProdeContext } from "../logic/ProdeContext";
 
 const PartiesTable = ({ data, columns }) => {
   const {
@@ -194,6 +191,8 @@ const PartiesTable = ({ data, columns }) => {
 };
 
 export default function Parties({ parties }) {
+  const { ELECCIONES } = React.useContext(ProdeContext)
+
   const columns = [
     {
       Header: "CREACIÓN",
@@ -225,7 +224,7 @@ export default function Parties({ parties }) {
     const allProdes = parties.flatMap((p) => p.users).map((u) => u.prode);
 
     return Object.fromEntries(
-      PARTIDOS.map((p) => [
+      ELECCIONES.partidos.map((p) => [
         p.id,
         (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
           2

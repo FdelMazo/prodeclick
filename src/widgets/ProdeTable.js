@@ -12,14 +12,10 @@ import {
 import React from "react";
 import { useTable } from "react-table";
 
-import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
 import { Partido, Porcentaje, Suma } from "./ProdeComponents";
+import { ProdeContext } from "../logic/ProdeContext";
 
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
-
-const data = PARTIDOS;
 const columns = [
   {
     Header: "FUERZA POLÍTICA",
@@ -30,6 +26,9 @@ const columns = [
 ];
 
 export default function ProdeTable({ prode, setProde, isEdit }) {
+  const {ELECCIONES} = React.useContext(ProdeContext)
+  const data = ELECCIONES.partidos;
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 

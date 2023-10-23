@@ -8,10 +8,9 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
+import React from "react";
 import { BsGithub } from "react-icons/bs";
-import { ProdeProvider } from "../logic/ProdeContext";
-import ELECCIONES_DATA from "../logic/elecciones";
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+import { ProdeContext, ProdeProvider } from "../logic/ProdeContext";
 
 const FooterLink = ({ link, text, left, title }) => {
   return (
@@ -33,6 +32,7 @@ const FooterLink = ({ link, text, left, title }) => {
 };
 
 function MainLayout({ children }) {
+  const { ELECCIONES } = React.useContext(ProdeContext);
   return (
     <>
       <Box p={6} minH="99vh">

@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { createParty, getParty } from "../logic/api";
 import useParty from "../logic/useParty";
-import { getElectionStatus } from "../logic/utils";
+import { ProdeContext } from "../logic/ProdeContext";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -54,7 +54,7 @@ export default function ControlPanel({ partyNames }) {
   const [joinError, setJoinError] = React.useState(false);
   const router = useRouter();
 
-  const electionStatus = React.useMemo(getElectionStatus, []);
+  const { electionStatus } = React.useContext(ProdeContext);
 
   const iconBoxProps = {
     display: "flex",

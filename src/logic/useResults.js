@@ -1,6 +1,7 @@
+import React from "react";
 import useSWR from "swr";
+import { ProdeContext } from "./ProdeContext";
 import { GET } from "./api";
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
 
 const TRANSFORM = async (url, options) => {
   return GET(url, options).then((data) => {
@@ -23,8 +24,9 @@ const TRANSFORM = async (url, options) => {
 };
 
 export default function useResults() {
+  const { ELECCIONES, electionStatus } = React.useContext(ProdeContext);
   const { data, isLoading: isLoadingResults } = useSWR(
-    ELECCIONES.url,
+    electionStatus !== "PRE" ? ELECCIONES.url : null,
     TRANSFORM,
     {
       refreshInterval: 10000,

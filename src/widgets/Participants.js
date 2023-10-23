@@ -29,8 +29,9 @@ import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
-import { diff, getElectionStatus, sum } from "../logic/utils";
+import { diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
+import { ProdeContext } from "../logic/ProdeContext";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
   const {
@@ -163,7 +164,7 @@ export default function Participants({ onOpen }) {
   const { party, user, logout, mutate, isAdmin, isLogged } = useParty();
   const { realResults, tablesPercent } = useResults();
 
-  const electionStatus = React.useMemo(getElectionStatus, []);
+  const { electionStatus } = React.useContext(ProdeContext);
 
   // TODO: hacer que "DIFERENCIA" sea una hidden column de react-table
   const columns = [

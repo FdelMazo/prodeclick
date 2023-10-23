@@ -1,6 +1,27 @@
 {
-  "current": "generales2023",
+  "current": "ballotage2023",
   "elecciones": {
+    "ballotage2023": {
+      "title": "Segunda Vuelta Electoral 2023 🇦🇷",
+      "date": "2023-11-19T00:00:00.000-03:00",
+      "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/ballotage/AR_president.json",
+      "partidos": [
+        {
+          "id": "UxP",
+          "partido": "Unión por la Patria",
+          "candidatos": "Sergio Massa",
+          "color": "cyan",
+          "defaultPercentage": 50
+        },
+        {
+          "id": "LLA",
+          "partido": "La Libertad Avanza",
+          "candidatos": "Javier Milei",
+          "color": "purple",
+          "defaultPercentage": 50
+        }
+      ]
+    },
     "generales2023": {
       "title": "Elecciones Generales 2023 🇦🇷",
       "date": "2023-10-22T00:00:00.000-03:00",

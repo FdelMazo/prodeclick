@@ -19,11 +19,8 @@ import {
 import React from "react";
 
 import { MdPlayCircle } from "react-icons/md";
-import ELECCIONES_DATA from "../logic/elecciones";
+import { ProdeContext } from "../logic/ProdeContext";
 import { diff, sum } from "../logic/utils";
-
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
 
 export const Porcentaje = ({
   partido,
@@ -142,7 +139,8 @@ export const Partido = ({ partido }) => {
 
 export const InlineProde = ({ prode, setProde, isEdit, ...rest }) => {
   if (!prode) return null;
-  return PARTIDOS.map((partido) => {
+  const { ELECCIONES } = React.useContext(ProdeContext);
+  return ELECCIONES.partidos.map((partido) => {
     return (
       <WrapItem key={partido.id} justifyContent="center" {...rest}>
         <Porcentaje

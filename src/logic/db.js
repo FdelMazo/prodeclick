@@ -25,6 +25,7 @@ export const getN = async (key) => {
 // PARTY CRUD
 
 export const createParty = async () => {
+  // TODO: pegarle a current aca mismo me hace ruido, repensarlo?
   return create("party", { users: [], electionsId: ELECCIONES_DATA.current });
 };
 

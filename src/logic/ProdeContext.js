@@ -1,8 +1,6 @@
 import React from "react";
 import ELECCIONES_DATA from "./elecciones";
-
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
+import useParty from "./useParty";
 
 export const ProdeContext = React.createContext();
 
@@ -14,13 +12,36 @@ export const ProdeProvider = ({ children }) => {
 };
 
 const Prode = () => {
-  // TODO: poner aca las elecciones elegidas y usar eso toda la app
   // TODO: calcular aca la lista de ganadores y usar aca el criterio de que terminan las elecciones (>95% mesas)
-  const [simulatedResults, setSimulatedResults] = React.useState(
-    Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
-  );
+  const { isParty, party } = useParty();
+
+  const ELECCIONES =
+    ELECCIONES_DATA.elecciones[
+      isParty ? party?.electionsId : ELECCIONES_DATA.current
+    ];
+
+  const daysUntilElections = React.useMemo(() => {
+    const elections = new Date(ELECCIONES.date);
+    const msInDay = 24 * 60 * 60 * 1000;
+    const today = new Date();
+    const diffTime = elections - today;
+    return Math.ceil(diffTime / msInDay);
+  }, [ELECCIONES]);
+
+  const electionStatus = React.useMemo(() => {
+    const days = daysUntilElections;
+    if (days < 0) {
+      return "POST";
+    } else if (days == 0) {
+      return "DAY";
+    } else {
+      return "PRE";
+    }
+  }, [daysUntilElections]);
+
   return {
-    simulatedResults,
-    setSimulatedResults,
+    ELECCIONES,
+    daysUntilElections,
+    electionStatus,
   };
 };

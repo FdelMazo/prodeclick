@@ -15,21 +15,21 @@ import useParty from "../logic/useParty";
 import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
-import ELECCIONES_DATA from "../logic/elecciones";
-import { diff, sum } from "../logic/utils";
 import useResults from "../logic/useResults";
+import { diff, sum } from "../logic/utils";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
 
 export default function Results() {
   const { isParty, user, party } = useParty();
   const { realResults, tablesPercent } = useResults();
-  const { simulatedResults, setSimulatedResults } =
-    React.useContext(ProdeContext);
+  const { ELECCIONES } = React.useContext(ProdeContext);
 
+  const [simulatedResults, setSimulatedResults] = React.useState(
+    Object.fromEntries(
+      ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])
+    )
+  );
   const [selectedUserId, setSelectedUserId] = React.useState("");
 
   const isSimulated = React.useMemo(() => {
@@ -105,7 +105,7 @@ export default function Results() {
             const series = w.globals.initialSeries[seriesIndex];
             const data = series.data[dataPointIndex];
             const goal = data.goals?.[0];
-            const partido = PARTIDOS.find((p) => p.id === data.x);
+            const partido = ELECCIONES.partidos.find((p) => p.id === data.x);
             const title = `<div
               class="apexcharts-tooltip-title"
               style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; min-width: 200px"
@@ -171,7 +171,7 @@ export default function Results() {
   const chartSeries = [
     {
       name: "resultados",
-      data: PARTIDOS.map((partido) => {
+      data: ELECCIONES.partidos.map((partido) => {
         return {
           x: partido.id,
           y:

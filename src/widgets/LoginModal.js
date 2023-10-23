@@ -23,20 +23,18 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { ProdeContext } from "../logic/ProdeContext";
 import { checkUser, createUser, updateParty } from "../logic/api";
-import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
-import { getElectionStatus, validProde } from "../logic/utils";
+import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
-
-const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
-const PARTIDOS = ELECCIONES.partidos;
 
 // TODO: desdoblar modal en una de crear partida y uno de armar tu prode
 // asi el boton de "crear partida" no tarda mucho, y es simplemente abrir el modal,
 // y recien el de continuar es el que tarda
 
 export default function LoginModal({ isOpen, onClose }) {
+  const { ELECCIONES, electionStatus } = React.useContext(ProdeContext);
   const { party, needsAdmin, mutate, login } = useParty();
 
   const [partyName, setPartyName] = React.useState("");
@@ -49,10 +47,10 @@ export default function LoginModal({ isOpen, onClose }) {
   // TODO: Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
   // sea el default en la proxima partida que armas
   const [prode, setProde] = React.useState(
-    Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
+    Object.fromEntries(
+      ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])
+    )
   );
-
-  const electionStatus = React.useMemo(getElectionStatus, []);
 
   return (
     <Modal
@@ -69,7 +67,9 @@ export default function LoginModal({ isOpen, onClose }) {
         setShowProde(false);
         setShowPassword(false);
         setProde(
-          Object.fromEntries(PARTIDOS.map((p) => [p.id, p.defaultPercentage]))
+          Object.fromEntries(
+            ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])
+          )
         );
         mutate();
       }}

@@ -5,15 +5,15 @@ import useParty from "../logic/useParty";
 
 import { MdWhatsapp } from "react-icons/md";
 import { SiGoogleforms } from "react-icons/si";
-import { getElectionStatus } from "../logic/utils";
 import { Control } from "./ControlPanel";
+import { ProdeContext } from "../logic/ProdeContext";
 
 export default function PartyInfo() {
   const { party } = useParty();
 
   const link = `https://prode.click/${party.id}`;
 
-  const electionStatus = React.useMemo(getElectionStatus, []);
+  const { electionStatus } = React.useContext(ProdeContext);
 
   return electionStatus === "POST" ? (
     <Control

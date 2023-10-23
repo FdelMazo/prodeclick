@@ -16,9 +16,9 @@ import {
   MdOutlineCalendarMonth,
   MdPeopleAlt,
 } from "react-icons/md";
+import { ProdeContext } from "../logic/ProdeContext";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
-import { daysUntilElections, getElectionStatus } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
   const textColorSecondary = "darkgray.800";
@@ -49,8 +49,7 @@ export default function Statistics({ stats }) {
   const { parties, users } = stats;
   const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
 
-  const days = React.useMemo(daysUntilElections, []);
-  const electionStatus = React.useMemo(getElectionStatus, []);
+  const { daysUntilElections, electionStatus } = React.useContext(ProdeContext);
 
   const iconBoxProps = {
     display: "flex",
@@ -119,7 +118,7 @@ export default function Statistics({ stats }) {
       ) : (
         <MiniStat
           name="Días hasta las elecciones"
-          value={days}
+          value={daysUntilElections}
           description={
             <>
               {isParty

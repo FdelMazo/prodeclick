@@ -10,9 +10,10 @@ import {
 import React from "react";
 
 import { CheckIcon, EditIcon } from "@chakra-ui/icons";
+import { ProdeContext } from "../logic/ProdeContext";
 import { updateUser } from "../logic/api";
 import useParty from "../logic/useParty";
-import { getElectionStatus, validProde } from "../logic/utils";
+import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 export default function MiProde() {
@@ -20,7 +21,7 @@ export default function MiProde() {
   const [isEdit, setIsEdit] = React.useState(false);
   const [prode, setProde] = React.useState(null);
 
-  const electionStatus = React.useMemo(getElectionStatus, []);
+  const { electionStatus } = React.useContext(ProdeContext);
 
   React.useEffect(() => {
     setProde(user?.prode);

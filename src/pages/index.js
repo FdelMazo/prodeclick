@@ -12,10 +12,6 @@ import Statistics from "../widgets/Statistics";
 
 /*
 TODO: FUTURO
-- Hacer que funcione para mas de una eleccion
-  (ej: PASO, ballotage, legislativas), sin perder los datos anteriores!
-- Usar party.electionsId en varios lugares en vez de defaultear a "current"
-- Poner un dropdown en el header para elegir la eleccion
 - Agregar prode de participacion electoral/
   votos en blanco/ otras estadisticas que no influyen en el main prode
   y hacerlo configurable por partida
@@ -26,7 +22,6 @@ TODO: FUTURO
 */
 
 export default function MainDashboard({ stats, partyNames }) {
-  const { hasParties, savedUsers } = useParty();
   const router = useRouter();
   const toast = useToast();
   const toastId = "error";
