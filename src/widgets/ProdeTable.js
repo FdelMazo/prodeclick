@@ -35,7 +35,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
 
   const { isParty, isLoading, isLogged } = useParty();
   return (
-    <Box w="100%" key={isLoading}>
+    <Box w="100%" key={isLoading} overflowX="auto">
       <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup, index) => (

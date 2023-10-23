@@ -27,93 +27,99 @@ import { useTable } from "react-table";
 import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
+import useResults from "../logic/useResults";
 import { canBid, diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
-import useResults from "../logic/useResults";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
   return (
-    <Table {...getTableProps()}>
-      <Thead>
-        {headerGroups.map((headerGroup, index) => (
-          <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
-            {headerGroup.headers.map((column, index) => (
-              <Th
-                {...column.getHeaderProps()}
-                key={index}
-                borderColor="gray.200"
-              >
-                <Flex
-                  color="darkgray"
-                  justifyContent={column.Header === "PRODE" && "center"}
+    <Box overflowX="auto">
+      <Table {...getTableProps()}>
+        <Thead>
+          {headerGroups.map((headerGroup, index) => (
+            <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
+              {headerGroup.headers.map((column, index) => (
+                <Th
+                  {...column.getHeaderProps()}
+                  key={index}
+                  borderColor="gray.200"
                 >
-                  {column.render("Header")}
-                </Flex>
-              </Th>
-            ))}
-          </Tr>
-        ))}
-      </Thead>
-
-      <Tbody {...getTableBodyProps()}>
-        {rows.map((row, rowIndex) => {
-          prepareRow(row);
-          return (
-            <Tr
-              {...row.getRowProps()}
-              key={rowIndex}
-              bg={row.original.id === userId && "gray.100"}
-            >
-              {row.cells.map((cell, cellIndex) => {
-                let data;
-                if (cell.column.Header === "NOMBRE") {
-                  data = (
-                    <Flex gap={2} alignItems="center">
-                      {results && (
-                        <>
-                          {winners.includes(row.original.id) ? (
-                            <Text fontSize="xl" w="2ch" textAlign="center">
-                              🏆
-                            </Text>
-                          ) : (
-                            <Badge colorScheme="green" fontSize="sm">
-                              #{rowIndex + 1}
-                            </Badge>
-                          )}
-                        </>
-                      )}
-                      <Text color="darkgray.900" fontSize="sm" fontWeight={700}>
-                        {row.original.name}
-                      </Text>
-                    </Flex>
-                  );
-                } else if (cell.column.Header === "PRODE") {
-                  data = (
-                    <Flex justifyContent="center" gap={1} flexWrap="wrap">
-                      <InlineProde prode={row.original.prode} />
-                    </Flex>
-                  );
-                } else if (cell.column.Header === "DIFERENCIA") {
-                  data = (
-                    <Text color="red.500" fontSize="sm" fontWeight={700}>
-                      {row.original.dif} puntos
-                    </Text>
-                  );
-                }
-                return (
-                  <Td {...cell.getCellProps()} key={cellIndex}>
-                    {data}
-                  </Td>
-                );
-              })}
+                  <Flex
+                    color="darkgray"
+                    justifyContent={column.Header === "PRODE" && "center"}
+                  >
+                    {column.render("Header")}
+                  </Flex>
+                </Th>
+              ))}
             </Tr>
-          );
-        })}
-      </Tbody>
-    </Table>
+          ))}
+        </Thead>
+
+        <Tbody {...getTableBodyProps()}>
+          {rows.map((row, rowIndex) => {
+            prepareRow(row);
+            return (
+              <Tr
+                {...row.getRowProps()}
+                key={rowIndex}
+                bg={row.original.id === userId && "gray.100"}
+              >
+                {row.cells.map((cell, cellIndex) => {
+                  let data;
+                  if (cell.column.Header === "NOMBRE") {
+                    data = (
+                      <Flex gap={2} alignItems="center">
+                        {results && (
+                          <>
+                            {winners.includes(row.original.id) ? (
+                              <Text fontSize="xl" w="2ch" textAlign="center">
+                                🏆
+                              </Text>
+                            ) : (
+                              <Badge colorScheme="green" fontSize="sm">
+                                #{rowIndex + 1}
+                              </Badge>
+                            )}
+                          </>
+                        )}
+                        <Text
+                          color="darkgray.900"
+                          fontSize="sm"
+                          fontWeight={700}
+                        >
+                          {row.original.name}
+                        </Text>
+                      </Flex>
+                    );
+                  } else if (cell.column.Header === "PRODE") {
+                    data = (
+                      <Flex justifyContent="center" gap={1} flexWrap="wrap">
+                        <InlineProde prode={row.original.prode} />
+                      </Flex>
+                    );
+                  } else if (cell.column.Header === "DIFERENCIA") {
+                    data = (
+                      <Text color="red.500" fontSize="sm" fontWeight={700}>
+                        {row.original.dif} puntos
+                      </Text>
+                    );
+                  }
+                  return (
+                    <Td {...cell.getCellProps()} key={cellIndex}>
+                      {data}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </Table>
+    </Box>
   );
 };
 
@@ -169,6 +175,7 @@ export default function Participants({ onOpen }) {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
+        gap={2}
       >
         <Box>
           <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
