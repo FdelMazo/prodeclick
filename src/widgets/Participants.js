@@ -22,8 +22,9 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React from "react";
-import { useTable } from "react-table";
+import { usePagination, useTable } from "react-table";
 
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { MdDeleteOutline, MdLogin, MdLogout } from "react-icons/md";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
@@ -32,8 +33,21 @@ import { canBid, diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    state: { pageIndex, pageSize },
+    nextPage,
+    previousPage,
+  } = useTable(
+    { columns, data, initialState: { pageSize: 15 } },
+    usePagination
+  );
 
   return (
     <Box overflowX="auto">
@@ -60,7 +74,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
         </Thead>
 
         <Tbody {...getTableBodyProps()}>
-          {rows.map((row, rowIndex) => {
+          {page.map((row, rowIndex) => {
             prepareRow(row);
             return (
               <Tr
@@ -81,7 +95,9 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                               </Text>
                             ) : (
                               <Badge colorScheme="green" fontSize="sm">
-                                #{rowIndex + 1}
+                                {/* TODO: agregar atributo "rank" y hacer
+                                que react-table ordene por eso */}
+                                {pageIndex * pageSize + rowIndex + 1}
                               </Badge>
                             )}
                           </>
@@ -119,6 +135,26 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
           })}
         </Tbody>
       </Table>
+      {(canPreviousPage || canNextPage) && (
+        <Flex justifyContent="flex-end" my={2} gap={2}>
+          <Tooltip label="Página anterior">
+            <IconButton
+              size="sm"
+              onClick={previousPage}
+              isDisabled={!canPreviousPage}
+              icon={<ChevronLeftIcon boxSize={5} />}
+            />
+          </Tooltip>
+          <Tooltip label="Página siguiente">
+            <IconButton
+              size="sm"
+              onClick={nextPage}
+              isDisabled={!canNextPage}
+              icon={<ChevronRightIcon boxSize={5} />}
+            />
+          </Tooltip>
+        </Flex>
+      )}
     </Box>
   );
 };
@@ -129,6 +165,7 @@ export default function Participants({ onOpen }) {
 
   const bid = React.useMemo(canBid, []);
 
+  // TODO: hacer que "DIFERENCIA" sea una hidden column de react-table
   const columns = [
     {
       Header: "NOMBRE",
