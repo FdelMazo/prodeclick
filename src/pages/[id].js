@@ -82,9 +82,6 @@ export async function getStaticProps({ params }) {
         [url]: party,
       },
     },
-    // TODO: Sacar todos los revalidate y usar fallback de SWR en todos los llamados
-    // TODO del TODO: dejarme de joder con el fallback serverside y usar loading en todos lados?
-    revalidate: 10,
   };
 }
 
