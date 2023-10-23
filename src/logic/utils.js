@@ -1,5 +1,6 @@
 import ELECCIONES_DATA from "./elecciones";
 const ELECCIONES = ELECCIONES_DATA.elecciones[ELECCIONES_DATA.current];
+import { customAlphabet } from "nanoid";
 const crypto = require("crypto");
 
 export const daysUntilElections = () => {
@@ -45,3 +46,5 @@ export const hash = (pw) => {
   h.update(pw);
   return h.digest("hex");
 };
+
+export const id = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);

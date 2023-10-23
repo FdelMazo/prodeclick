@@ -1,9 +1,6 @@
 import { kv } from "@vercel/kv";
-import { customAlphabet } from "nanoid";
-const id = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 8);
-
 import ELECCIONES_DATA from "../logic/elecciones";
-import { hash } from "./utils";
+import { hash, id } from "./utils";
 
 // DB UTILS
 
