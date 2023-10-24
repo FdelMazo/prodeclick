@@ -8,12 +8,21 @@ const TRANSFORM = async (url, options) => {
     const parties = Object.fromEntries(
       data.parties.map((p) => [p.party_id, p.votes_percent.toFixed(1)])
     );
+
     let results = {};
-    results["UxP"] = parseFloat(parties["134"]);
-    results["LLA"] = parseFloat(parties["135"]);
-    results["JxC"] = parseFloat(parties["132"]);
-    results["HNP"] = parseFloat(parties["133"]);
-    results["FIT-U"] = parseFloat(parties["136"]);
+    const partiesNumber = {
+      132: "JxC",
+      133: "HNP",
+      134: "UxP",
+      135: "LLA",
+      136: "FIT-U",
+    };
+
+    Object.entries(partiesNumber).forEach(([number, id]) => {
+      if (parties[number]) {
+        results[id] = parseFloat(parties[number]);
+      }
+    });
 
     return {
       realResults: results,
