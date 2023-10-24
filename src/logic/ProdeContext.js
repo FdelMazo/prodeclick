@@ -55,8 +55,8 @@ const Prode = () => {
     fetchSavedParties();
   }, [isParty, party, prodeusers]);
 
-  const login = (id) => {
-    setProdeusers({ ...prodeusers, [party.id]: id });
+  const login = (id, partyId = null) => {
+    setProdeusers({ ...prodeusers, [partyId || party.id]: id });
   };
 
   const logout = () => {

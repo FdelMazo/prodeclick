@@ -1,6 +1,7 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { createParty } from "../../../logic/db";
+import { createid } from "../../../logic/utils";
 
 const ratelimit = new Ratelimit({
   redis: kv,
@@ -16,7 +17,8 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "POST") {
-    const partyId = await createParty();
+    const partyId = createid();
+    await createParty(partyId);
     return response.status(201).json({ partyId });
   }
 }

@@ -102,7 +102,7 @@ export default function ProdeTable({ prode, setProde, isEdit }) {
             w="100%"
             textAlign="center"
           >
-            En las elecciones generales no se contabilizan los votos en blanco!
+            En el ballotage no se contabilizan los votos en blanco!
           </Text>
           <Flex flexDir="column" w="50%" m="auto" my={2} alignItems="center">
             <Suma prode={prode} />

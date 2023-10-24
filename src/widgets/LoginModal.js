@@ -24,26 +24,21 @@ import {
 import React from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { ProdeContext } from "../logic/ProdeContext";
-import { checkUser, createUser, updateParty } from "../logic/api";
+import { checkUser, createUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
-
-// TODO: desdoblar modal en una de crear partida y uno de armar tu prode
-// asi el boton de "crear partida" no tarda mucho, y es simplemente abrir el modal,
-// y recien el de continuar es el que tarda
 
 export default function LoginModal({ isOpen, onClose, onOpen }) {
   const { ELECCIONES, electionStatus, login, isLogged } =
     React.useContext(ProdeContext);
   const { party, mutate, isLoading } = useParty();
 
-  const [partyName, setPartyName] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const [formStatus, setFormStatus] = React.useState("");
-  const [showProde, setShowProde] = React.useState(!party.admin);
+  const [showProde, setShowProde] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [prode, setProde] = React.useState(
@@ -67,7 +62,6 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
       closeOnOverlayClick={false}
       closeOnEsc={false}
       onCloseComplete={() => {
-        setPartyName("");
         setName("");
         setPassword("");
         setFormStatus("");
@@ -84,42 +78,14 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
       <ModalOverlay />
       <ModalContent m={4} p={4}>
         <ModalHeader>
-          {!party.admin ? (
-            <>
-              <Text>Bienvenido a prode.click</Text>
-              <Text fontSize="md" color="darkgray.800">
-                Creá una partida, invita a todas las personas que quieras!
-              </Text>
-            </>
-          ) : (
-            <>
-              <Text>Estás en la partida {party.name}</Text>
-            </>
-          )}
+          <Text>Estás en la partida {party.name}</Text>
         </ModalHeader>
         <ModalBody>
           <form onSubmit={(e) => e.preventDefault()}>
             <VStack spacing={6}>
-              {!party.admin && (
-                <FormControl
-                  isInvalid={formStatus == "submitted" && !partyName.trim()}
-                >
-                  <FormLabel>Nombre de la partida</FormLabel>
-                  <Input
-                    size="sm"
-                    borderRadius="md"
-                    onChange={(e) => setPartyName(e.target.value)}
-                  />
-                </FormControl>
-              )}
               <VStack w="100%">
                 <Flex gap={4} w="80%">
-                  <FormControl
-                    isInvalid={
-                      (formStatus == "submitted" && !name.trim()) ||
-                      formStatus == "error"
-                    }
-                  >
+                  <FormControl isInvalid={formStatus == "error"}>
                     <FormLabel m={0}>Tu Nombre</FormLabel>
                     <Input
                       size="sm"
@@ -129,12 +95,7 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </FormControl>
-                  <FormControl
-                    isInvalid={
-                      (formStatus == "submitted" && !password) ||
-                      formStatus == "error"
-                    }
-                  >
+                  <FormControl isInvalid={formStatus == "error"}>
                     <FormLabel m={0}>Contraseña</FormLabel>
                     <InputGroup justifyContent="center" size="sm">
                       <Input
@@ -210,14 +171,6 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                     isLoading={formStatus == "loading"}
                     isDisabled={!validProde(prode)}
                     onClick={async () => {
-                      setFormStatus("submitted");
-                      if (
-                        !name.trim() ||
-                        !password ||
-                        (!party.admin && !partyName.trim())
-                      )
-                        return;
-
                       setFormStatus("loading");
                       const { userId } = await createUser({
                         partyId: party.id,
@@ -227,12 +180,6 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                       });
 
                       login(userId);
-                      if (!party.admin) {
-                        await updateParty(party.id, {
-                          name: partyName,
-                          admin: userId,
-                        });
-                      }
                       onClose();
                     }}
                   >
@@ -249,10 +196,8 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                     size="lg"
                     colorScheme="brand"
                     isLoading={formStatus == "loading"}
+                    isDisabled={!name.trim() || !password}
                     onClick={async () => {
-                      setFormStatus("submitted");
-                      if (!name || !password) return;
-
                       setFormStatus("loading");
                       const { create, wrongPassword, userId } = await checkUser(
                         party.id,

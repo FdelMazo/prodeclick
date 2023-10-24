@@ -42,7 +42,6 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
     prepareRow,
     canPreviousPage,
     canNextPage,
-    state: { pageIndex, pageSize },
     nextPage,
     previousPage,
   } = useTable(

@@ -1,10 +1,17 @@
 import React from "react";
 
-import { GridItem, SimpleGrid, Wrap, useToast } from "@chakra-ui/react";
+import {
+  GridItem,
+  SimpleGrid,
+  Wrap,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
 import { getKeys, getParty } from "../logic/db";
 import ControlPanel from "../widgets/ControlPanel";
+import CreatePartyModal from "../widgets/CreatePartyModal";
 import MiProde from "../widgets/MiProde";
 import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
@@ -26,6 +33,8 @@ TODO: FUTURO
 
 export default function MainDashboard({ stats }) {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const toast = useToast();
   const toastId = "error";
   React.useEffect(() => {
@@ -43,12 +52,14 @@ export default function MainDashboard({ stats }) {
 
   return (
     <MainLayout>
+      <CreatePartyModal isOpen={isOpen} onClose={onClose} />
+
       <SimpleGrid columns={{ base: 2 }} gap={4}>
         <Statistics stats={stats} />
       </SimpleGrid>
 
       <Wrap justify="center" spacing={4}>
-        <ControlPanel />
+        <ControlPanel onOpenCreateParty={onOpen} />
       </Wrap>
 
       <SimpleGrid w="100%" columns={{ base: 1, lg: 4 }} gap={4}>

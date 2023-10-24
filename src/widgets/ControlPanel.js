@@ -17,7 +17,8 @@ import {
 import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { ProdeContext } from "../logic/ProdeContext";
-import { createParty, getParty } from "../logic/api";
+import { getParty } from "../logic/api";
+import ELECCIONES_DATA from "../logic/elecciones";
 
 export const Control = ({ startContent, body, title, ...rest }) => {
   return (
@@ -45,10 +46,9 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-export default function ControlPanel() {
+export default function ControlPanel({ onOpenCreateParty }) {
   const router = useRouter();
-  const { electionStatus, ELECCIONES, savedParties } =
-    React.useContext(ProdeContext);
+  const { electionStatus, savedParties } = React.useContext(ProdeContext);
 
   const [loading, setLoading] = React.useState("");
   const [joinError, setJoinError] = React.useState(false);
@@ -78,27 +78,19 @@ export default function ControlPanel() {
           title="Creá una partida"
           body="Jugá con tus amigos, con gente del trabajo, con quien quieras!"
           cursor="pointer"
-          onClick={async () => {
-            setLoading("new");
-            await createParty().then(({ partyId }) => {
-              router.push(`/${partyId}`);
-            });
-          }}
+          onClick={onOpenCreateParty}
           _hover={{
             bg: "brand.50",
             transition: "all 0.2s ease-in-out",
           }}
           startContent={
             <Box {...iconBoxProps}>
-              <Icon
-                {...iconProps}
-                as={loading === "new" ? Spinner : MdLibraryAdd}
-              />
+              <Icon {...iconProps} as={MdLibraryAdd} />
             </Box>
           }
         />
       )}
-      {!!savedParties.filter((p) => p.electionsId === ELECCIONES.current)
+      {!!savedParties.filter((p) => p.electionsId === ELECCIONES_DATA.current)
         .length && (
         <Control
           title="Tus partidas"
@@ -120,7 +112,7 @@ export default function ControlPanel() {
                 }}
               >
                 {savedParties
-                  .filter((p) => p.electionsId === ELECCIONES.current)
+                  .filter((p) => p.electionsId === ELECCIONES_DATA.current)
                   .map((p) => (
                     <option key={p.id} value={p.id}>
                       {p.name}

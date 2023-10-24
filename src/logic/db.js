@@ -1,6 +1,6 @@
 import { kv } from "@vercel/kv";
 import ELECCIONES_DATA from "../logic/elecciones";
-import { hash, createid } from "./utils";
+import { createid, hash } from "./utils";
 
 // DB UTILS
 
@@ -25,8 +25,12 @@ export const exists = async (key) => {
 
 // PARTY CRUD
 
-export const createParty = async () => {
-  return create("party", { users: [], electionsId: ELECCIONES_DATA.current });
+export const createParty = async (partyId) => {
+  return create(
+    "party",
+    { users: [], electionsId: ELECCIONES_DATA.current },
+    partyId
+  );
 };
 
 export const getParty = async (partyId, full = false) => {

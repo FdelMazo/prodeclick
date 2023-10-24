@@ -21,6 +21,8 @@ export const validProde = (prode) => {
 };
 
 export const rankUsers = (partyusers, results, declareWinners = false) => {
+  if (!results) return { users: partyusers, winners: [] };
+
   if (!partyusers)
     return {
       users: [],
