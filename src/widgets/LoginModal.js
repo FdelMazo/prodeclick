@@ -45,8 +45,7 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
   const [formStatus, setFormStatus] = React.useState("");
   const [showProde, setShowProde] = React.useState(!party.admin);
   const [showPassword, setShowPassword] = React.useState(false);
-  // TODO: Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
-  // sea el default en la proxima partida que armas
+
   const [prode, setProde] = React.useState(
     Object.fromEntries(
       ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])

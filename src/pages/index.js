@@ -11,6 +11,10 @@ import Statistics from "../widgets/Statistics";
 
 /*
 TODO: FUTURO
+- Mostrar en algun lado los resultados de las elecciones anteriores, para
+  darle una referencia a los participantes
+- Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
+  sea el default en la proxima partida que arma
 - Agregar prode de participacion electoral/
   votos en blanco/ otras estadisticas que no influyen en el main prode
   y hacerlo configurable por partida
