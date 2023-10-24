@@ -14,7 +14,6 @@ export const ProdeProvider = ({ children }) => {
 };
 
 const Prode = () => {
-  // TODO: calcular aca la lista de ganadores y usar aca el criterio de que terminan las elecciones (>95% mesas)
   const { isParty, party } = useParty();
 
   const ELECCIONES =

@@ -43,5 +43,6 @@ export default function useResults() {
     lastUpdate,
     tablesPercent,
     isLoadingResults,
+    declareWinners: tablesPercent >= 95,
   };
 }

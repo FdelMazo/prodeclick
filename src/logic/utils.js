@@ -7,10 +7,6 @@ export const sum = (prode) => {
     .toFixed(1);
 };
 
-export const validProde = (prode) => {
-  return sum(prode) == 100.0;
-};
-
 export const diff = (prode, results) => {
   return Object.fromEntries(
     Object.entries(prode).map(([partidoId, porcentaje]) => {
@@ -18,6 +14,32 @@ export const diff = (prode, results) => {
       return [partidoId, diff];
     })
   );
+};
+
+export const validProde = (prode) => {
+  return sum(prode) == 100.0;
+};
+
+export const rankUsers = (partyusers, results, declareWinners = false) => {
+  if (!partyusers)
+    return {
+      users: [],
+      winners: [],
+    };
+
+  const users = partyusers
+    .map((u) => ({
+      dif: sum(diff(u.prode, results)),
+      ...u,
+    }))
+    .sort((a, b) => a.dif - b.dif)
+    .map((u, i) => ({ ...u, rank: i + 1 }));
+
+  const winners = declareWinners
+    ? users?.filter((u) => u.dif === users[0].dif).map((u) => u.id)
+    : [];
+
+  return { users, winners };
 };
 
 export const hash = (pw) => {

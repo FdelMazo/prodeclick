@@ -30,7 +30,7 @@ import { ProdeContext } from "../logic/ProdeContext";
 import { deleteUser } from "../logic/api";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
-import { diff, sum } from "../logic/utils";
+import { rankUsers } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
 const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
@@ -96,9 +96,7 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
                               </Text>
                             ) : (
                               <Badge colorScheme="green" fontSize="sm">
-                                {/* TODO: agregar atributo "rank" y hacer
-                                que react-table ordene por eso */}
-                                #{pageIndex * pageSize + rowIndex + 1}
+                                #{row.original.rank}
                               </Badge>
                             )}
                           </>
@@ -162,12 +160,11 @@ const ParticipantsTable = ({ data, columns, userId, results, winners }) => {
 
 export default function Participants({ onOpen }) {
   const { party, mutate } = useParty();
-  const { realResults, tablesPercent } = useResults();
+  const { realResults, declareWinners } = useResults();
 
   const { electionStatus, isLogged, user, logout } =
     React.useContext(ProdeContext);
 
-  // TODO: hacer que "DIFERENCIA" sea una hidden column de react-table
   const columns = [
     {
       Header: "NOMBRE",
@@ -182,30 +179,9 @@ export default function Participants({ onOpen }) {
       : undefined,
   ].filter((c) => c);
 
-  // TODO: pasar esto al context para poder manejar a los ganadores en otros lados
-  const data = React.useMemo(() => {
-    return party.users
-      .map((u) => {
-        let user = {
-          name: u.name,
-          prode: u.prode,
-          id: u.id,
-        };
-        if (realResults) {
-          user["dif"] = sum(diff(u.prode, realResults));
-        }
-        return user;
-      })
-      .sort((a, b) => {
-        if (!realResults) return 0;
-        return a.dif - b.dif;
-      });
-  }, [party, realResults]);
-
-  const winners = React.useMemo(() => {
-    if (!tablesPercent || tablesPercent < 95) return [];
-    return data?.filter((u) => u.dif === data[0].dif).map((u) => u.id);
-  }, [data, tablesPercent]);
+  const { users: data, winners } = React.useMemo(() => {
+    return rankUsers(party.users, realResults, declareWinners);
+  }, [party, realResults, declareWinners]);
 
   return (
     <Card p={4}>

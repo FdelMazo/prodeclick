@@ -16,13 +16,13 @@ import { Diferencia, InlineProde, Suma } from "./ProdeComponents";
 
 import dynamic from "next/dist/shared/lib/dynamic";
 import useResults from "../logic/useResults";
-import { diff, sum } from "../logic/utils";
+import { rankUsers } from "../logic/utils";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Results() {
   const { isParty, party } = useParty();
-  const { realResults, tablesPercent } = useResults();
+  const { realResults, declareWinners } = useResults();
   const { ELECCIONES, user } = React.useContext(ProdeContext);
 
   const [simulatedResults, setSimulatedResults] = React.useState(
@@ -30,40 +30,23 @@ export default function Results() {
       ELECCIONES.partidos.map((p) => [p.id, p.defaultPercentage])
     )
   );
-  const [selectedUserId, setSelectedUserId] = React.useState("");
-
-  const isSimulated = React.useMemo(() => {
-    return !realResults;
-  });
 
   const results = React.useMemo(() => {
     return realResults ? realResults : simulatedResults;
   }, [realResults, simulatedResults]);
 
+  const [selectedUserId, setSelectedUserId] = React.useState("");
   React.useEffect(() => {
     setSelectedUserId(user?.id || party?.users[0]?.id);
   }, [party, user]);
 
-  const prode = React.useMemo(() => {
-    return party?.users?.find((u) => u.id === selectedUserId)?.prode;
-  }, [selectedUserId, user]);
-
-  const users = React.useMemo(() => {
-    const usersdif = party?.users?.map((u) => ({
-      dif: sum(diff(u.prode, results)),
-      ...u,
-    }));
-    return usersdif?.sort((a, b) => a.dif - b.dif);
-  }, [party, results]);
+  const { users, winners } = React.useMemo(() => {
+    return rankUsers(party?.users, results, declareWinners);
+  }, [party, results, declareWinners]);
 
   const selectedUser = React.useMemo(() => {
     return users?.find((u) => u.id === selectedUserId);
   }, [users, selectedUserId]);
-
-  const winners = React.useMemo(() => {
-    if (!tablesPercent || tablesPercent < 95) return [];
-    return users?.filter((u) => u.dif === users[0].dif).map((u) => u.id);
-  }, [users, tablesPercent]);
 
   const chartOptions = {
     chart: {
@@ -182,7 +165,7 @@ export default function Results() {
           goals: isParty && [
             {
               name: `prode de ${selectedUser?.name}`,
-              value: prode?.[partido.id],
+              value: selectedUser?.prode?.[partido.id],
               strokeColor: "dimgray",
             },
           ],
@@ -201,7 +184,7 @@ export default function Results() {
       >
         <Box>
           <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
-            {isParty && isSimulated && "Simular"} Resultados
+            {isParty && !realResults && "Simular"} Resultados
           </Text>
           {!isParty && !realResults && (
             <Text color="darkgray.800" fontSize="sm" fontWeight={700}>
@@ -259,13 +242,13 @@ export default function Results() {
             <Flex flexWrap="wrap" justifyContent="space-around" gap={1}>
               <InlineProde
                 prode={results}
-                setProde={isSimulated && setSimulatedResults}
-                isEdit={isSimulated}
-                w={isSimulated ? "7ch" : "fit-content"}
+                setProde={!realResults && setSimulatedResults}
+                isEdit={!realResults}
+                w={!realResults ? "7ch" : "fit-content"}
               />
             </Flex>
           )}
-          {isParty && isSimulated && (
+          {isParty && !realResults && (
             <Flex
               flexDir="column"
               w="100%"
@@ -276,15 +259,15 @@ export default function Results() {
               <Suma prode={results} progressHeight={0} />
             </Flex>
           )}
-          {(!isParty || prode) && (
+          {(!isParty || selectedUser?.prode) && (
             <Chart series={chartSeries} options={chartOptions} type="bar" />
           )}
         </Box>
 
-        {isParty && prode && (
+        {isParty && selectedUser?.prode && (
           <Card variant="outline">
             <CardBody p={2}>
-              <Diferencia prode={prode} results={results} />
+              <Diferencia prode={selectedUser?.prode} results={results} />
             </CardBody>
           </Card>
         )}
