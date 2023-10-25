@@ -90,7 +90,7 @@ export default function ControlPanel({ onOpenCreateParty }) {
           }
         />
       )}
-      {!!savedParties.filter((p) => p.electionsId === ELECCIONES_DATA.current)
+      {!!savedParties?.filter((p) => p.electionsId === ELECCIONES_DATA.current)
         .length && (
         <Control
           title="Tus partidas"
@@ -112,7 +112,7 @@ export default function ControlPanel({ onOpenCreateParty }) {
                 }}
               >
                 {savedParties
-                  .filter((p) => p.electionsId === ELECCIONES_DATA.current)
+                  ?.filter((p) => p.electionsId === ELECCIONES_DATA.current)
                   .map((p) => (
                     <option key={p.id} value={p.id}>
                       {p.name}

@@ -42,7 +42,7 @@ const Prode = () => {
 
   const [userId, setUserId] = React.useState(null);
   const [prodeusers, setProdeusers] = useLocalStorage("prodeusers", {});
-  const [savedParties, setSavedParties] = React.useState([]);
+  const [savedParties, setSavedParties] = React.useState(null);
   React.useEffect(() => {
     setUserId(prodeusers?.[party?.id]);
     const fetchSavedParties = async () => {

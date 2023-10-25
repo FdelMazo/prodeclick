@@ -48,7 +48,7 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
   );
 
   React.useEffect(() => {
-    if (isLoading || !savedParties.length) return;
+    if (isLoading || !savedParties) return;
     if (!isLogged) {
       onOpen();
     }
