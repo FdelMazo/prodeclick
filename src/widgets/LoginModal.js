@@ -30,7 +30,7 @@ import { validProde } from "../logic/utils";
 import ProdeTable from "./ProdeTable";
 
 export default function LoginModal({ isOpen, onClose, onOpen }) {
-  const { ELECCIONES, electionStatus, login, isLogged } =
+  const { ELECCIONES, electionStatus, login, isLogged, savedParties } =
     React.useContext(ProdeContext);
   const { party, mutate, isLoading } = useParty();
 
@@ -48,11 +48,11 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
   );
 
   React.useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || !savedParties.length) return;
     if (!isLogged) {
       onOpen();
     }
-  }, [isLoading, isLogged]);
+  }, [isLoading, isLogged, savedParties]);
 
   return (
     <Modal

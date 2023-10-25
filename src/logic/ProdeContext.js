@@ -46,14 +46,13 @@ const Prode = () => {
   React.useEffect(() => {
     setUserId(prodeusers?.[party?.id]);
     const fetchSavedParties = async () => {
-      if (isParty) return;
       const savedParties = await Promise.all(
         Object.keys(prodeusers).map((u) => getParty(u, true))
       );
       setSavedParties(savedParties);
     };
     fetchSavedParties();
-  }, [isParty, party, prodeusers]);
+  }, [party, prodeusers]);
 
   const login = (id, partyId = null) => {
     setProdeusers({ ...prodeusers, [partyId || party.id]: id });
