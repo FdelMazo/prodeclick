@@ -20,6 +20,7 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { MdLibraryAdd, MdPeopleAlt, MdPersonSearch } from "react-icons/md";
 import { ProdeContext } from "../logic/ProdeContext";
@@ -52,7 +53,7 @@ export const Control = ({ startContent, body, title, ...rest }) => {
   );
 };
 
-const SelectParties = ({ savedParties, setLoading, router }) => {
+const SelectParties = ({ savedParties, setLoading }) => {
   const savedPartiesByElections = savedParties.reduce(
     (acc, party) => ({
       ...acc,
@@ -89,17 +90,17 @@ const SelectParties = ({ savedParties, setLoading, router }) => {
             }
           >
             {savedPartiesByElections[electionsId].map((p) => (
-              <MenuItem
-                key={p.id}
-                value={p.id}
-                color="gray.600"
-                onClick={(e) => {
-                  setLoading("existing");
-                  router.push(`/${e.target.value}`);
-                }}
-              >
-                {p.name}
-              </MenuItem>
+              <NextLink href={`/${p.id}`} key={p.id}>
+                <MenuItem
+                  value={p.id}
+                  color="gray.600"
+                  onClick={(e) => {
+                    setLoading("existing");
+                  }}
+                >
+                  {p.name}
+                </MenuItem>
+              </NextLink>
             ))}
             {elections.indexOf(electionsId) < elections.length - 1 && (
               <MenuDivider />
@@ -166,7 +167,6 @@ export default function ControlPanel({ onOpenCreateParty }) {
             <SelectParties
               savedParties={savedParties}
               setLoading={setLoading}
-              router={router}
             />
           }
           startContent={
