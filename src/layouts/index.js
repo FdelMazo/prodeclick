@@ -40,7 +40,7 @@ function MainLayout({ children }) {
           <Heading>prode.click</Heading>
         </Link>
         <Heading color="gray.600" fontSize="xl">
-          {ELECCIONES.title}
+          {ELECCIONES.title} {ELECCIONES.flag}
         </Heading>
 
         <VStack spacing={6} py={6}>

@@ -1,8 +1,10 @@
 {
   "current": "ballotage2023",
+  "order": ["ballotage2023", "generales2023"],
   "elecciones": {
     "ballotage2023": {
-      "title": "Segunda Vuelta Electoral 2023 🇦🇷",
+      "title": "Segunda Vuelta Electoral 2023",
+      "flag": "🇦🇷",
       "date": "2023-11-19T00:00:00.000-03:00",
       "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/ballotage/AR_president.json",
       "partidos": [
@@ -23,7 +25,8 @@
       ]
     },
     "generales2023": {
-      "title": "Elecciones Generales 2023 🇦🇷",
+      "title": "Elecciones Generales 2023",
+      "flag": "🇦🇷",
       "date": "2023-10-22T00:00:00.000-03:00",
       "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/general/AR_president.json",
       "fallback": {

@@ -1,8 +1,9 @@
 import React from "react";
 
-import { ArrowRightIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Card,
   CardBody,
   Icon,
@@ -10,7 +11,12 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Select,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
   Spinner,
   Text,
 } from "@chakra-ui/react";
@@ -43,6 +49,65 @@ export const Control = ({ startContent, body, title, ...rest }) => {
         </Box>
       </CardBody>
     </Card>
+  );
+};
+
+const SelectParties = ({ savedParties, setLoading, router }) => {
+  const savedPartiesByElections = savedParties.reduce(
+    (acc, party) => ({
+      ...acc,
+      [party.electionsId]: [...(acc[party.electionsId] || []), party],
+    }),
+    {}
+  );
+
+  const elections = Object.keys(savedPartiesByElections).sort((a, b) => {
+    return ELECCIONES_DATA.order.indexOf(a) - ELECCIONES_DATA.order.indexOf(b);
+  });
+
+  return (
+    <Menu>
+      <MenuButton
+        as={Button}
+        rightIcon={<ChevronDownIcon color="black" />}
+        variant="ghost"
+        color="gray.600"
+        fontWeight={400}
+        px={2}
+      >
+        Seleccionar partida
+      </MenuButton>
+      <MenuList>
+        {elections.map((electionsId) => (
+          <MenuGroup
+            key={electionsId}
+            color="gray.800"
+            title={
+              ELECCIONES_DATA.elecciones[electionsId]?.flag +
+              " " +
+              ELECCIONES_DATA.elecciones[electionsId]?.title
+            }
+          >
+            {savedPartiesByElections[electionsId].map((p) => (
+              <MenuItem
+                key={p.id}
+                value={p.id}
+                color="gray.600"
+                onClick={(e) => {
+                  setLoading("existing");
+                  router.push(`/${e.target.value}`);
+                }}
+              >
+                {p.name}
+              </MenuItem>
+            ))}
+            {elections.indexOf(electionsId) < elections.length - 1 && (
+              <MenuDivider />
+            )}
+          </MenuGroup>
+        ))}
+      </MenuList>
+    </Menu>
   );
 };
 
@@ -90,8 +155,7 @@ export default function ControlPanel({ onOpenCreateParty }) {
           }
         />
       )}
-      {!!savedParties?.filter((p) => p.electionsId === ELECCIONES_DATA.current)
-        .length && (
+      {!!savedParties?.length && (
         <Control
           title="Tus partidas"
           _hover={{
@@ -99,27 +163,11 @@ export default function ControlPanel({ onOpenCreateParty }) {
             transition: "all 0.2s ease-in-out",
           }}
           body={
-            <Box ml={1}>
-              <Select
-                w="20ch"
-                borderColor="darkgray.800"
-                variant="flushed"
-                placeholder="Seleccionar partida"
-                color="darkgray.900"
-                onChange={(e) => {
-                  setLoading("existing");
-                  router.push(`/${e.target.value}`);
-                }}
-              >
-                {savedParties
-                  ?.filter((p) => p.electionsId === ELECCIONES_DATA.current)
-                  .map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-              </Select>
-            </Box>
+            <SelectParties
+              savedParties={savedParties}
+              setLoading={setLoading}
+              router={router}
+            />
           }
           startContent={
             <Box {...iconBoxProps}>
