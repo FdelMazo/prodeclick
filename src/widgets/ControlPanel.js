@@ -72,6 +72,9 @@ const SelectParties = ({ savedParties, setLoading }) => {
         as={Button}
         rightIcon={<ChevronDownIcon color="black" />}
         variant="ghost"
+        borderBottomWidth={1}
+        borderBottomRadius={0}
+        borderColor="darkgray.800"
         color="gray.600"
         fontWeight={400}
         px={2}
