@@ -40,6 +40,10 @@ const Prode = () => {
     }
   }, [daysUntilElections]);
 
+  const lastWeekend = React.useMemo(() => {
+    return daysUntilElections <= 2;
+  }, [daysUntilElections]);
+
   const [userId, setUserId] = React.useState(null);
   const [prodeusers, setProdeusers] = useLocalStorage("prodeusers", {});
   const [savedParties, setSavedParties] = React.useState(null);
@@ -69,6 +73,7 @@ const Prode = () => {
     savedParties,
     login,
     logout,
+    lastWeekend,
     isLogged: !!userId,
     user: party?.users?.find((u) => u.id === userId),
   };

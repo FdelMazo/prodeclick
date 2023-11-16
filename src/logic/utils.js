@@ -54,3 +54,10 @@ export const createid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   8
 );
+
+export const coloquialDate = (datestr) => {
+  const date = new Date(datestr);
+  const diaSemana = date.toLocaleDateString("es-AR", { weekday: "long" });
+  const hora = date.toLocaleTimeString("es-AR", { hour: "numeric" });
+  return `el ${diaSemana} a las ${hora}hs`;
+};

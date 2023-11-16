@@ -129,7 +129,7 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                   <Text color="red.400">
                     No se pueden sumar nuevas personas{" "}
                     {electionStatus === "DAY"
-                      ? "el día de las elecciones!"
+                      ? "tan cerca de las elecciones!"
                       : "después de las elecciones!"}
                   </Text>
                 )}

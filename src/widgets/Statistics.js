@@ -19,6 +19,7 @@ import {
 import { ProdeContext } from "../logic/ProdeContext";
 import useParty from "../logic/useParty";
 import useResults from "../logic/useResults";
+import { coloquialDate } from "../logic/utils";
 
 const MiniStat = ({ startContent, name, description, value }) => {
   const textColorSecondary = "darkgray.800";
@@ -49,7 +50,8 @@ export default function Statistics({ stats }) {
   const { parties, users } = stats;
   const { isLoadingResults, lastUpdate, tablesPercent } = useResults();
 
-  const { daysUntilElections, electionStatus } = React.useContext(ProdeContext);
+  const { daysUntilElections, electionStatus, lastWeekend, ELECCIONES } =
+    React.useContext(ProdeContext);
 
   const iconBoxProps = {
     display: "flex",
@@ -119,11 +121,14 @@ export default function Statistics({ stats }) {
           name="Días hasta las elecciones"
           value={daysUntilElections}
           description={
-            <>
+            <Text>
               {isParty
-                ? "Se pueden cambiar las predicciones hasta el día de las elecciones"
-                : "Se puede sumar gente hasta el día de las elecciones"}
-            </>
+                ? "Se pueden cambiar las predicciones hasta"
+                : "Se puede sumar gente hasta"}{" "}
+              <Text as="b" color={lastWeekend && "red.400"}>
+                {coloquialDate(ELECCIONES.date)}
+              </Text>
+            </Text>
           }
           startContent={
             <Box {...iconBoxProps}>

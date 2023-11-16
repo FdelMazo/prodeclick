@@ -5,7 +5,7 @@
     "ballotage2023": {
       "title": "Segunda Vuelta Electoral 2023",
       "flag": "🇦🇷",
-      "date": "2023-11-19T00:00:00.000-03:00",
+      "date": "2023-11-18T20:00:00.000-03:00",
       "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/ballotage/AR_president.json",
       "partidos": [
         {
