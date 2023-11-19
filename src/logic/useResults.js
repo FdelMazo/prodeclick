@@ -24,6 +24,10 @@ const TRANSFORM = async (url, options) => {
       }
     });
 
+    if (data.tables_percent <= 5) {
+      return {};
+    }
+
     return {
       realResults: results,
       lastUpdate: new Date(data.last_update).toLocaleTimeString("en-US"),
