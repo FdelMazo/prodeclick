@@ -29,6 +29,8 @@ const Prode = () => {
     return Math.ceil(diffTime / msInDay);
   }, [ELECCIONES]);
 
+  // TODO: testear bien los diferentes escenarios, estuve viendo errores
+  // de hidration en prod
   const electionStatus = React.useMemo(() => {
     const days = daysUntilElections;
     if (days < 0) {
