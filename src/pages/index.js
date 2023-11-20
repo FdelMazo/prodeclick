@@ -12,6 +12,7 @@ import MainLayout from "../layouts";
 import { getKeys, getParty } from "../logic/db";
 import ControlPanel from "../widgets/ControlPanel";
 import CreatePartyModal from "../widgets/CreatePartyModal";
+import AppFeedback from "../widgets/AppFeedback";
 import MiProde from "../widgets/MiProde";
 import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
@@ -53,6 +54,10 @@ export default function MainDashboard({ stats }) {
 
       <SimpleGrid columns={{ base: 2 }} gap={4}>
         <Statistics stats={stats} />
+      </SimpleGrid>
+
+      <SimpleGrid columns={{ base: 1 }} gap={4}>
+        <AppFeedback />
       </SimpleGrid>
 
       <Wrap justify="center" spacing={4}>
