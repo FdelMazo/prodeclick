@@ -25,7 +25,10 @@ import {
 import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { usePagination, useSortBy, useTable } from "react-table";
+import { ProdeContext } from "../logic/ProdeContext";
 import { deleteParty } from "../logic/api";
+import useResults from "../logic/useResults";
+import { diff, sum } from "../logic/utils";
 import { InlineProde } from "./ProdeComponents";
 
 const PartiesTable = ({ data, columns }) => {
@@ -210,22 +213,43 @@ export default function Parties({ parties }) {
 
   // Traer todos los usuarios y todos los prodes es muuuy pesado, así que esto
   // se habilita y deshabilita a manopla.
-  // Para ver el prode promedio, cambiar el `getParty` que popula esta tabla
-  // por un `getParty` full con usuarios incluidos, y traer el array de usuarios
-  // en vez de solo el numero.
-  const prodePromedio = null;
-  // const prodePromedio = React.useMemo(() => {
-  //   const allProdes = parties.flatMap((p) => p.users).map((u) => u.prode);
+  // Para ver stats de los prodes, cambiar el `getParty` que popula esta tabla
+  // por un `getParty` full
+  const { ELECCIONES } = React.useContext(ProdeContext);
+  const { realResults } = useResults();
 
-  //   return Object.fromEntries(
-  //     ELECCIONES.partidos.map((p) => [
-  //       p.id,
-  //       (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
-  //         2
-  //       ),
-  //     ])
-  //   );
-  // }, [parties]);
+  const prodePromedio = React.useMemo(() => {
+    if (!parties[0].users[0].name) return null;
+
+    const allProdes = parties
+      .filter((p) => p.electionsId === ELECCIONES.id)
+      .flatMap((p) => p.users)
+      .map((u) => u.prode);
+
+    return Object.fromEntries(
+      ELECCIONES.partidos.map((p) => [
+        p.id,
+        (allProdes.reduce((a, b) => a + b[p.id], 0) / allProdes.length).toFixed(
+          2
+        ),
+      ])
+    );
+  }, [parties, realResults]);
+
+  const prodeCercano = React.useMemo(() => {
+    if (!parties[0].users[0].name || !realResults) return null;
+
+    const users = parties
+      .filter((p) => p.electionsId === ELECCIONES.id)
+      .flatMap((p) => p.users)
+      .map((u) => ({
+        dif: sum(diff(u.prode, realResults)),
+        ...u,
+      }))
+      .sort((a, b) => a.dif - b.dif);
+
+    return users[0];
+  }, [parties, realResults]);
 
   return (
     <Card p={4}>
@@ -238,22 +262,41 @@ export default function Parties({ parties }) {
         <Text color="darkgray.900" fontSize="xl" fontWeight={700}>
           Partidas
         </Text>
-        {prodePromedio && (
-          <Card variant="outline">
-            <CardBody
-              color="darkgray.900"
-              fontSize="lg"
-              fontWeight={700}
-              p={2}
-              textAlign="center"
-            >
-              Prode Promedio
-              <Flex gap={2}>
-                <InlineProde prode={prodePromedio} />
-              </Flex>
-            </CardBody>
-          </Card>
-        )}
+        <Flex gap={2} alignItems="center">
+          {prodePromedio && (
+            <Card variant="outline">
+              <CardBody
+                color="darkgray.900"
+                fontSize="lg"
+                fontWeight={700}
+                p={2}
+                textAlign="center"
+              >
+                Prode Promedio
+                <Flex gap={2} justifyContent="center">
+                  <InlineProde prode={prodePromedio} />
+                </Flex>
+              </CardBody>
+            </Card>
+          )}
+          {prodeCercano && (
+            <Card variant="outline">
+              <CardBody
+                color="darkgray.900"
+                fontSize="lg"
+                fontWeight={700}
+                p={2}
+                textAlign="center"
+              >
+                Prode Más Cercano
+                <br />"{prodeCercano.name}"
+                <Flex gap={2} justifyContent="center">
+                  <InlineProde prode={prodeCercano.prode} />
+                </Flex>
+              </CardBody>
+            </Card>
+          )}
+        </Flex>
       </CardHeader>
       <CardBody
         display="flex"

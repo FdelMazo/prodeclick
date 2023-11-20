@@ -16,10 +16,11 @@ export const ProdeProvider = ({ children }) => {
 const Prode = () => {
   const { isParty, party } = useParty();
 
-  const ELECCIONES =
-    ELECCIONES_DATA.elecciones[
-      isParty ? party?.electionsId : ELECCIONES_DATA.current
-    ];
+  const electionsId = isParty ? party?.electionsId : ELECCIONES_DATA.current;
+  const ELECCIONES = {
+    ...ELECCIONES_DATA.elecciones[electionsId],
+    id: electionsId,
+  };
 
   const daysUntilElections = React.useMemo(() => {
     const elections = new Date(ELECCIONES.date);

@@ -25,12 +25,17 @@ export async function getStaticProps() {
 
   const partiesIds = await getKeys("party");
   const parties = (
-    await Promise.all(partiesIds.map((p) => p.split(":")[1]).map(getParty))
+    await Promise.all(
+      partiesIds
+        .map((p) => p.split(":")[1])
+        .map((p) => {
+          // Cambiar full a true para poder ver stats de los prodes
+          // (prode promedio, prode mas cercano)
+          return getParty(p, false);
+        })
+    )
   ).map((p) => ({
-    id: p.id,
-    name: p.name,
-    creation: p.creation,
-    electionsId: p.electionsId,
+    ...p,
     nusers: p.users.length,
   }));
 
