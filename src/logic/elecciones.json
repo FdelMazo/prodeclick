@@ -7,6 +7,14 @@
       "flag": "🇦🇷",
       "date": "2023-11-18T20:00:00.000-03:00",
       "url": "https://data-ecp.clarin.com/clarin.com/2023/argentina/balotaje/AR_president.json",
+      "fallback": {
+        "realResults": {
+          "UxP": 44.3,
+          "LLA": 55.7
+        },
+        "lastUpdate": "10:36:46 PM",
+        "tablesPercent": 99.28
+      },
       "partidos": [
         {
           "id": "UxP",
@@ -37,7 +45,7 @@
           "HNP": 6.8,
           "FIT-U": 2.7
         },
-        "lastUpdate": "2023-10-23T05:33:35.000Z",
+        "lastUpdate": "2:33:35 AM",
         "tablesPercent": 98.51
       },
       "partidos": [
