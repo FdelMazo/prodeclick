@@ -18,8 +18,6 @@ import Statistics from "../widgets/Statistics";
 
 /*
 TODO: FUTURO
-- Mostrar en algun lado los resultados de las elecciones anteriores, para
-  darle una referencia a los participantes
 - Guardarse en el localstorage el ultimo prode que armo alguien, para que despues
   sea el default en la proxima partida que arma
 - Agregar prode de participacion electoral/
@@ -28,7 +26,6 @@ TODO: FUTURO
 - Permitir que las partidas sean configurables
   - Agrupar partidos minoristas en otros si/no
   - Ocultar/mostrar los prodes del resto
-- Encontrar alternativa gratarola a vercel/kv
 */
 
 export default function MainDashboard({ stats }) {
