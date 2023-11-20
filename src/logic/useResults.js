@@ -43,6 +43,7 @@ export default function useResults() {
     TRANSFORM,
     {
       refreshInterval: 10000,
+      shouldRetryOnError: false,
       fallback: {
         [ELECCIONES.url]: ELECCIONES.fallback,
       },

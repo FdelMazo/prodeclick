@@ -93,14 +93,14 @@ export default function Statistics({ stats }) {
         <MiniStat
           name="Mesas escrutadas"
           value={
-            isLoadingResults ? (
+            isLoadingResults && !tablesPercent ? (
               <Spinner size="sm" />
             ) : (
               (tablesPercent || 0).toFixed(2) + "%"
             )
           }
           description={
-            isLoadingResults ? (
+            isLoadingResults && !tablesPercent ? (
               <br />
             ) : lastUpdate ? (
               <Text>
