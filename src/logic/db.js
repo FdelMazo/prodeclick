@@ -11,12 +11,20 @@ export const create = async (key, value, id = null) => {
 
   const creation = new Date().toISOString();
   await kv.hset(`${key}:${id}`, { ...value, creation });
+  await kv.incr(`stats:${key}`);
   return id;
 };
 
 export const getKeys = async (key) => {
   // Beware that this has a 1000 limit!
   return (await kv.scan(0, { match: `${key}:*`, count: 1000 }))[1];
+};
+
+export const getStats = async (key) => {
+  return {
+    parties: await kv.get("stats:party"),
+    users: await kv.get("stats:user"),
+  };
 };
 
 export const exists = async (key) => {

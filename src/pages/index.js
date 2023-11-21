@@ -9,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainLayout from "../layouts";
-import { getKeys, getParty } from "../logic/db";
+import { getStats } from "../logic/db";
+import AppFeedback from "../widgets/AppFeedback";
 import ControlPanel from "../widgets/ControlPanel";
 import CreatePartyModal from "../widgets/CreatePartyModal";
-import AppFeedback from "../widgets/AppFeedback";
 import MiProde from "../widgets/MiProde";
 import Results from "../widgets/Results";
 import Statistics from "../widgets/Statistics";
@@ -77,14 +77,7 @@ export default function MainDashboard({ stats }) {
 }
 
 export async function getStaticProps() {
-  const parties = await Promise.all(
-    (await getKeys("party")).map((p) => getParty(p.split(":")[1]))
-  );
-
-  const stats = {
-    parties: parties.length,
-    users: parties.flatMap((p) => p.users).length,
-  };
+  const stats = await getStats();
 
   return {
     props: {
