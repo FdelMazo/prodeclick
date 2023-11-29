@@ -1,3 +1,5 @@
+// TODO: handlear errores, en particular porque si te pasas de los 3000
+// reqs diarios, los gets fallan y no se que hacer con eso
 const fetcher = async (url, options) =>
   fetch(url, options).then((res) => res.json());
 export const GET = async (url, options) =>

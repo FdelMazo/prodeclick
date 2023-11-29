@@ -78,6 +78,8 @@ export async function getStaticProps({ params }) {
   };
 }
 
+// TODO: refactorizar y sacar esta generacion en cada build...
+// sube muchisimos los reqs a la db y no sirve de nada tener el pre-render
 export async function getStaticPaths() {
   const parties = await getKeys("party");
   return {
