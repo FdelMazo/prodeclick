@@ -29,6 +29,7 @@ export const rankUsers = (partyusers, results, declareWinners = false) => {
       winners: [],
     };
 
+  // TODO: igualar los ranks de los que estan al mismo nivel
   const users = partyusers
     .map((u) => ({
       dif: sum(diff(u.prode, results)),
