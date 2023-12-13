@@ -5,7 +5,8 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
-import { exists, getKeys, getParty } from "../logic/db";
+import { exists, getKeys } from "../logic/db";
+import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
 import LoginModal from "../widgets/LoginModal";
 import MiProde from "../widgets/MiProde";
@@ -67,12 +68,17 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const party = await getParty(partyId, true);
+  const defaultParty = {
+    id: partyId,
+    electionsId: ELECCIONES_DATA.current,
+    users: [],
+  };
+
   const url = `/api/party/${partyId}`;
   return {
     props: {
       fallback: {
-        [url]: party,
+        [url]: defaultParty,
       },
     },
   };
