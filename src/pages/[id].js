@@ -5,7 +5,7 @@ import { GridItem, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import MainLayout from "../layouts";
-import { exists, getKeys } from "../logic/db";
+import { exists } from "../logic/db";
 import ELECCIONES_DATA from "../logic/elecciones";
 import useParty from "../logic/useParty";
 import LoginModal from "../widgets/LoginModal";
@@ -84,12 +84,9 @@ export async function getStaticProps({ params }) {
   };
 }
 
-// TODO: refactorizar y sacar esta generacion en cada build...
-// sube muchisimos los reqs a la db y no sirve de nada tener el pre-render
 export async function getStaticPaths() {
-  const parties = await getKeys("party");
   return {
-    paths: parties.map((p) => ({ params: { id: p.split(":")[1] } })),
+    paths: [],
     fallback: "blocking",
   };
 }
