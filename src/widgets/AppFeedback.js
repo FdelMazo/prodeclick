@@ -28,7 +28,7 @@ export default function AppFeedback() {
             isExternal
           >
             <Button
-              colorScheme="purple"
+              colorScheme="brand"
               leftIcon={<Icon as={SiGoogleforms} boxSize={7} />}
               mt={1}
               mb={4}

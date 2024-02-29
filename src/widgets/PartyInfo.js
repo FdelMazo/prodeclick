@@ -27,7 +27,7 @@ export default function PartyInfo() {
             isExternal
           >
             <Button
-              colorScheme="purple"
+              colorScheme="brand"
               leftIcon={<Icon as={SiGoogleforms} boxSize={7} />}
               my={1}
             >

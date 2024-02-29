@@ -228,7 +228,7 @@ export default function LoginModal({ isOpen, onClose, onOpen }) {
                   >
                     continuar
                   </Button>
-                  <Button color="brand.500" variant="link" onClick={onClose}>
+                  <Button color="brand.600" variant="link" onClick={onClose}>
                     solo quiero ver
                   </Button>
                 </Flex>

@@ -4,16 +4,17 @@ import { mode } from "@chakra-ui/theme-tools";
 export default extendTheme({
   colors: {
     brand: {
-      50: "#d6cdff",
-      100: "#E9E3FF",
-      200: "#7551FF",
-      300: "#7551FF",
-      400: "#7551FF",
-      500: "#422AFB",
-      600: "#3311DB",
-      700: "#02044A",
-      800: "#190793",
-      900: "#02044A",
+      50: "#FFF5F5",
+      100: "#FFEBEB",
+      200: "#FFD1D1",
+      300: "#FFB3B3",
+      400: "#FF8A8A",
+      500: "#FF4D4D",
+      600: "#FF1A1A",
+      700: "#E00000",
+      800: "#BD0000",
+      900: "#850000",
+      950: "#6B0000",
     },
     darkgray: {
       100: "#E0E5F2",
