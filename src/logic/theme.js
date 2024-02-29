@@ -9,7 +9,7 @@ export default extendTheme({
       200: "#FFD1D1",
       300: "#FFB3B3",
       400: "#FF8A8A",
-      500: "#FF4D4D",
+      500: "#FF6666",
       600: "#FF1A1A",
       700: "#E00000",
       800: "#BD0000",
