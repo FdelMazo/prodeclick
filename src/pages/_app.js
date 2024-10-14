@@ -18,11 +18,11 @@ function MyApp({ Component, pageProps }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
 
-          <meta content="https://prode.click/" property="og:url" />
-          <meta content="prode.click" property="og:title" />
+          <meta content="https://prodeclick.vercel.app/" property="og:url" />
+          <meta content="prode-click" property="og:title" />
 
           <meta
-            content="https://prode.click/img/screen.png"
+            content="https://prodeclick.vercel.app/img/screen.png"
             property="og:image"
           />
           <meta
@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }) {
             name="og: description"
           />
 
-          <title>prode.click · Prode Electoral Argentino</title>
+          <title>prode-click · Prode Electoral Argentino</title>
         </Head>
         <React.StrictMode>
           <Component {...pageProps} />

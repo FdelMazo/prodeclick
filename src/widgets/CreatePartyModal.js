@@ -58,7 +58,7 @@ export default function LoginModal({ isOpen, onClose }) {
       <ModalOverlay />
       <ModalContent m={4} p={4}>
         <ModalHeader>
-          <Text>Bienvenido a prode.click</Text>
+          <Text>Bienvenido a prode-click</Text>
           <Text fontSize="md" color="darkgray.800">
             Creá una partida, invita a todas las personas que quieras!
           </Text>

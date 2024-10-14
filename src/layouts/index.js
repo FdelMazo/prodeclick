@@ -37,7 +37,7 @@ function MainLayout({ children }) {
     <>
       <Box p={6} minH="99vh">
         <Link href="/" _hover={{ textTransform: "none" }}>
-          <Heading>prode.click</Heading>
+          <Heading>prode-click</Heading>
         </Link>
         <Heading color="gray.600" fontSize="xl">
           {ELECCIONES.title} {ELECCIONES.flag}

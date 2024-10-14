@@ -11,7 +11,7 @@ import { ProdeContext } from "../logic/ProdeContext";
 export default function PartyInfo() {
   const { party } = useParty();
 
-  const link = `https://prode.click/${party.id}`;
+  const link = `https://prodeclick.vercel.app/${party.id}`;
 
   const { electionStatus } = React.useContext(ProdeContext);
 
@@ -45,7 +45,7 @@ export default function PartyInfo() {
     <Control
       w="100%"
       textAlign="center"
-      title={`Estás en la partida ${party.name || "de prode.click"}`}
+      title={`Estás en la partida ${party.name || "de prode-click"}`}
       body={
         <>
           <Link

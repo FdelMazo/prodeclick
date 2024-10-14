@@ -1,4 +1,4 @@
-# [prode.click](https://prode.click/)
+# [prode-click](https://prodeclick.vercel.app/)
 
 Predecí las elecciones argentinas!
 
