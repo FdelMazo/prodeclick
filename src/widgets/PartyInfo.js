@@ -16,31 +16,32 @@ export default function PartyInfo() {
   const { electionStatus } = React.useContext(ProdeContext);
 
   return electionStatus === "POST" ? (
-    <Control
-      w="100%"
-      textAlign="center"
-      title={`¿Qué te pareció?`}
-      body={
-        <>
-          <Link
-            href={`https://docs.google.com/forms/d/e/1FAIpQLSdnOhWlS2au9T4RLs1m2ve-hsGGN_hbomJ2xaFJ0qSNdcYV5Q/viewform?usp=pp_url&entry.1604575804=prode.click`}
-            isExternal
-          >
-            <Button
-              colorScheme="brand"
-              leftIcon={<Icon as={SiGoogleforms} boxSize={7} />}
-              my={1}
-            >
-              Feedback
-            </Button>
-          </Link>
+    <></>
+    // <Control
+    //   w="100%"
+    //   textAlign="center"
+    //   title={`¿Qué te pareció?`}
+    //   body={
+    //     <>
+    //       <Link
+    //         href={`https://docs.google.com/forms/d/e/1FAIpQLSdnOhWlS2au9T4RLs1m2ve-hsGGN_hbomJ2xaFJ0qSNdcYV5Q/viewform?usp=pp_url&entry.1604575804=prode.click`}
+    //         isExternal
+    //       >
+    //         <Button
+    //           colorScheme="brand"
+    //           leftIcon={<Icon as={SiGoogleforms} boxSize={7} />}
+    //           my={1}
+    //         >
+    //           Feedback
+    //         </Button>
+    //       </Link>
 
-          <Text fontSize="md" fontWeight={500}>
-            Si tenés alguna sugerencia, me encantaría escucharla!
-          </Text>
-        </>
-      }
-    />
+    //       <Text fontSize="md" fontWeight={500}>
+    //         Si tenés alguna sugerencia, me encantaría escucharla!
+    //       </Text>
+    //     </>
+    //   }
+    // />
   ) : (
     <Control
       w="100%"

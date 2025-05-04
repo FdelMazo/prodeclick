@@ -56,9 +56,9 @@ export default function MainDashboard({ stats }) {
         <Statistics stats={stats} />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1 }} gap={4}>
+      {/* <SimpleGrid columns={{ base: 1 }} gap={4}>
         <AppFeedback />
-      </SimpleGrid>
+      </SimpleGrid> */}
 
       <Wrap justify="center" spacing={4}>
         <ControlPanel onOpenCreateParty={onOpen} />
